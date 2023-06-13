@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:49:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/12 16:23:38 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/13 16:12:56 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,12 @@
 
 void	redirections(t_cmd *list, t_data *data)
 {
-	printf("data->index = %d\n", data->index);
-	if (data->index < data->cmd_count)
+	// dprintf(2, "data->index = %d\n", data->index);
+	// printf("list->fd_in = %d\n", list->fd_in);
+	// printf("list->fd_out = %d\n", list->fd_out);
+	// printf("list->fd_pipe[0] = %d\n", data->fd_pipe[0]);
+	// printf("list->fd_pipe[1] = %d\n", data->fd_pipe[1]);
+	if (data->index == 0)
 		close(data->fd_pipe[0]);
 	if (list->fd_in > 0 && dup2(list->fd_in, STDIN_FILENO) == -1)
 	{
@@ -23,12 +27,15 @@ void	redirections(t_cmd *list, t_data *data)
 		// free
 		exit(EXIT_FAILURE); // recuperer le bon code erreur
 	}
-	if (list->fd_out > 0 && dup2(list->fd_out, STDOUT_FILENO) == -1)
+	if (list->fd_out > 0)
 	{
-		printf("data->index = %d\n", data->index);
-		perror("Error fd_out");
-		// free
-		exit(EXIT_FAILURE); // recuperer le bon code erreur
+		// close(data->fd_pipe[1]);
+		if (dup2(list->fd_out, STDOUT_FILENO) == -1)
+		{
+			perror("Error fd_out");
+			// free	
+			exit(EXIT_FAILURE); // recuperer le bon code erreur
+		}
 	}
 }
 
@@ -44,38 +51,39 @@ void	exec_pipe(t_cmd *list, t_data *data)
 		// printf("	fd in avant exec = %d\n\n", list->fd_in);
 		if (list->is_ok)
 		{
+			data->previous_fd = data->fd_pipe[0];
 			if (list->next)
 			{
-					data->previous_fd = data->fd_pipe[0];
-					if (pipe(data->fd_pipe) == -1)
-						return (perror("Pipe"));
-					if (list->fd_in == 0)
-						list->fd_in = data->previous_fd;
-					if (list->fd_out == 0)
-						list->fd_out = data->fd_pipe[1];
+				if (pipe(data->fd_pipe) == -1)
+					return (perror("Pipe"));
+				if (list->fd_in == 0)
+					list->fd_in = data->previous_fd;
+				if (list->fd_out == 0)
+					list->fd_out = data->fd_pipe[1];
 			}
 			else
 			{
-					data->previous_fd = data->fd_pipe[0];
+					// data->previous_fd = data->fd_pipe[0];
 					if (list->fd_in == 0)
 						list->fd_in = data->previous_fd;
-					close(data->fd_pipe[1]);
+					if (list->fd_out == 0)
+						close(data->fd_pipe[1]);
 			}
 			data->pid[data->index] = fork();
 			if (data->pid[data->index] == 0)
 			{
-				// dprintf(2, "[%d]--fd_in 		= %d\n", i, list->fd_in);
-				// dprintf(2, "[%d]--fd_out		= %d\n", i, list->fd_out);
-				// dprintf(2, "[%d]--fd_pipe[1]	= %d\n", i, data->fd_pipe[1]);
-				// dprintf(2, "[%d]--fd_pipe[0]	= %d\n", i, data->fd_pipe[0]);
-				// dprintf(2, "[%d]--previous fd	= %d\n", i, data->previous_fd);
+				dprintf(2, "[%d]--fd_in 		= %d\n", i, list->fd_in);
+				dprintf(2, "[%d]--fd_out		= %d\n", i, list->fd_out);
+				dprintf(2, "[%d]--fd_pipe[1]	= %d\n", i, data->fd_pipe[1]);
+				dprintf(2, "[%d]--fd_pipe[0]	= %d\n", i, data->fd_pipe[0]);
+				dprintf(2, "[%d]--previous fd	= %d\n", i, data->previous_fd);
 				redirections(list, data);
 				get_path_and_exec(list, data);
-				if (data->previous_fd > 0)
-					close(data->previous_fd);
-				if (data->fd_pipe[1] > 0)
-					close (data->fd_pipe[1]);
 			}
+			if (data->previous_fd > 0)
+				close(data->previous_fd);
+			if (data->fd_pipe[1] > 0)
+				close (data->fd_pipe[1]);
 			list = list->next;
 			data->index++;
 			i++;
@@ -86,6 +94,7 @@ void	exec_pipe(t_cmd *list, t_data *data)
 			data->index++;
 			i++;
 		}
+		
 	}
 }
 
@@ -121,9 +130,16 @@ void	exec_one_command(t_cmd *list, t_data *data)
 	}
 }
 
+void	ft_wait(t_data *data)
+{
+	while (data->index-- > 0)
+		waitpid(data->pid[data->index], NULL, 0);
+	free(data->pid);
+}
+
 int	main_exec(t_cmd *list, t_data *data)
 {
-	// print_cmd_list(list);
+	print_cmd_list(list);
 	data->pid = malloc(sizeof(pid_t) * data->cmd_count);
 	data->index = 0;
 	data->fd_pipe[0] = 0;
@@ -133,7 +149,8 @@ int	main_exec(t_cmd *list, t_data *data)
 	else
 		exec_pipe(list, data);
 	// ft_wait(data);
-	wait(0);
+	// wait(0);
+	ft_wait(data);
 	return (0);
 }
 
