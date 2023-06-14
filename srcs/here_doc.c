@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 11:50:45 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/05/10 15:32:52 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/14 15:53:37 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,13 @@ int	here_doc(char *limiter, char *path)
 			&& ft_strncmp(line, limiter, ft_strlen(line) - 1) == 0)
 				break ;
 		if (line)
+		{
+			dprintf(2, "=========== line = [%s]\n", line);
 			ft_putstr_fd(line, fd);
+		}
 		free(line);
 	}
-	get_next_line(1, 1);
+	// get_next_line(1, 1);
 	if (line)
 		free(line);
 	close(fd);

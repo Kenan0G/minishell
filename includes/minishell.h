@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/05/19 13:52:06 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/14 15:49:26 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ void				ft_error_path(t_data *data, char *temp, t_cmd *list);
 void				ft_path(char **envp, t_data *data);
 void				ft_wait(t_data *data);
 
+void				ft_unlink(t_cmd *list);
 
 // 
 // 
