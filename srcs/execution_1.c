@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:49:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/14 17:22:21 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/21 11:49:45 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	get_path_and_exec(t_cmd *list, t_data *data)
 	// dprintf(2, "\n");
 	if (execve(data->path, list->arg, data->env) == -1)
 	{
-		perror("execve");
+		// perror("execve");
 		exit (EXIT_FAILURE);
 	}
 }

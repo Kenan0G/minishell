@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 18:27:17 by jsabound          #+#    #+#             */
-/*   Updated: 2023/06/14 17:17:20 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/21 15:55:05 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,30 +107,55 @@ t_cmd	*get_value(t_cmd *cmd_list, t_temp *parsed_list)
 	return (cmd_list);
 }
 
+// void	get_here_doc(t_temp *p_list, t_cmd *cmd_list)
+// {
+// 	int		i;
+// 	t_cmd	*c_list;
+
+// 	(void)p_list;
+// 	c_list = cmd_list;
+// 	while (c_list)
+// 	{
+// 		i = 0;
+// 		while (i < c_list->nb_here_doc)
+// 		{
+// 			c_list->here_doc_tmp[i] = ft_strjoin(ft_strjoin(".here_doc_", ft_itoa(i + 1)), ".tmp");
+// 			c_list->fd_here_doc[i] = here_doc(c_list->limiter[i], c_list->here_doc_tmp[i]);
+// 			c_list->fd_here_doc[i] = open (c_list->here_doc_tmp[i], O_RDWR, 0644);
+// 			if (c_list->fd_here_doc[i] <= 0)
+// 			{
+// 				perror(c_list->here_doc_tmp[i]);
+// 			}
+// 			i++;
+// 		}
+// 		c_list->here_doc_tmp[i] = NULL;
+// 		c_list = c_list->next;
+// 	}
+// }
+
 void	get_here_doc(t_temp *p_list, t_cmd *cmd_list)
 {
 	int		i;
 	t_cmd	*c_list;
-	// pid_t	*pid;
 
 	(void)p_list;
 	c_list = cmd_list;
-	// pid = malloc(sizeof(pid) * c_list->nb_here_doc);
 	while (c_list)
 	{
 		i = 0;
-		// if (pid[i] == 0)
-		// {
-			while (i < c_list->nb_here_doc)
+		while (i < c_list->nb_here_doc)
+		{
+			c_list->here_doc_tmp[i] = ft_strjoin(ft_strjoin(".here_doc_", ft_itoa(i + 1)), ".tmp");
+			c_list->fd_here_doc[i] = here_doc(c_list->limiter[i], c_list->here_doc_tmp[i]);
+			c_list->fd_here_doc[i] = open (c_list->here_doc_tmp[i], O_RDWR, 0644);
+			if (c_list->fd_here_doc[i] <= 0)
 			{
-				c_list->here_doc_tmp[i] = ft_strjoin(ft_strjoin(".here_doc_", ft_itoa(i + 1)), ".tmp");
-				c_list->fd_here_doc[i] = here_doc(c_list->limiter[i], c_list->here_doc_tmp[i]);
-				c_list->fd_here_doc[i] = open (c_list->here_doc_tmp[i], O_RDWR, 0644);
-				i++;
+				perror(c_list->here_doc_tmp[i]);
 			}
-		// }
-			c_list->here_doc_tmp[i] = NULL;
-			c_list = c_list->next;
+			i++;
+		}
+		c_list->here_doc_tmp[i] = NULL;
+		c_list = c_list->next;
 	}
 }
 
@@ -174,7 +199,7 @@ t_cmd	*get_fd(t_cmd *cmd_list, t_temp *parsed_list)
 			{	
 				if (c_list->fd_out > 0)
 					close(c_list->fd_out);
-				c_list->fd_out = open(p_list->next->token, O_WRONLY | O_CREAT, 0777);
+				c_list->fd_out = open(p_list->next->token, O_WRONLY | O_TRUNC | O_CREAT, 0777);
 				if (c_list->fd_out == -1)
 				{
 					perror(p_list->next->token);

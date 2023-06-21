@@ -6,12 +6,45 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 11:50:45 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/14 15:53:37 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/21 15:59:05 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+
+// int	here_doc(char *limiter, char *path)
+// {
+	// char	*line;
+	// int		fd;
+	// int		fd_in;
+// 
+	// fd = open_here_doc(path);
+	// if (dup2(0, fd_in) == -1)
+	// {
+		// perror("dup2_create_cmd");
+		// exit (EXIT_FAILURE);
+	// }
+	// while (1)
+	// {
+		// write(1, "> ", 1);
+		// line = get_next_line(fd_in, 0);
+		// if ((ft_strlen(line) - 1 == ft_strlen(limiter))
+			// && ft_strncmp(line, limiter, ft_strlen(line) - 1) == 0)
+				// break ;
+		// if (line)
+		// {
+			// // dprintf(2, "=========== line = [%s]\n", line);
+			// ft_putstr_fd(line, fd);
+		// }
+		// free(line);
+	// }
+	// // get_next_line(1, 1);
+	// if (line)
+		// free(line);
+	// close(fd);
+	// return (fd);
+// }
 
 int	here_doc(char *limiter, char *path)
 {
@@ -21,15 +54,22 @@ int	here_doc(char *limiter, char *path)
 	fd = open_here_doc(path);
 	while (1)
 	{
-		write(1, "> ", 1);
-		line = get_next_line(1, 0);
-		if ((ft_strlen(line) - 1 == ft_strlen(limiter))
-			&& ft_strncmp(line, limiter, ft_strlen(line) - 1) == 0)
-				break ;
+		line = readline("> ");
+		if (!line)
+		{
+			dprintf(2, "fin du here doc\n");
+			break;
+		}
+		if (!ft_strcmp(line, limiter))
+			break ;
+		// if ((ft_strlen(line) - 1 == ft_strlen(limiter))
+		// 	&& ft_strncmp(line, limiter, ft_strlen(line) - 1) == 0)
+		// 		break ;
 		if (line)
 		{
-			dprintf(2, "=========== line = [%s]\n", line);
+			// dprintf(2, "=========== line = [%s]\n", line);
 			ft_putstr_fd(line, fd);
+			ft_putstr_fd("\n", fd);
 		}
 		free(line);
 	}

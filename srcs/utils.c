@@ -1,42 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/11 12:01:23 by jsabound          #+#    #+#             */
-/*   Updated: 2023/06/19 15:54:53 by kgezgin          ###   ########.fr       */
+/*   Created: 2023/06/21 15:56:57 by kgezgin           #+#    #+#             */
+/*   Updated: 2023/06/21 15:57:51 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/minishell.h"
 
-char	*ft_strjoin(char const *s1, char *s2)
+int	ft_strcmp(char *s1, char *s2)
 {
-	char	*str;
-	size_t	i;
-	size_t	j;
+	unsigned int	i;
 
-	if (!s1)
-		s1 = ft_calloc(sizeof(char), 1);
-	if (!s2)
-		return (NULL);
-	j = 0;
-	str = malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!str)
-		return (NULL);
 	i = 0;
-	while (s1[i])
-	{
-		str[i] = s1[i];
+	while (s1[i] && s2[i] && s1[i] == s2[i])
 		i++;
-	}
-	while (s2[j])
-	{
-		str[i + j] = s2[j];
-		j++;
-	}
-	str[i + j] = '\0';
-	return (str);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

@@ -18,7 +18,8 @@ SRCS =	create_cmd_list.c\
 		execution_1.c\
 		pipex_functions.c\
 		temp_list.c\
-		here_doc.c
+		here_doc.c\
+		utils.c
 
 
 
