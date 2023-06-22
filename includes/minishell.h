@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/06/21 15:58:35 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/22 12:33:43 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ typedef struct s_data
 	t_token			*token;
 	int				previous_fd;
 	pid_t			*pid;
+	int				i;
+	int				j;
 } t_data;
 
 void				print_list(t_temp *token);
@@ -106,7 +108,7 @@ int					open_here_doc(char *path);
 
 void				get_args(t_cmd *cmd_list, t_temp *parsed_list);
 t_cmd				*get_value(t_cmd *cmd_list, t_temp *parsed_list);
-t_cmd				*get_fd(t_cmd *cmd_list, t_temp *parsed_list);
+t_cmd				*get_fd(t_cmd *cmd_list, t_temp *parsed_list, t_data *data);
 t_cmd				*create_cmd_list(t_temp *parsed_list, t_data *data);
 void				my_lstadd_back_cmd(t_cmd **lst, t_cmd *new);
 t_cmd				*my_lstnew_cmd();

@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 18:27:17 by jsabound          #+#    #+#             */
-/*   Updated: 2023/06/21 15:55:05 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/22 17:36:41 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	get_args(t_cmd *cmd_list, t_temp *parsed_list)
 		{
 			get_args_utils(c_list, p_list, &i, &j);
 			p_list = p_list->next;
+			// printf("j = %d\n", j);
+			// printf("i = %d\n", i);
 		}
 		if (p_list == NULL)
 			break ;
@@ -62,6 +64,9 @@ void	get_args(t_cmd *cmd_list, t_temp *parsed_list)
 
 void	get_value_malloc(t_cmd *c_list, int i, int j)
 {
+	// printf("MALLOC ======== i = %d\n", i);
+	// printf("MALLOC ======== j = %d\n", j);
+	// printf("-------------------------------------\n");
 	c_list->nb_here_doc = j;
 	c_list->here_doc_tmp = malloc(sizeof(char *) * (j + 1));
 	c_list->limiter = malloc(sizeof(char *) * (j + 1));
@@ -73,10 +78,19 @@ t_temp	*get_value_i_j(t_temp *p_list, int *i, int *j)
 {
 	while (p_list && p_list->status != PIPE)
 	{
+		// printf("p_list->status = %d\n", p_list->status);
+		// printf("p_list->token = %s\n", p_list->token);
+		// printf("\n");
 		if (p_list->status == ARG || p_list->status == COMMAND)
-			(*i)++;
+		{
+			// printf("if i\n");
+			*i = (*i)+ 1;
+		}
 		else if (p_list->status == HERE_DOC)
-			(*j)++;
+		{
+			// printf("if j\n");
+			*j = (*j)+ 1;
+		}
 		p_list = p_list->next;
 	}
 	return (p_list);
@@ -91,47 +105,25 @@ t_cmd	*get_value(t_cmd *cmd_list, t_temp *parsed_list)
 	
 	c_list = cmd_list;
 	p_list = parsed_list;
+	int k = 0;
 	while (c_list)
 	{
 		i = 0;
 		j = 0;
-		get_value_i_j(p_list, &i, &j);
+		p_list = get_value_i_j(p_list, &i, &j);
 		get_value_malloc(c_list, i, j);
+
 		if (p_list == NULL)
 			break ;
 		else
 			p_list = p_list->next;
 		c_list = c_list->next;
+		k++;
 	}
 	get_args(cmd_list, parsed_list);
 	return (cmd_list);
 }
 
-// void	get_here_doc(t_temp *p_list, t_cmd *cmd_list)
-// {
-// 	int		i;
-// 	t_cmd	*c_list;
-
-// 	(void)p_list;
-// 	c_list = cmd_list;
-// 	while (c_list)
-// 	{
-// 		i = 0;
-// 		while (i < c_list->nb_here_doc)
-// 		{
-// 			c_list->here_doc_tmp[i] = ft_strjoin(ft_strjoin(".here_doc_", ft_itoa(i + 1)), ".tmp");
-// 			c_list->fd_here_doc[i] = here_doc(c_list->limiter[i], c_list->here_doc_tmp[i]);
-// 			c_list->fd_here_doc[i] = open (c_list->here_doc_tmp[i], O_RDWR, 0644);
-// 			if (c_list->fd_here_doc[i] <= 0)
-// 			{
-// 				perror(c_list->here_doc_tmp[i]);
-// 			}
-// 			i++;
-// 		}
-// 		c_list->here_doc_tmp[i] = NULL;
-// 		c_list = c_list->next;
-// 	}
-// }
 
 void	get_here_doc(t_temp *p_list, t_cmd *cmd_list)
 {
@@ -159,23 +151,21 @@ void	get_here_doc(t_temp *p_list, t_cmd *cmd_list)
 	}
 }
 
-t_cmd	*get_fd(t_cmd *cmd_list, t_temp *parsed_list)
+t_cmd	*get_fd(t_cmd *cmd_list, t_temp *parsed_list, t_data *data)
 {
 	t_cmd	*c_list;
 	t_temp	*p_list;
-	int		i;
-	int		j;
 	
 	p_list = parsed_list;
 	c_list = cmd_list;
 	get_here_doc(p_list, c_list);
 	while (c_list)
 	{
-		i = 0;
-		j = 0;
+		data->i = 0;
+		data->j = 0;
 		while (p_list && p_list->status != PIPE)
 		{
-			if (i == 0 && p_list->status == FILE_IN)
+			if (data->i == 0 && p_list->status == FILE_IN)
 			{
 				if (c_list->fd_in > 0)
 					close(c_list->fd_in);
@@ -184,18 +174,19 @@ t_cmd	*get_fd(t_cmd *cmd_list, t_temp *parsed_list)
 				{
 					perror(p_list->token);
 					c_list->is_ok = 0;
-	 				i = 1;
+	 				data->i = 1;
 				}
 			}
-			else if (i == 0 && p_list->status == HERE_DOC)
+			else if (data->i == 0 && p_list->status == HERE_DOC)
 			{
 				if (c_list->fd_in > 0)
 					close(c_list->fd_in);
-				c_list->fd_in = c_list->fd_here_doc[j];
-				j++;
+				printf("data->j == %d\n\n\n", data->j);
+				c_list->fd_in = c_list->fd_here_doc[data->j];
+				data->j++;
 
 			}
-			else if (i == 0 && p_list->status == REDIR_OUT)
+			else if (data->i == 0 && p_list->status == REDIR_OUT)
 			{	
 				if (c_list->fd_out > 0)
 					close(c_list->fd_out);
@@ -204,10 +195,10 @@ t_cmd	*get_fd(t_cmd *cmd_list, t_temp *parsed_list)
 				{
 					perror(p_list->next->token);
 					c_list->is_ok = 0;
-	 				i = 1;
+	 				data->i = 1;
 				}
 			}
-			else if (i == 0 && p_list->status == APPEND)
+			else if (data->i == 0 && p_list->status == APPEND)
 			{
 				if (c_list->fd_out > 0)
 					close(c_list->fd_out);
@@ -216,7 +207,7 @@ t_cmd	*get_fd(t_cmd *cmd_list, t_temp *parsed_list)
 				{
 					perror(p_list->next->token);
 					c_list->is_ok = 0;
-	 				i = 1;
+	 				data->i = 1;
 				}
 			}
 			p_list = p_list->next;
@@ -243,7 +234,7 @@ t_cmd	*create_cmd_list(t_temp *parsed_list, t_data *data)
 		i++;
 	}
 	cmd_list = get_value(cmd_list, parsed_list);
-	cmd_list = get_fd(cmd_list, parsed_list);
+	cmd_list = get_fd(cmd_list, parsed_list, data);
 	return (cmd_list);
 }
 
@@ -279,6 +270,8 @@ void	init_data(t_data *data, char **env)
 	ft_memset(data, 0, sizeof(t_data));
 	data->cmd_count = 0;
 	data->env = env;
+	data->i = 0;
+	data->j = 0;
 }
 
 // int main (int ac, char **av, char **env)
@@ -303,3 +296,93 @@ void	init_data(t_data *data, char **env)
 // 	return (0);
 // }
 
+// void	fd_file_in(t_temp *p_list, t_cmd *c_list, t_data *data)
+// {
+// 	if (c_list->fd_in > 0)
+// 		close(c_list->fd_in);
+// 	c_list->fd_in = open(p_list->token, O_RDONLY);
+// 	if (c_list->fd_in == -1)
+// 	{
+// 		perror(p_list->token);
+// 		c_list->is_ok = 0;
+// 		data->i = 1;
+// 	}
+// }
+
+// void	fd_here_doc(t_cmd *c_list, t_data *data)
+// {
+// 	if (c_list->fd_in > 0)
+// 		close(c_list->fd_in);
+// 	c_list->fd_in = c_list->fd_here_doc[data->j];
+// 	data->j++;
+// }
+
+// void	fd_file_out(t_temp *p_list, t_cmd *c_list, t_data *data, int is_append)
+// {
+// 	if (is_append)
+// 	{
+// 		if (c_list->fd_out > 0)
+// 			close(c_list->fd_out);
+// 		c_list->fd_out = open(p_list->next->token, O_WRONLY | O_APPEND | O_CREAT, 0777);
+// 		if (c_list->fd_out == -1)
+// 		{
+// 			perror(p_list->next->token);
+// 			c_list->is_ok = 0;
+// 			data->i = 1;
+// 		}
+// 	}
+// 	else
+// 	{
+// 		if (c_list->fd_out > 0)
+// 			close(c_list->fd_out);
+// 		c_list->fd_out = open(p_list->next->token, O_WRONLY | O_TRUNC | O_CREAT, 0777);
+// 		if (c_list->fd_out == -1)
+// 		{
+// 			perror(p_list->next->token);
+// 			c_list->is_ok = 0;
+// 			data->i = 1;
+// 		}
+// 	}
+// }
+
+// void	ft_open(t_temp *p_list, t_cmd *c_list, t_data *data)
+// {
+// 	if (data->i == 0 && p_list->status == FILE_IN)
+// 		fd_file_in(p_list, c_list, data);
+// 	else if (data->i == 0 && p_list->status == HERE_DOC)
+// 		fd_here_doc(c_list, data);
+// 	else if (data->i == 0 && p_list->status == REDIR_OUT)
+// 		fd_file_out(p_list, c_list, data, 0);
+// 	else if (data->i == 0 && p_list->status == APPEND)
+// 		fd_file_out(p_list, c_list, data, 1);
+// }
+
+// t_cmd	*get_fd(t_cmd *cmd_list, t_temp *parsed_list, t_data *data)
+// {
+// 	t_cmd	*c_list;
+// 	t_temp	*p_list;
+	
+// 	p_list = parsed_list;
+// 	c_list = cmd_list;
+// 	get_here_doc(p_list, c_list);
+// 	while (c_list)
+// 	{
+// 		printf("\ntest\n");
+// 		while (p_list && p_list->status != PIPE)
+// 		{
+// 			printf("test---------2\n");
+// 			ft_open(p_list, c_list, data);
+// 			p_list = p_list->next;
+// 		}
+// 		printf("test---------3\n");
+// 		if (p_list == NULL)
+// 		{
+// 			printf("test---------4\n");
+// 			break ;
+// 		}
+// 		else
+// 			p_list = p_list->next;
+// 		c_list = c_list->next;
+// 	}
+// 	return (cmd_list);
+// }

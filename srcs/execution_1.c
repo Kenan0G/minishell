@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:49:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/21 11:49:45 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/22 13:41:13 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ int main (int ac, char **av, char **env)
 	(void)ac;
 	init_data(&data, env);
 	token = temp_list(&data, av, av[1]);
+	print_list(token);
 	cmd_list = create_cmd_list(token, &data);
 	// (void)cmd_list;
 	// print_list(token);
