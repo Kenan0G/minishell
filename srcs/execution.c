@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution_1.c                                      :+:      :+:    :+:   */
+/*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:49:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/22 13:41:13 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/23 18:49:08 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	exec_pipe(t_cmd *list, t_data *data)
+int	main_exec(t_cmd *list, t_data *data)
+{
+	data->pid = malloc(sizeof(pid_t) * data->cmd_count);
+	data->index = 0;
+	data->fd_pipe[0] = 0;
+	data->fd_pipe[1] = 0;
+	execution_loop(list, data);
+	ft_wait(data);
+	return (0);
+}
+
+void	execution_loop(t_cmd *list, t_data *data)
 {
 	int	i;
 
@@ -87,93 +98,10 @@ void	get_path_and_exec(t_cmd *list, t_data *data)
 		data->path = list->command;
 	else
 		data->path = path_check(data, list);
-	// dprintf(2, "\ndata->path = %s\n", data->path);
-	// int i = 0;
-	// while (list->arg[i])
-	// {
-	// 	dprintf(2, "list->arg[%d] = %s\n", i, list->arg[i]);
-	// 	i++;
-	// }
-	// dprintf(2, "\n");
 	if (execve(data->path, list->arg, data->env) == -1)
 	{
 		// perror("execve");
 		exit (EXIT_FAILURE);
-	}
-}
-
-int	main_exec(t_cmd *list, t_data *data)
-{
-	// print_cmd_list(list);
-	data->pid = malloc(sizeof(pid_t) * data->cmd_count);
-	data->index = 0;
-	data->fd_pipe[0] = 0;
-	data->fd_pipe[1] = 0;
-	exec_pipe(list, data);
-	ft_wait(data);
-	return (0);
-}
-
-int main (int ac, char **av, char **env)
-{
-	t_cmd			*cmd_list;
-	t_temp			*token;
-	t_data			data;
-
-	(void)ac;
-	init_data(&data, env);
-	token = temp_list(&data, av, av[1]);
-	print_list(token);
-	cmd_list = create_cmd_list(token, &data);
-	// (void)cmd_list;
-	// print_list(token);
-	main_exec(cmd_list, &data);
-	ft_unlink(cmd_list);
-	return (0);
-}
-
-
-
-void	ft_wait(t_data *data)
-{
-	while (data->index-- > 0)
-		waitpid(data->pid[data->index], NULL, 0);
-	free(data->pid);
-}
-
-void	ft_unlink(t_cmd *list)
-{
-	t_cmd	*temp;
-	int		i;
-
-	temp = list;
-	while (temp)
-	{
-		i = 0;
-		while (temp->here_doc_tmp[i])
-		{
-			unlink (temp->here_doc_tmp[i]);
-			free (temp->here_doc_tmp[i]);
-			free (temp->limiter[i]);
-			i++;
-		}
-		free(temp->here_doc_tmp);
-		free (temp->limiter);
-		temp = temp->next;
-	}
-}
-
-void	ft_free_list(t_cmd **lst)
-{
-	t_cmd	*temp;
-	t_cmd	*tmp2;
-
-	temp = (*lst);
-	while (temp)
-	{
-		tmp2 = temp->next;
-		free(temp);
-		temp = tmp2;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 11:12:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/05/10 15:31:44 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/23 18:35:23 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	main(int ac, char **av, char **envp)
 	ft_loop(&data, envp);
 	ft_close(&data);
 	ft_wait(&data, ac);
-	unlink(".here_doc_tmp");
+	unlink(".hd_file");
 	return (0);
 }
 

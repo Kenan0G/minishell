@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/06/22 12:33:43 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/23 18:59:36 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ typedef struct s_cmd
 	char			*command;
 	char			**arg;
 	char			**limiter;
-	char			**here_doc_tmp;
+	char			**hd_file;
 	int				nb_here_doc;
-	int				*fd_here_doc;
+	int				*hd_fd;
 	int				fd_in;
 	int				fd_out;
 	int				is_ok;
@@ -89,53 +89,61 @@ typedef struct s_data
 	int				j;
 } t_data;
 
-void				print_list(t_temp *token);
-void				print_cmd_list(t_cmd *token);
-void				my_lstadd_back(t_temp **lst, t_temp *new);
-t_temp				*my_lstnew(char *content, int status);
-// int first_char(char **str_split, char *str, t_data *data, int i);
-t_temp				*temp_list(t_data *data, char **av, char *str);
+void				ft_wait(t_data *data);
+void				ft_unlink(t_cmd *list);
+void				ft_free_list(t_cmd **lst);
 
-void				print_list(t_temp *token);
-void				print_cmd_list(t_cmd *token);
-void				my_lstadd_back(t_temp **lst, t_temp *new);
-t_temp				*my_lstnew(char *content, int status);
-int					first_char(char *str, int prev_status);
-t_temp 				*temp_list(t_data *data, char **av, char *str);
+int					main_exec(t_cmd *list, t_data *data);
+void				execution_loop(t_cmd *list, t_data *data);
+void				redirections(t_cmd *list, t_data *data);
+void				get_path_and_exec(t_cmd *list, t_data *data);
 
+void				hd_execution(t_temp *p_list, t_cmd *cmd_list);
 int					here_doc(char *limiter, char *path);
 int					open_here_doc(char *path);
 
+void				ft_open(t_temp *p_list, t_cmd *c_list, t_data *data);
+void				fd_file_in(t_temp *p_list, t_cmd *c_list, t_data *data);
+void				fd_here_doc(t_cmd *c_list, t_data *data);
+void				fd_file_out(t_temp *p_list, t_cmd *c_list, t_data *data);
+void				fd_append(t_temp *p_list, t_cmd *c_list, t_data *data);
+
+t_temp				*get_value_i_j(t_temp *p_list, int *i, int *j);
+void				get_value_malloc(t_cmd *c_list, int i, int j);
 void				get_args(t_cmd *cmd_list, t_temp *parsed_list);
+void				get_args_utils(t_cmd *c_list, t_temp *p_list, int *i, int *j);
+
+t_cmd				*create_cmd_list(t_temp *parsed_list, t_data *data);
 t_cmd				*get_value(t_cmd *cmd_list, t_temp *parsed_list);
 t_cmd				*get_fd(t_cmd *cmd_list, t_temp *parsed_list, t_data *data);
-t_cmd				*create_cmd_list(t_temp *parsed_list, t_data *data);
+
+t_temp 				*temp_list(t_data *data, char **av, char *str);
+int					first_char(char *str, int prev_status);
+void				get_command(t_temp *list, t_data *data);
+
 void				my_lstadd_back_cmd(t_cmd **lst, t_cmd *new);
 t_cmd				*my_lstnew_cmd();
-void				init_data(t_data *data, char **env);
+void				my_lstadd_back(t_temp **lst, t_temp *new);
+t_temp				*my_lstnew(char *content, int status);
+void				print_list(t_temp *token);
+void				print_cmd_list(t_cmd *token);
 
-void				redirections(t_cmd *list, t_data *data);
-void				get_path_and_exec(t_cmd *list, t_data *data);
-void				exec_pipe(t_cmd *list, t_data *data);
-void				exec_one_command(t_cmd *list, t_data *data);
-int					main_exec(t_cmd *list, t_data *data);
-void				assign_fd(t_cmd *list, t_data *data, int previous_fd);
+void				init_data(t_data *data, char **env);
 
 int					is_path(char *str);
 char				*path_check(t_data *data, t_cmd *list);
 void				ft_error_path(t_data *data, char *temp, t_cmd *list);
 void				ft_path(char **envp, t_data *data);
-void				ft_wait(t_data *data);
 
-void				ft_unlink(t_cmd *list);
 int					ft_strcmp(char *s1, char *s2);
+
+
 
 // 
 // 
 // PARSING  
 // 
 // 
-
 // 
 
 char **mr_split(char *str, char *charset);

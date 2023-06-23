@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:43:59 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/14 15:23:21 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/23 18:35:23 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	open_infile(t_data *data)
 	if (data->here_doc == 0)
 		data->fd_infile = open(data->av[1], O_RDONLY);
 	else
-		data->fd_infile = open(".here_doc_tmp", O_RDONLY);
+		data->fd_infile = open(".hd_file", O_RDONLY);
 	if (data->fd_infile == -1)
 	{
 		close(data->fd_pipe[1]);

@@ -6,45 +6,39 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 11:50:45 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/21 15:59:05 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/23 18:40:25 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+void	hd_execution(t_temp *p_list, t_cmd *cmd_list)
+{
+	int		i;
+	t_cmd	*c_list;
 
-// int	here_doc(char *limiter, char *path)
-// {
-	// char	*line;
-	// int		fd;
-	// int		fd_in;
-// 
-	// fd = open_here_doc(path);
-	// if (dup2(0, fd_in) == -1)
-	// {
-		// perror("dup2_create_cmd");
-		// exit (EXIT_FAILURE);
-	// }
-	// while (1)
-	// {
-		// write(1, "> ", 1);
-		// line = get_next_line(fd_in, 0);
-		// if ((ft_strlen(line) - 1 == ft_strlen(limiter))
-			// && ft_strncmp(line, limiter, ft_strlen(line) - 1) == 0)
-				// break ;
-		// if (line)
-		// {
-			// // dprintf(2, "=========== line = [%s]\n", line);
-			// ft_putstr_fd(line, fd);
-		// }
-		// free(line);
-	// }
-	// // get_next_line(1, 1);
-	// if (line)
-		// free(line);
-	// close(fd);
-	// return (fd);
-// }
+	(void)p_list;
+	c_list = cmd_list;
+	while (c_list)
+	{
+		i = 0;
+		while (i < c_list->nb_here_doc)
+		{
+			c_list->hd_file[i] = ft_strjoin(ft_strjoin(".here_doc_",
+						ft_itoa(i + 1)), ".tmp");
+			unlink(c_list->hd_file[i]);
+			c_list->hd_fd[i] = here_doc(c_list->limiter[i], c_list->hd_file[i]);
+			c_list->hd_fd[i] = open(c_list->hd_file[i], O_RDWR, 0644);
+			if (c_list->hd_fd[i] <= 0)
+			{
+				perror(c_list->hd_file[i]);
+			}
+			i++;
+		}
+		c_list->hd_file[i] = NULL;
+		c_list = c_list->next;
+	}
+}
 
 int	here_doc(char *limiter, char *path)
 {
@@ -57,29 +51,23 @@ int	here_doc(char *limiter, char *path)
 		line = readline("> ");
 		if (!line)
 		{
-			dprintf(2, "fin du here doc\n");
-			break;
+			write(2, "warning: here-document delimited by end-of-file.\n", 49);
+			break ;
 		}
 		if (!ft_strcmp(line, limiter))
 			break ;
-		// if ((ft_strlen(line) - 1 == ft_strlen(limiter))
-		// 	&& ft_strncmp(line, limiter, ft_strlen(line) - 1) == 0)
-		// 		break ;
 		if (line)
 		{
-			// dprintf(2, "=========== line = [%s]\n", line);
 			ft_putstr_fd(line, fd);
 			ft_putstr_fd("\n", fd);
 		}
 		free(line);
 	}
-	// get_next_line(1, 1);
 	if (line)
 		free(line);
 	close(fd);
 	return (fd);
 }
-// les deux fichiers tmp s'ouvrent en meme temps
 
 int	open_here_doc(char *path)
 {
@@ -88,18 +76,8 @@ int	open_here_doc(char *path)
 	fd = open(path, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (fd == -1)
 	{
-		// unlink(path);
-		// fd = open(path, O_CREAT | O_RDWR | O_TRUNC, 0644);
-		// if (fd == -1)
-		// {
-			// close(data->fd_pipe[1]);
-			perror(path);
-			exit (EXIT_FAILURE);
-			// free(data->pid);
-			// exit (EXIT_FAILURE);
-		// }
+		perror(path);
+		exit (EXIT_FAILURE);
 	}
-	// if (path)
-	// 	free(path);
 	return (fd);
 }

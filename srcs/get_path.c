@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:30:52 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/13 13:59:13 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/23 18:14:38 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,6 @@ char	*path_check(t_data *data, t_cmd *list)
 	int		i;
 
 	i = 0;
-	// if (!data->cmd[0] || !data->cmd[0][0])
-	// {
-	// 	ft_putstr_fd("Command '' not found\n", 2);
-	// 	ft_error(data, 127);
-	// }
 	str = list->command;
 	temp = ft_strjoin("/", str);
 	while (data->path_begining && data->path_begining[i])
@@ -50,7 +45,6 @@ char	*path_check(t_data *data, t_cmd *list)
 		i++;
 	}
 	ft_error_path(data, temp, list);
-	// ft_error(data, errno);
 	return (NULL);
 }
 
