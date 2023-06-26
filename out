@@ -1,44 +1,13 @@
-total 204
-drwxr-xr-x 10 kgezgin kgezgin   4096 Jun 26 12:21 .
-drwxr-xr-x  4 kgezgin kgezgin   4096 Jun 26 12:13 ..
-drwxr-xr-x  8 kgezgin kgezgin   4096 Jun 26 12:13 .git
--rw-r--r--  1 kgezgin kgezgin      0 Jun 26 12:21 .here_doc_1.tmp
-drwxr-xr-x  2 kgezgin kgezgin   4096 Jun 26 12:13 .vscode
--rw-r--r--  1 kgezgin kgezgin   2679 Jun 26 12:13 Makefile
-drwxr-xr-x  2 kgezgin kgezgin   4096 Jun 26 12:13 get_next_line
--rw-r--r--  1 kgezgin kgezgin     30 Jun 26 12:13 in
--rw-r--r--  1 kgezgin kgezgin     79 Jun 26 12:13 in2
-drwxr-xr-x  2 kgezgin kgezgin   4096 Jun 26 12:13 includes
-drwxr-xr-x  2 kgezgin kgezgin   4096 Jun 26 12:13 libft
--rwxr-xr-x  1 kgezgin kgezgin 151664 Jun 26 12:21 minishell
-drwxr-xr-x  2 kgezgin kgezgin   4096 Jun 26 12:21 objs
--rwxr-xr-x  1 kgezgin kgezgin      0 Jun 26 12:22 out
-drwxr-xr-x  2 kgezgin kgezgin   4096 Jun 26 12:13 pipex
-drwxr-xr-x  2 kgezgin kgezgin   4096 Jun 26 12:13 srcs
 Makefile
 get_next_line
 in
 in2
 includes
+infile
 libft
 minishell
 objs
 out
+outfile
 pipex
 srcs
-total 208
-drwxr-xr-x 10 kgezgin kgezgin   4096 Jun 26 12:28 .
-drwxr-xr-x  4 kgezgin kgezgin   4096 Jun 26 12:13 ..
-drwxr-xr-x  8 kgezgin kgezgin   4096 Jun 26 12:13 .git
-drwxr-xr-x  2 kgezgin kgezgin   4096 Jun 26 12:13 .vscode
--rw-r--r--  1 kgezgin kgezgin   2679 Jun 26 12:13 Makefile
-drwxr-xr-x  2 kgezgin kgezgin   4096 Jun 26 12:13 get_next_line
--rw-r--r--  1 kgezgin kgezgin     30 Jun 26 12:13 in
--rw-r--r--  1 kgezgin kgezgin     79 Jun 26 12:13 in2
-drwxr-xr-x  2 kgezgin kgezgin   4096 Jun 26 12:13 includes
-drwxr-xr-x  2 kgezgin kgezgin   4096 Jun 26 12:13 libft
--rwxr-xr-x  1 kgezgin kgezgin 151664 Jun 26 12:28 minishell
-drwxr-xr-x  2 kgezgin kgezgin   4096 Jun 26 12:28 objs
--rwxr-xr-x  1 kgezgin kgezgin    994 Jun 26 12:28 out
-drwxr-xr-x  2 kgezgin kgezgin   4096 Jun 26 12:13 pipex
-drwxr-xr-x  2 kgezgin kgezgin   4096 Jun 26 12:13 srcs

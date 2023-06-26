@@ -87,14 +87,15 @@ typedef struct s_data
 	pid_t			*pid;
 	int				i;
 	int				j;
+	char			**str_split;
 } t_data;
 
+void				ft_end(t_cmd **c_list, t_parsed **p_list, t_data *data);
 void				ft_wait(t_data *data);
 void				ft_unlink(t_cmd *list);
 void				ft_free_cmd_list(t_cmd **lst);
 void				free_cmd_content(t_cmd *lst);
-void				ft_end(t_cmd **c_list, t_parsed **p_list, t_data *data);
-void				ft_free_p_list(t_parsed **lst);
+void				ft_free_p_list(t_parsed **lst, t_data *data);
 void				ft_free_map(char **str);
 
 

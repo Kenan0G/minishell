@@ -17,7 +17,8 @@ void	ft_end(t_cmd **c_list, t_parsed **p_list, t_data *data)
 	ft_wait(data);
 	ft_unlink(*c_list);
 	ft_free_cmd_list(c_list);
-	ft_free_p_list(p_list);
+	ft_free_p_list(p_list, data);
+	free(data->str_split);
 }
 
 void	ft_wait(t_data *data)
@@ -64,8 +65,8 @@ void	ft_free_cmd_list(t_cmd **lst)
 
 void	free_cmd_content(t_cmd *lst)
 {
-	if (lst->command)
-		free(lst->command);
+	// if (lst->command)
+	// 	free(lst->command);
 	if (lst->hd_fd)
 		free(lst->hd_fd);
 	if (lst->hd_file)
@@ -76,20 +77,22 @@ void	free_cmd_content(t_cmd *lst)
 		ft_free_map(lst->limiter);
 }
 
-void	ft_free_p_list(t_parsed **lst)
+void	ft_free_p_list(t_parsed **lst, t_data *data)
 {
+	(void)data;
 	t_parsed	*temp;
 	t_parsed	*tmp2;
 
 	temp = (*lst);
 	while (temp)
 	{
-		if (temp->token)
-			free(temp->token);
+		// if (temp->token)
+		// 	free(temp->token);
 		tmp2 = temp->next;
 		free(temp);
 		temp = tmp2;
 	}
+	// ft_free_map(data->str_split);
 	free(temp);
 }
 void	ft_free_map(char **str)
@@ -99,6 +102,7 @@ void	ft_free_map(char **str)
 	i = 0;
 	while (str[i])
 	{
+		printf("i = %d\n", i);
 		free(str[i]);
 		i++;
 	}

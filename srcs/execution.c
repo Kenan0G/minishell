@@ -131,7 +131,7 @@ void	get_path_and_exec(t_cmd *list, t_data *data)
 
 	// fonction norm get value
 	
-	// t_parsed	*get_value_i_j(t_parsed *p_list, int *i, int *j)
+	// t_temp	*get_value_i_j(t_temp *p_list, int *i, int *j)
 	// {
 	// 		while (p_list && p_list->status != PIPE)
 	// 		{

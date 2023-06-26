@@ -16,7 +16,6 @@ t_parsed *temp_list(t_data *data, char **av, char *str)
 {
 	t_parsed	*list;
 	int		i;
-	char	**str_split;
 	int		status;
 	int		prev_status;
 	
@@ -24,11 +23,11 @@ t_parsed *temp_list(t_data *data, char **av, char *str)
 	(void)av;
 	list = NULL;
 	prev_status = 0;
-	str_split = ft_split(str , ' ');
-	while (str_split[i])
+	data->str_split = ft_split(str , ' ');
+	while (data->str_split[i])
 	{
-		status = first_char(str_split[i], prev_status);
-		my_lstadd_back(&list, my_lstnew(str_split[i], status));
+		status = first_char(data->str_split[i], prev_status);
+		my_lstadd_back(&list, my_lstnew(data->str_split[i], status));
 		prev_status = status;
 		i++;
 	}
