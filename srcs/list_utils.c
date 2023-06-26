@@ -39,9 +39,9 @@ t_cmd	*my_lstnew_cmd()
 	return (liste);
 }
 
-void	my_lstadd_back(t_temp **lst, t_temp *new)
+void	my_lstadd_back(t_parsed **lst, t_parsed *new)
 {	
-	t_temp	*current_node;
+	t_parsed	*current_node;
 
 	current_node = *lst;
 	if (!*lst)
@@ -54,9 +54,9 @@ void	my_lstadd_back(t_temp **lst, t_temp *new)
 	current_node->next = new;
 }
 
-t_temp	*my_lstnew(char *content, int status)
+t_parsed	*my_lstnew(char *content, int status)
 {
-	t_temp	*liste;
+	t_parsed	*liste;
 
 	liste = malloc(sizeof(*liste));
 	liste->token = content;
@@ -65,9 +65,9 @@ t_temp	*my_lstnew(char *content, int status)
 	return (liste);
 }
 
-void	print_list(t_temp *token)
+void	print_list(t_parsed *token)
 {
-	t_temp	*temp;
+	t_parsed	*temp;
 
 	temp = token;
 	while (temp)

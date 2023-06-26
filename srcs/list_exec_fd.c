@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-void	ft_open(t_temp *p_list, t_cmd *c_list, t_data *data)
+void	ft_open(t_parsed *p_list, t_cmd *c_list, t_data *data)
 {
 	if (data->i == 0 && p_list->status == FILE_IN)
 		fd_file_in(p_list, c_list, data);
@@ -21,10 +21,10 @@ void	ft_open(t_temp *p_list, t_cmd *c_list, t_data *data)
 	else if (data->i == 0 && p_list->status == REDIR_OUT)
 		fd_file_out(p_list, c_list, data);
 	else if (data->i == 0 && p_list->status == APPEND)
-		fd_file_out(p_list, c_list, data);
+		fd_append(p_list, c_list, data);
 }
 
-void	fd_file_in(t_temp *p_list, t_cmd *c_list, t_data *data)
+void	fd_file_in(t_parsed *p_list, t_cmd *c_list, t_data *data)
 {
 	if (c_list->fd_in > 0)
 		close(c_list->fd_in);
@@ -45,7 +45,7 @@ void	fd_here_doc(t_cmd *c_list, t_data *data)
 	data->j++;
 }
 
-void	fd_file_out(t_temp *p_list, t_cmd *c_list, t_data *data)
+void	fd_append(t_parsed *p_list, t_cmd *c_list, t_data *data)
 {
 	if (c_list->fd_out > 0)
 		close(c_list->fd_out);
@@ -59,7 +59,7 @@ void	fd_file_out(t_temp *p_list, t_cmd *c_list, t_data *data)
 	}
 }
 
-void	fd_append(t_temp *p_list, t_cmd *c_list, t_data *data)
+void	fd_file_out(t_parsed *p_list, t_cmd *c_list, t_data *data)
 {
 	if (c_list->fd_out > 0)
 		close(c_list->fd_out);

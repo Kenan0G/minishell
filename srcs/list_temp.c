@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_temp.c                                        :+:      :+:    :+:   */
+/*   list_parsed.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,9 +12,9 @@
 
 #include "../includes/minishell.h"
 
-t_temp *temp_list(t_data *data, char **av, char *str)
+t_parsed *temp_list(t_data *data, char **av, char *str)
 {
-	t_temp	*list;
+	t_parsed	*list;
 	int		i;
 	char	**str_split;
 	int		status;
@@ -63,10 +63,10 @@ int	first_char(char *str, int prev_status)
 	return (0);
 }
 
-void	get_command(t_temp *list, t_data *data)
+void	get_command(t_parsed *list, t_data *data)
 {
 	int		i;
-	t_temp	*temp;
+	t_parsed	*temp;
 
 	temp = list;
 	while (temp)

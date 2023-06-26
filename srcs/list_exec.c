@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-t_cmd	*create_cmd_list(t_temp *parsed_list, t_data *data)
+t_cmd	*create_cmd_list(t_parsed *parsed_list, t_data *data)
 {
 	t_cmd	*cmd_list;
 	int		i;
@@ -29,12 +29,12 @@ t_cmd	*create_cmd_list(t_temp *parsed_list, t_data *data)
 	return (cmd_list);
 }
 
-t_cmd	*get_value(t_cmd *cmd_list, t_temp *parsed_list)
+t_cmd	*get_value(t_cmd *cmd_list, t_parsed *parsed_list)
 {
 	int		i;
 	int		j;
 	t_cmd	*c_list;
-	t_temp	*p_list;
+	t_parsed	*p_list;
 	
 	c_list = cmd_list;
 	p_list = parsed_list;
@@ -57,10 +57,10 @@ t_cmd	*get_value(t_cmd *cmd_list, t_temp *parsed_list)
 	return (cmd_list);
 }
 
-t_cmd	*get_fd(t_cmd *cmd_list, t_temp *parsed_list, t_data *data)
+t_cmd	*get_fd(t_cmd *cmd_list, t_parsed *parsed_list, t_data *data)
 {
 	t_cmd	*c_list;
-	t_temp	*p_list;
+	t_parsed	*p_list;
 	
 	p_list = parsed_list;
 	c_list = cmd_list;

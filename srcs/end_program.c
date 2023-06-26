@@ -12,6 +12,14 @@
 
 #include "../includes/minishell.h"
 
+void	ft_end(t_cmd **c_list, t_parsed **p_list, t_data *data)
+{
+	ft_wait(data);
+	ft_unlink(*c_list);
+	ft_free_cmd_list(c_list);
+	ft_free_p_list(p_list);
+}
+
 void	ft_wait(t_data *data)
 {
 	while (data->index-- > 0)
@@ -31,26 +39,69 @@ void	ft_unlink(t_cmd *list)
 		while (temp->hd_file[i])
 		{
 			unlink (temp->hd_file[i]);
-			free (temp->hd_file[i]);
-			free (temp->limiter[i]);
 			i++;
 		}
-		free(temp->hd_file);
-		free (temp->limiter);
 		temp = temp->next;
 	}
 }
 
-void	ft_free_list(t_cmd **lst)
+void	ft_free_cmd_list(t_cmd **lst)
 {
 	t_cmd	*temp;
 	t_cmd	*tmp2;
 
+	
 	temp = (*lst);
 	while (temp)
 	{
+		free_cmd_content(temp);
 		tmp2 = temp->next;
 		free(temp);
 		temp = tmp2;
 	}
+	free(temp);
 }
+
+void	free_cmd_content(t_cmd *lst)
+{
+	if (lst->command)
+		free(lst->command);
+	if (lst->hd_fd)
+		free(lst->hd_fd);
+	if (lst->hd_file)
+		ft_free_map(lst->hd_file);
+	if (lst->arg)
+		ft_free_map(lst->arg);
+	if (lst->limiter)
+		ft_free_map(lst->limiter);
+}
+
+void	ft_free_p_list(t_parsed **lst)
+{
+	t_parsed	*temp;
+	t_parsed	*tmp2;
+
+	temp = (*lst);
+	while (temp)
+	{
+		if (temp->token)
+			free(temp->token);
+		tmp2 = temp->next;
+		free(temp);
+		temp = tmp2;
+	}
+	free(temp);
+}
+void	ft_free_map(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);	
+}
+

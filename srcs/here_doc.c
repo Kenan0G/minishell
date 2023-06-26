@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-void	hd_execution(t_temp *p_list, t_cmd *cmd_list)
+void	hd_execution(t_parsed *p_list, t_cmd *cmd_list)
 {
 	int		i;
 	t_cmd	*c_list;

@@ -53,12 +53,12 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
-typedef struct s_temp
+typedef struct s_parsed
 {
 	char			*token;
 	int				status;
-	struct s_temp	*next;
-} t_temp;
+	struct s_parsed	*next;
+} t_parsed;
 
 typedef struct s_parse
 {
@@ -91,41 +91,46 @@ typedef struct s_data
 
 void				ft_wait(t_data *data);
 void				ft_unlink(t_cmd *list);
-void				ft_free_list(t_cmd **lst);
+void				ft_free_cmd_list(t_cmd **lst);
+void				free_cmd_content(t_cmd *lst);
+void				ft_end(t_cmd **c_list, t_parsed **p_list, t_data *data);
+void				ft_free_p_list(t_parsed **lst);
+void				ft_free_map(char **str);
 
-int					main_exec(t_cmd *list, t_data *data);
+
+int					execution(t_cmd *list, t_data *data);
 void				execution_loop(t_cmd *list, t_data *data);
 void				redirections(t_cmd *list, t_data *data);
 void				get_path_and_exec(t_cmd *list, t_data *data);
 
-void				hd_execution(t_temp *p_list, t_cmd *cmd_list);
+void				hd_execution(t_parsed *p_list, t_cmd *cmd_list);
 int					here_doc(char *limiter, char *path);
 int					open_here_doc(char *path);
 
-void				ft_open(t_temp *p_list, t_cmd *c_list, t_data *data);
-void				fd_file_in(t_temp *p_list, t_cmd *c_list, t_data *data);
+void				ft_open(t_parsed *p_list, t_cmd *c_list, t_data *data);
+void				fd_file_in(t_parsed *p_list, t_cmd *c_list, t_data *data);
 void				fd_here_doc(t_cmd *c_list, t_data *data);
-void				fd_file_out(t_temp *p_list, t_cmd *c_list, t_data *data);
-void				fd_append(t_temp *p_list, t_cmd *c_list, t_data *data);
+void				fd_file_out(t_parsed *p_list, t_cmd *c_list, t_data *data);
+void				fd_append(t_parsed *p_list, t_cmd *c_list, t_data *data);
 
-t_temp				*get_value_i_j(t_temp *p_list, int *i, int *j);
+t_parsed				*get_value_i_j(t_parsed *p_list, int *i, int *j);
 void				get_value_malloc(t_cmd *c_list, int i, int j);
-void				get_args(t_cmd *cmd_list, t_temp *parsed_list);
-void				get_args_utils(t_cmd *c_list, t_temp *p_list, int *i, int *j);
+void				get_args(t_cmd *cmd_list, t_parsed *parsed_list);
+void				get_args_utils(t_cmd *c_list, t_parsed *p_list, int *i, int *j);
 
-t_cmd				*create_cmd_list(t_temp *parsed_list, t_data *data);
-t_cmd				*get_value(t_cmd *cmd_list, t_temp *parsed_list);
-t_cmd				*get_fd(t_cmd *cmd_list, t_temp *parsed_list, t_data *data);
+t_cmd				*create_cmd_list(t_parsed *parsed_list, t_data *data);
+t_cmd				*get_value(t_cmd *cmd_list, t_parsed *parsed_list);
+t_cmd				*get_fd(t_cmd *cmd_list, t_parsed *parsed_list, t_data *data);
 
-t_temp 				*temp_list(t_data *data, char **av, char *str);
+t_parsed 				*temp_list(t_data *data, char **av, char *str);
 int					first_char(char *str, int prev_status);
-void				get_command(t_temp *list, t_data *data);
+void				get_command(t_parsed *list, t_data *data);
 
 void				my_lstadd_back_cmd(t_cmd **lst, t_cmd *new);
 t_cmd				*my_lstnew_cmd();
-void				my_lstadd_back(t_temp **lst, t_temp *new);
-t_temp				*my_lstnew(char *content, int status);
-void				print_list(t_temp *token);
+void				my_lstadd_back(t_parsed **lst, t_parsed *new);
+t_parsed				*my_lstnew(char *content, int status);
+void				print_list(t_parsed *token);
 void				print_cmd_list(t_cmd *token);
 
 void				init_data(t_data *data, char **env);

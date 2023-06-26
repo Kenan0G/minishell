@@ -14,16 +14,16 @@
 
 int main (int ac, char **av, char **env)
 {
-	t_cmd			*cmd_list;
-	t_temp			*token;
+	t_cmd			*c_list;
+	t_parsed			*p_list;
 	t_data			data;
 
 	(void)ac;
 	init_data(&data, env);
-	token = temp_list(&data, av, av[1]);
-	cmd_list = create_cmd_list(token, &data);
-	main_exec(cmd_list, &data);
-	ft_unlink(cmd_list);
+	p_list = temp_list(&data, av, av[1]);
+	c_list = create_cmd_list(p_list, &data);
+	execution(c_list, &data);
+	ft_end(&c_list, &p_list, &data);
 	return (0);
 }
 
