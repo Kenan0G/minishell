@@ -48,6 +48,8 @@ int	first_char(char *str, int prev_status)
 		return (APPEND);
 	else if(str[0] == '|')
 		return (PIPE);
+	// else if(!ft_strcmp(str, "echo"))
+	// 	return (ECHO);
 	else
 	{
 		if (prev_status == REDIR_IN)
@@ -56,10 +58,20 @@ int	first_char(char *str, int prev_status)
 			return (FILE_OUT);
 		else if (prev_status == HERE_DOC)
 			return (LIMITER);
+		// else if (prev_status == ECHO && str[0] == "-n")
+		// 		return (ECHO_FLAG);
 		else
 			return (ARG);
 	}
 	return (0);
+}
+
+int	check_builtin(t_parsed *p_list)
+{
+	if (!ft_strcmp(p_list->token, "echo"))
+		return (ECHO);
+	else
+		return (COMMAND);
 }
 
 void	get_command(t_parsed *list, t_data *data)
@@ -73,9 +85,9 @@ void	get_command(t_parsed *list, t_data *data)
 		i = 0;
 		while (temp && temp->status != PIPE)
 		{
-			if (temp->status == ARG && i == 0)
+			if (i == 0 && temp->status == ARG)
 			{
-				temp->status = COMMAND;
+				temp->status = check_builtin(temp);
 				data->cmd_count += 1;
 				i++;
 			}

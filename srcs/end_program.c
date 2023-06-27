@@ -25,9 +25,9 @@ void	ft_free_all(t_cmd **c_list, t_parsed **p_list, t_data *data)
 		ft_free_cmd_list(c_list);
 	if (p_list)
 		ft_free_p_list(p_list, data);
-	if (data->str_split)
 	free(data->str_split);
 }
+
 void	ft_wait(t_data *data)
 {
 	while (data->index-- > 0)
@@ -57,11 +57,22 @@ void	ft_free_cmd_list(t_cmd **lst)
 {
 	t_cmd	*temp;
 	t_cmd	*tmp2;
-
+	int		i;
 	
 	temp = (*lst);
 	while (temp)
 	{
+		i = 0;
+		if (temp->fd_in > 0)
+			close(temp->fd_in);
+		if (temp->fd_out > 0)
+			close(temp->fd_out);
+		while (i < temp->nb_here_doc)
+		{
+			if (temp->hd_fd[i])
+				close(temp->hd_fd[i]);
+			i++;
+		}
 		free_cmd_content(temp);
 		tmp2 = temp->next;
 		free(temp);
@@ -95,7 +106,7 @@ void	ft_free_p_list(t_parsed **lst, t_data *data)
 	temp = (*lst);
 	while (temp)
 	{
-		if (temp->status != COMMAND && temp->status != ARG)
+		if (temp->status != COMMAND && temp->status != ARG && temp->status != ECHO)
 			free(temp->token);
 		tmp2 = temp->next;
 		free(temp);

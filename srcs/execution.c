@@ -22,6 +22,36 @@ int	execution(t_cmd *list, t_parsed *p_list, t_data *data)
 	return (0);
 }
 
+void	exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data)
+{
+	int	i;
+	int	newline;
+
+	i = 1;
+	newline = 1;
+	while (c_list->arg[i])
+	{
+		if (i == 1 && !ft_strcmp(c_list->arg[1], "-n"))
+			newline = 0;
+		else
+			printf("%s", c_list->arg[i]);
+		if (c_list->arg[i + 1])
+			printf(" ");
+		i++;
+	}
+	if (newline)
+		printf("\n");
+	free(data->pid);
+	ft_free_all(&c_list, &p_list, data);
+	exit (0);
+}
+
+void	exec_builtin(t_cmd *c_list, t_parsed *p_list, t_data *data)
+{
+	if (c_list->command_int == ECHO)
+		exec_echo(c_list, p_list, data);
+}
+
 void	execution_loop(t_cmd *list, t_parsed *p_list, t_data *data)
 {
 	int		i;
@@ -55,7 +85,10 @@ void	execution_loop(t_cmd *list, t_parsed *p_list, t_data *data)
 			{
 
 				redirections(c_list, data);
-				get_path_and_exec(c_list, data);
+				if (c_list->command_int == COMMAND)
+					get_path_and_exec(c_list, p_list, data);
+				else
+					exec_builtin(c_list, p_list, data);
 			}
 			if (data->previous_fd > 0)
 				close(data->previous_fd);
@@ -99,16 +132,26 @@ void	redirections(t_cmd *list, t_data *data)
 	}
 }
 
-void	get_path_and_exec(t_cmd *list, t_data *data)
+void	get_path_and_exec(t_cmd *list, t_parsed *p_list, t_data *data)
 {
+	(void)p_list;
 	ft_path(data->env, data);
 	if (is_path(list->command) == 1)
 		data->path = list->command;
 	else
 		data->path = path_check(data, list);
-	if (execve(data->path, list->arg, data->env) == -1)
+	if (data->path == NULL)
+	{
+		free(data->pid);
+		ft_free_map(data->path_begining);
+		ft_free_all(&list, &p_list, data);
+		exit (0);
+	}
+	else if (execve(data->path, list->arg, data->env) == -1)
 	{
 		// perror("execve");
+		// ft_free_all(&list, &p_list, data);
+
 		exit (EXIT_FAILURE);
 	}
 }

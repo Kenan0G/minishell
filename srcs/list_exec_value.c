@@ -16,7 +16,7 @@ t_parsed	*get_value_i_j(t_parsed *p_list, int *i, int *j)
 {
 	while (p_list && p_list->status != PIPE)
 	{
-		if (p_list->status == ARG || p_list->status == COMMAND)
+		if (p_list->status == ARG || p_list->status == COMMAND || p_list->status == ECHO)
 			*i = (*i)+ 1;
 		else if (p_list->status == HERE_DOC)
 			*j = (*j)+ 1;
@@ -62,9 +62,10 @@ void	get_args(t_cmd *cmd_list, t_parsed *parsed_list)
 
 void	get_args_utils(t_cmd *c_list, t_parsed *p_list, int *i, int *j)
 {
-	if (p_list->status == COMMAND)
+	if (p_list->status == COMMAND ||  p_list->status == ECHO)
 	{
 		c_list->command = p_list->token;
+		c_list->command_int = p_list->status;
 		c_list->arg[*i] = p_list->token;
 		(*i)++;
 	}

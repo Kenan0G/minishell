@@ -38,6 +38,10 @@
 #define HERE_DOC 8
 #define APPEND 9
 #define LIMITER 10
+#define ECHO 11
+#define ECHO_FLAG 21
+#define ECHO_STR 22
+
 
 typedef struct s_cmd
 {
@@ -50,6 +54,7 @@ typedef struct s_cmd
 	int				fd_in;
 	int				fd_out;
 	int				is_ok;
+	int				command_int;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -103,7 +108,7 @@ void				ft_free_all(t_cmd **c_list, t_parsed **p_list, t_data *data);
 int					execution(t_cmd *list, t_parsed *p_list, t_data *data);
 void				execution_loop(t_cmd *list, t_parsed *p_list, t_data *data);
 void				redirections(t_cmd *list, t_data *data);
-void				get_path_and_exec(t_cmd *list, t_data *data);
+void				get_path_and_exec(t_cmd *list, t_parsed *p_list, t_data *data);
 
 void				hd_execution(t_parsed *p_list, t_cmd *cmd_list);
 void				generate_hd_file_name(t_cmd *c_list, int i);
@@ -145,6 +150,9 @@ void				ft_path(char **envp, t_data *data);
 
 int					ft_strcmp(char *s1, char *s2);
 
+void				exec_builtin(t_cmd *c_list, t_parsed *p_list, t_data *data);
+void				exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data);
+int					check_builtin(t_parsed *p_list);
 
 
 // 

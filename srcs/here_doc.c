@@ -74,7 +74,7 @@ int	here_doc(char *limiter, char *path)
 		}
 		free(line);
 	}
-	if (line)
+	// if (line)
 		free(line);
 	close(fd);
 	return (fd);
