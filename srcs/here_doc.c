@@ -24,8 +24,7 @@ void	hd_execution(t_parsed *p_list, t_cmd *cmd_list)
 		i = 0;
 		while (i < c_list->nb_here_doc)
 		{
-			c_list->hd_file[i] = ft_strjoin(ft_strjoin(".here_doc_",
-						ft_itoa(i + 1)), ".tmp");
+			generate_hd_file_name(c_list, i);
 			unlink(c_list->hd_file[i]);
 			c_list->hd_fd[i] = here_doc(c_list->limiter[i], c_list->hd_file[i]);
 			c_list->hd_fd[i] = open(c_list->hd_file[i], O_RDWR, 0644);
@@ -40,11 +39,25 @@ void	hd_execution(t_parsed *p_list, t_cmd *cmd_list)
 	}
 }
 
+void	generate_hd_file_name(t_cmd *c_list, int i)
+{
+	char	*file_no;
+	char	*file_temp_name;
+
+	file_no = ft_itoa(i + 1);
+	file_temp_name = ft_strjoin(".here_doc_", file_no);
+	c_list->hd_file[i] = ft_strjoin(file_temp_name, ".tmp");
+	free(file_no);
+	free(file_temp_name);
+}
+
 int	here_doc(char *limiter, char *path)
 {
 	char	*line;
+	int		normal_exit;
 	int		fd;
 
+	normal_exit = 0;
 	fd = open_here_doc(path);
 	while (1)
 	{

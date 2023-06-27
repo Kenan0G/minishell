@@ -102,7 +102,7 @@ void	ft_free_map(char **str)
 	i = 0;
 	while (str[i])
 	{
-		printf("i = %d\n", i);
+		// printf("i = %d\n", i);
 		free(str[i]);
 		i++;
 	}

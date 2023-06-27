@@ -105,6 +105,7 @@ void				redirections(t_cmd *list, t_data *data);
 void				get_path_and_exec(t_cmd *list, t_data *data);
 
 void				hd_execution(t_parsed *p_list, t_cmd *cmd_list);
+void				generate_hd_file_name(t_cmd *c_list, int i);
 int					here_doc(char *limiter, char *path);
 int					open_here_doc(char *path);
 
