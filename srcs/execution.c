@@ -12,39 +12,41 @@
 
 #include "../includes/minishell.h"
 
-int	execution(t_cmd *list, t_data *data)
+int	execution(t_cmd *list, t_parsed *p_list, t_data *data)
 {
 	data->pid = malloc(sizeof(pid_t) * data->cmd_count);
 	data->index = 0;
 	data->fd_pipe[0] = 0;
 	data->fd_pipe[1] = 0;
-	execution_loop(list, data);
+	execution_loop(list, p_list, data);
 	return (0);
 }
 
-void	execution_loop(t_cmd *list, t_data *data)
+void	execution_loop(t_cmd *list, t_parsed *p_list, t_data *data)
 {
-	int	i;
+	int		i;
+	t_cmd	*c_list;
 
 	i = 0;
-	while (list)
+	c_list = list;
+	while (c_list)
 	{
-		if (list->is_ok)
+		if (c_list->is_ok)
 		{
 			data->previous_fd = data->fd_pipe[0];
-			if (list->next)
+			if (c_list->next)
 			{
 				if (pipe(data->fd_pipe) == -1)
 					return (perror("Pipe"));
-				if (list->fd_in == 0)
-					list->fd_in = data->previous_fd;
-				if (list->fd_out == 0)
-					list->fd_out = data->fd_pipe[1];
+				if (c_list->fd_in == 0)
+					c_list->fd_in = data->previous_fd;
+				if (c_list->fd_out == 0)
+					c_list->fd_out = data->fd_pipe[1];
 			}
 			else
 			{
-				if (list->fd_in == 0)
-					list->fd_in = data->previous_fd;
+				if (c_list->fd_in == 0)
+					c_list->fd_in = data->previous_fd;
 				if (i > 0)
 					close(data->fd_pipe[1]);
 			}
@@ -52,20 +54,27 @@ void	execution_loop(t_cmd *list, t_data *data)
 			if (data->pid[data->index] == 0)
 			{
 
-				redirections(list, data);
-				get_path_and_exec(list, data);
+				redirections(c_list, data);
+				get_path_and_exec(c_list, data);
 			}
 			if (data->previous_fd > 0)
 				close(data->previous_fd);
 			if (data->fd_pipe[1] > 0)
 				close (data->fd_pipe[1]);
-			list = list->next;
+			c_list = c_list->next;
 			data->index++;
 			i++;
 		}
 		else
 		{
-			list = list->next;
+			data->pid[data->index] = fork();
+			if (data->pid[data->index] == 0)
+			{
+				ft_free_all(&list, &p_list, data);
+				free(data->pid);
+				exit(0);
+			}
+			c_list = c_list->next;
 			data->index++;
 			i++;
 		}

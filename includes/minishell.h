@@ -97,10 +97,11 @@ void				ft_free_cmd_list(t_cmd **lst);
 void				free_cmd_content(t_cmd *lst);
 void				ft_free_p_list(t_parsed **lst, t_data *data);
 void				ft_free_map(char **str);
+void				ft_free_all(t_cmd **c_list, t_parsed **p_list, t_data *data);
 
 
-int					execution(t_cmd *list, t_data *data);
-void				execution_loop(t_cmd *list, t_data *data);
+int					execution(t_cmd *list, t_parsed *p_list, t_data *data);
+void				execution_loop(t_cmd *list, t_parsed *p_list, t_data *data);
 void				redirections(t_cmd *list, t_data *data);
 void				get_path_and_exec(t_cmd *list, t_data *data);
 

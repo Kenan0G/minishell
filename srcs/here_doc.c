@@ -54,10 +54,8 @@ void	generate_hd_file_name(t_cmd *c_list, int i)
 int	here_doc(char *limiter, char *path)
 {
 	char	*line;
-	int		normal_exit;
 	int		fd;
 
-	normal_exit = 0;
 	fd = open_here_doc(path);
 	while (1)
 	{

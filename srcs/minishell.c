@@ -12,6 +12,8 @@
 
 #include "../includes/minishell.h"
 
+// revoir correctement les free et les fd open pour toute les situations
+
 int main (int ac, char **av, char **env)
 {
 	t_cmd			*c_list;
@@ -22,7 +24,7 @@ int main (int ac, char **av, char **env)
 	init_data(&data, env);
 	p_list = temp_list(&data, av, av[1]);
 	c_list = create_cmd_list(p_list, &data);
-	execution(c_list, &data);
+	execution(c_list, p_list, &data);
 	ft_end(&c_list, &p_list, &data);
 	return (0);
 }

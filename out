@@ -1,13 +1,4 @@
-Makefile
-get_next_line
-in
-in2
-includes
-infile
-libft
-minishell
-objs
-out
-outfile
-pipex
-srcs
+intext
+test
+deuxtest
+troistest

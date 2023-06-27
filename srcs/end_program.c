@@ -16,11 +16,18 @@ void	ft_end(t_cmd **c_list, t_parsed **p_list, t_data *data)
 {
 	ft_wait(data);
 	ft_unlink(*c_list);
-	ft_free_cmd_list(c_list);
-	ft_free_p_list(p_list, data);
-	free(data->str_split);
+	ft_free_all(c_list, p_list, data);
 }
 
+void	ft_free_all(t_cmd **c_list, t_parsed **p_list, t_data *data)
+{
+	if (c_list)
+		ft_free_cmd_list(c_list);
+	if (p_list)
+		ft_free_p_list(p_list, data);
+	if (data->str_split)
+	free(data->str_split);
+}
 void	ft_wait(t_data *data)
 {
 	while (data->index-- > 0)
@@ -82,15 +89,18 @@ void	ft_free_p_list(t_parsed **lst, t_data *data)
 	(void)data;
 	t_parsed	*temp;
 	t_parsed	*tmp2;
+	int			i;
 
+	i = 0;
 	temp = (*lst);
 	while (temp)
 	{
-		// if (temp->token)
-		// 	free(temp->token);
+		if (temp->status != COMMAND && temp->status != ARG)
+			free(temp->token);
 		tmp2 = temp->next;
 		free(temp);
 		temp = tmp2;
+		i++;
 	}
 	// ft_free_map(data->str_split);
 	free(temp);
