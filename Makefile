@@ -24,7 +24,8 @@ SRCS =	end_program.c\
 		list_temp.c\
 		list_utils.c\
 		minishell.c\
-		utils.c
+		utils.c \
+		test.c
 
 
 

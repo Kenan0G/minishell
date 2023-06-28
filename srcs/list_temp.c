@@ -70,6 +70,18 @@ int	check_builtin(t_parsed *p_list)
 {
 	if (!ft_strcmp(p_list->token, "echo"))
 		return (ECHO);
+	else if (!ft_strcmp(p_list->token, "cd"))
+		return (CD);
+	else if (!ft_strcmp(p_list->token, "pwd"))
+		return (PWD);
+	else if (!ft_strcmp(p_list->token, "export"))
+		return (EXPORT);
+	else if (!ft_strcmp(p_list->token, "unset"))
+		return (UNSET);
+	else if (!ft_strcmp(p_list->token, "env"))
+		return (ENV);
+	else if (!ft_strcmp(p_list->token, "exit"))
+		return (EXIT);
 	else
 		return (COMMAND);
 }

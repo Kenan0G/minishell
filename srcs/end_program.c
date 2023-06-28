@@ -106,7 +106,11 @@ void	ft_free_p_list(t_parsed **lst, t_data *data)
 	temp = (*lst);
 	while (temp)
 	{
-		if (temp->status != COMMAND && temp->status != ARG && temp->status != ECHO)
+		if (temp->status != COMMAND && temp->status != ARG
+				&& temp->status != ECHO && temp->status != PWD
+				&& temp->status != CD && temp->status != EXPORT
+				&& temp->status != UNSET && temp->status != ENV
+				&& temp->status != EXIT)
 			free(temp->token);
 		tmp2 = temp->next;
 		free(temp);

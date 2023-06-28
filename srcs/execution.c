@@ -34,9 +34,11 @@ void	exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data)
 		if (i == 1 && !ft_strcmp(c_list->arg[1], "-n"))
 			newline = 0;
 		else
+		{
 			printf("%s", c_list->arg[i]);
-		if (c_list->arg[i + 1])
-			printf(" ");
+			if (c_list->arg[i + 1])
+				printf(" ");
+		}
 		i++;
 	}
 	if (newline)
@@ -46,10 +48,88 @@ void	exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data)
 	exit (0);
 }
 
+void	exec_cd(t_cmd *c_list, t_parsed *p_list, t_data *data)
+{
+	(void)p_list;
+	(void)c_list;
+	(void)data;
+	printf("exec_cd\n");
+	free(data->pid);
+	ft_free_all(&c_list, &p_list, data);
+	exit (0);
+}
+
+void	exec_pwd(t_cmd *c_list, t_parsed *p_list, t_data *data)
+{
+	(void)p_list;
+	(void)c_list;
+	(void)data;
+	printf("exec_pwd\n");
+	free(data->pid);
+	ft_free_all(&c_list, &p_list, data);
+	exit (0);
+}
+
+void	exec_export(t_cmd *c_list, t_parsed *p_list, t_data *data)
+{
+	(void)p_list;
+	(void)c_list;
+	(void)data;
+	printf("exec_export\n");
+	free(data->pid);
+	ft_free_all(&c_list, &p_list, data);
+	exit (0);
+}
+
+void	exec_unset(t_cmd *c_list, t_parsed *p_list, t_data *data)
+{
+	(void)p_list;
+	(void)c_list;
+	(void)data;
+	printf("exec_unset\n");
+	free(data->pid);
+	ft_free_all(&c_list, &p_list, data);
+	exit (0);
+}
+
+void	exec_env(t_cmd *c_list, t_parsed *p_list, t_data *data)
+{
+	(void)p_list;
+	(void)c_list;
+	(void)data;
+	printf("exec_pwd\n");
+	free(data->pid);
+	ft_free_all(&c_list, &p_list, data);
+	exit (0);
+}
+
+void	exec_exit(t_cmd *c_list, t_parsed *p_list, t_data *data)
+{
+	(void)p_list;
+	(void)c_list;
+	(void)data;
+	printf("exec_exit\n");
+	free(data->pid);
+	ft_free_all(&c_list, &p_list, data);
+	exit (0);
+}
+
 void	exec_builtin(t_cmd *c_list, t_parsed *p_list, t_data *data)
 {
 	if (c_list->command_int == ECHO)
 		exec_echo(c_list, p_list, data);
+	else if (c_list->command_int == CD)
+		exec_cd(c_list, p_list, data);
+	else if (c_list->command_int == PWD)
+		exec_pwd(c_list, p_list, data);
+	else if (c_list->command_int == EXPORT)
+		exec_export(c_list, p_list, data);
+	else if (c_list->command_int == UNSET)
+		exec_unset(c_list, p_list, data);
+	else if (c_list->command_int == ENV)
+		exec_env(c_list, p_list, data);
+	else if (c_list->command_int == EXIT)
+		exec_exit(c_list, p_list, data);
 }
 
 void	execution_loop(t_cmd *list, t_parsed *p_list, t_data *data)

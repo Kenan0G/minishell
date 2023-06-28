@@ -39,9 +39,12 @@
 #define APPEND 9
 #define LIMITER 10
 #define ECHO 11
-#define ECHO_FLAG 21
-#define ECHO_STR 22
-
+#define CD 12
+#define PWD 13
+#define EXPORT 14
+#define UNSET 15
+#define ENV 16
+#define EXIT 17
 
 typedef struct s_cmd
 {
