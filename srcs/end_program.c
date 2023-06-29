@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:42:04 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/23 18:42:32 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/29 14:47:24 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,23 @@ void	ft_free_p_list(t_parsed **lst, t_data *data)
 	// ft_free_map(data->str_split);
 	free(temp);
 }
+
+void	ft_free_env(t_env **envp)
+{
+	t_env	*temp;
+	t_env	*tmp2;
+	
+	temp = (*envp);
+	while (temp)
+	{
+		free(temp->env);
+		tmp2 = temp->next;
+		free(temp);
+		temp = tmp2;
+	}
+	free(temp);
+}
+
 void	ft_free_map(char **str)
 {
 	int	i;

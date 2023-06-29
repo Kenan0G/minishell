@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:22:01 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/23 18:37:54 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/29 14:00:56 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,13 @@ void	fd_file_out(t_parsed *p_list, t_cmd *c_list, t_data *data)
 {
 	if (c_list->fd_out > 0)
 		close(c_list->fd_out);
-	c_list->fd_out = open(p_list->next->token, O_WRONLY
-			| O_TRUNC | O_CREAT, 0777);
+	if (!ft_strcmp(p_list->next->token, "/dev/stdout")
+			|| !ft_strcmp(p_list->next->token, "/proc/self/fd/1")
+			|| !ft_strcmp(p_list->next->token, "/dev/fd/1"))
+		c_list->fd_out = 0;
+	else	
+		c_list->fd_out = open(p_list->next->token, O_WRONLY
+				| O_TRUNC | O_CREAT, 0777);
 	if (c_list->fd_out == -1)
 	{
 		perror(p_list->next->token);

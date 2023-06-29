@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/06/23 18:59:36 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/29 17:31:08 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "../get_next_line/get_next_line.h"
 #include <readline/history.h>
 #include <readline/readline.h>
+#include <signal.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/types.h>
@@ -68,18 +69,11 @@ typedef struct s_parsed
 	struct s_parsed	*next;
 } t_parsed;
 
-typedef struct s_parse
+typedef struct s_env
 {
-	char			*token;
-	int				status;
-	struct s_temp	*next;
-} t_parse;
-
-typedef struct s_token
-{
-	char			*token;
-	struct s_token	*next;
-} t_token;
+	char			*env;
+	struct s_env	*next;
+}					t_env;
 
 typedef struct s_data
 {
@@ -90,12 +84,12 @@ typedef struct s_data
 	int				index;
 	char			**env;
 	char			**path_begining;
-	t_token			*token;
 	int				previous_fd;
 	pid_t			*pid;
 	int				i;
 	int				j;
 	char			**str_split;
+	t_env			*envp;
 } t_data;
 
 void				ft_end(t_cmd **c_list, t_parsed **p_list, t_data *data);
@@ -106,6 +100,7 @@ void				free_cmd_content(t_cmd *lst);
 void				ft_free_p_list(t_parsed **lst, t_data *data);
 void				ft_free_map(char **str);
 void				ft_free_all(t_cmd **c_list, t_parsed **p_list, t_data *data);
+void				ft_free_env(t_env **envp);
 
 
 int					execution(t_cmd *list, t_parsed *p_list, t_data *data);
@@ -142,6 +137,7 @@ t_cmd				*my_lstnew_cmd();
 void				my_lstadd_back(t_parsed **lst, t_parsed *new);
 t_parsed				*my_lstnew(char *content, int status);
 void				print_list(t_parsed *token);
+void				print_env(t_env *token);
 void				print_cmd_list(t_cmd *token);
 
 void				init_data(t_data *data, char **env);
@@ -156,6 +152,8 @@ int					ft_strcmp(char *s1, char *s2);
 void				exec_builtin(t_cmd *c_list, t_parsed *p_list, t_data *data);
 void				exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data);
 int					check_builtin(t_parsed *p_list);
+
+void				get_env(t_data *data);
 
 
 // 

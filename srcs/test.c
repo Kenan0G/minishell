@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 15:54:30 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/28 16:03:19 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/28 19:37:27 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,33 @@ char	**mr_split(char *str, char *charset)
 	}
 	split[i] = NULL;
 	return (split);
+}
+
+void	get_env(t_data *data)
+{
+	t_env	*temp;
+	int		i;
+
+	temp = malloc(sizeof(t_env));
+	if (!temp)
+		return ;
+	i = 0;
+	data->envp = temp;
+	while (data->env[i])
+	{
+		temp->env = NULL;
+		temp->env = ft_strjoin(temp->env, data->env[i]);
+		if (!data->env[i + 1])
+			temp->next = NULL;
+		else
+		{
+			temp->next = malloc(sizeof(t_env));
+			if (!temp->next)
+				return ;
+			temp = temp->next;
+		}
+		i++;
+	}
 }
 
 // int	main(int ac, char **av)

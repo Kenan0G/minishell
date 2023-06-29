@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:12:21 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/23 18:35:23 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/28 19:40:55 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,18 @@ void	print_list(t_parsed *token)
 		printf("str =		%s\n", temp->token);
 		printf("status =	%d\n\n", temp->status);
 
+		temp = temp->next;
+	}
+}
+
+void	print_env(t_env *token)
+{
+	t_env	*temp;
+
+	temp = token;
+	while (temp)
+	{
+		printf("%s\n", temp->env);
 		temp = temp->next;
 	}
 }

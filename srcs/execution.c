@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:49:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/23 18:49:08 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/29 17:43:21 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	execution(t_cmd *list, t_parsed *p_list, t_data *data)
 {
+	// printf("data->cmd_count = %d\n", data->cmd_count);
 	data->pid = malloc(sizeof(pid_t) * data->cmd_count);
 	data->index = 0;
 	data->fd_pipe[0] = 0;
@@ -24,6 +25,7 @@ int	execution(t_cmd *list, t_parsed *p_list, t_data *data)
 
 void	exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data)
 {
+	// (void)p_list;
 	int	i;
 	int	newline;
 
@@ -46,6 +48,7 @@ void	exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data)
 	free(data->pid);
 	ft_free_all(&c_list, &p_list, data);
 	exit (0);
+	// kill(data->pid[data->index], SIGTERM);
 }
 
 void	exec_cd(t_cmd *c_list, t_parsed *p_list, t_data *data)
@@ -61,10 +64,12 @@ void	exec_cd(t_cmd *c_list, t_parsed *p_list, t_data *data)
 
 void	exec_pwd(t_cmd *c_list, t_parsed *p_list, t_data *data)
 {
-	(void)p_list;
-	(void)c_list;
-	(void)data;
-	printf("exec_pwd\n");
+	char	*buf;
+	char	*str;
+
+	buf = NULL;
+	str = getcwd(buf, 0);
+	printf("%s\n", str);
 	free(data->pid);
 	ft_free_all(&c_list, &p_list, data);
 	exit (0);
@@ -96,8 +101,8 @@ void	exec_env(t_cmd *c_list, t_parsed *p_list, t_data *data)
 {
 	(void)p_list;
 	(void)c_list;
-	(void)data;
-	printf("exec_pwd\n");
+	get_env(data);
+	print_env(data->envp);
 	free(data->pid);
 	ft_free_all(&c_list, &p_list, data);
 	exit (0);
