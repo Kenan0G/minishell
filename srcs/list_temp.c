@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_parsed.c                                        :+:      :+:    :+:   */
+/*   list_temp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/09 12:03:03 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/23 18:15:44 by kgezgin          ###   ########.fr       */
+/*   Created: 2023/06/30 10:37:49 by kgezgin           #+#    #+#             */
+/*   Updated: 2023/06/30 10:38:40 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ int	first_char(char *str, int prev_status)
 		return (APPEND);
 	else if(str[0] == '|')
 		return (PIPE);
-	// else if(!ft_strcmp(str, "echo"))
-	// 	return (ECHO);
 	else
 	{
 		if (prev_status == REDIR_IN)
@@ -58,8 +56,6 @@ int	first_char(char *str, int prev_status)
 			return (FILE_OUT);
 		else if (prev_status == HERE_DOC)
 			return (LIMITER);
-		// else if (prev_status == ECHO && str[0] == "-n")
-		// 		return (ECHO_FLAG);
 		else
 			return (ARG);
 	}

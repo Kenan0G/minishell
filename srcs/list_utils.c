@@ -6,11 +6,37 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:12:21 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/28 19:40:55 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/30 11:35:44 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	my_lstadd_back_env(t_env **lst, t_env *new)
+{	
+	t_env	*current_node;
+
+	current_node = *lst;
+	if (!*lst)
+	{
+		*lst = new;
+		return ;
+	}
+	while (current_node->next != NULL)
+		current_node = current_node->next;
+	current_node->next = new;
+}
+
+t_env	*my_lstnew_env(char *str)
+{
+	t_env	*liste;
+
+	liste = malloc(sizeof(*liste));
+	liste->next = NULL;
+	liste->env = ft_strdup(str);
+	return (liste);
+}
+
 
 void	my_lstadd_back_cmd(t_cmd **lst, t_cmd *new)
 {	

@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:01 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/29 18:51:00 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/30 10:32:43 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	init_data(t_data *data, char **env)
 	ft_memset(data, 0, sizeof(t_data));
 	data->cmd_count = 0;
 	data->env = env;
+	get_env(data);
 	data->i = 0;
 	data->j = 0;
 }

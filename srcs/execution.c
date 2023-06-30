@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:49:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/29 17:43:21 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/30 13:29:16 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,37 @@ void	exec_pwd(t_cmd *c_list, t_parsed *p_list, t_data *data)
 void	exec_export(t_cmd *c_list, t_parsed *p_list, t_data *data)
 {
 	(void)p_list;
-	(void)c_list;
-	(void)data;
-	printf("exec_export\n");
-	free(data->pid);
-	ft_free_all(&c_list, &p_list, data);
-	exit (0);
+	t_env	*temp;
+	int		i;
+	// int		lenght;
+
+	i = 1;
+	// lenght = 0;
+	while (c_list->arg[i])
+	{
+		temp = data->envp;
+		// while (c_list->arg[i][lenght] && c_list->arg[i][lenght] != '=')
+		// 	lenght++;
+		// printf("legnht = %d , %c\n\n", lenght, c_list->arg[i][lenght]);
+		// while (temp)
+		// {
+		// 	if (!ft_strncmp(temp->env, c_list->arg[i], lenght))
+		// 	{
+		// 		if (temp->env)
+		// 			free (temp->env);
+		// 		temp->env = malloc(sizeof(char) * ft_strlen(c_list->arg[i]) + 1);
+		// 		temp->env = c_list->arg[i];
+		// 	}
+		// 	temp = temp->next;
+		// }
+		if (temp == NULL)
+			my_lstadd_back_env(&(data->envp), my_lstnew_env(c_list->arg[i]));
+		i++;
+	}
+	print_env(data->envp);
+	// free(data->pid);
+	// ft_free_all(&c_list, &p_list, data);
+	// exit (0);
 }
 
 void	exec_unset(t_cmd *c_list, t_parsed *p_list, t_data *data)
@@ -101,7 +126,7 @@ void	exec_env(t_cmd *c_list, t_parsed *p_list, t_data *data)
 {
 	(void)p_list;
 	(void)c_list;
-	get_env(data);
+	// get_env(data);
 	print_env(data->envp);
 	free(data->pid);
 	ft_free_all(&c_list, &p_list, data);
@@ -123,18 +148,18 @@ void	exec_builtin(t_cmd *c_list, t_parsed *p_list, t_data *data)
 {
 	if (c_list->command_int == ECHO)
 		exec_echo(c_list, p_list, data);
-	else if (c_list->command_int == CD)
-		exec_cd(c_list, p_list, data);
 	else if (c_list->command_int == PWD)
 		exec_pwd(c_list, p_list, data);
-	else if (c_list->command_int == EXPORT)
-		exec_export(c_list, p_list, data);
-	else if (c_list->command_int == UNSET)
-		exec_unset(c_list, p_list, data);
-	else if (c_list->command_int == ENV)
-		exec_env(c_list, p_list, data);
 	else if (c_list->command_int == EXIT)
 		exec_exit(c_list, p_list, data);
+	else if (c_list->command_int == ENV)
+		exec_env(c_list, p_list, data);
+	// else if (c_list->command_int == CD)
+	// 	exec_cd(c_list, p_list, data);
+	// else if (c_list->command_int == UNSET)
+	// 	exec_unset(c_list, p_list, data);
+	// else if (c_list->command_int == EXPORT)
+	// 	exec_export(c_list, p_list, data);
 }
 
 void	execution_loop(t_cmd *list, t_parsed *p_list, t_data *data)
@@ -165,23 +190,37 @@ void	execution_loop(t_cmd *list, t_parsed *p_list, t_data *data)
 				if (i > 0)
 					close(data->fd_pipe[1]);
 			}
-			data->pid[data->index] = fork();
-			if (data->pid[data->index] == 0)
+			if (data->cmd_count == 1 && (c_list->command_int == EXPORT))
 			{
-
-				redirections(c_list, data);
-				if (c_list->command_int == COMMAND)
-					get_path_and_exec(c_list, p_list, data);
-				else
-					exec_builtin(c_list, p_list, data);
+				exec_export(c_list, p_list, data);
+				data->pid[data->index] = fork();
+				if (data->pid[data->index] == 0)
+				{
+					free(data->pid);
+					ft_free_all(&c_list, &p_list, data);
+				}
+				// print_env(data->envp);
 			}
-			if (data->previous_fd > 0)
-				close(data->previous_fd);
-			if (data->fd_pipe[1] > 0)
-				close (data->fd_pipe[1]);
-			c_list = c_list->next;
-			data->index++;
-			i++;
+			else
+			{
+				data->pid[data->index] = fork();
+				if (data->pid[data->index] == 0)
+				{
+					// print_env(data->envp);
+					redirections(c_list, data);
+					if (c_list->command_int == COMMAND)
+						get_path_and_exec(c_list, p_list, data);
+					else
+						exec_builtin(c_list, p_list, data);
+				}
+				if (data->previous_fd > 0)
+					close(data->previous_fd);
+				if (data->fd_pipe[1] > 0)
+					close (data->fd_pipe[1]);
+				c_list = c_list->next;
+				data->index++;
+				i++;
+			}
 		}
 		else
 		{
@@ -282,3 +321,5 @@ void	get_path_and_exec(t_cmd *list, t_parsed *p_list, t_data *data)
 	// }
 
 //-------------------------------------------------------------------------
+
+

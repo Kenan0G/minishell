@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/06/29 17:31:08 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/30 11:40:23 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void				fd_here_doc(t_cmd *c_list, t_data *data);
 void				fd_file_out(t_parsed *p_list, t_cmd *c_list, t_data *data);
 void				fd_append(t_parsed *p_list, t_cmd *c_list, t_data *data);
 
-t_parsed				*get_value_i_j(t_parsed *p_list, int *i, int *j);
+t_parsed			*get_value_i_j(t_parsed *p_list, int *i, int *j);
 void				get_value_malloc(t_cmd *c_list, int i, int j);
 void				get_args(t_cmd *cmd_list, t_parsed *parsed_list);
 void				get_args_utils(t_cmd *c_list, t_parsed *p_list, int *i, int *j);
@@ -128,14 +128,16 @@ t_cmd				*create_cmd_list(t_parsed *parsed_list, t_data *data);
 t_cmd				*get_value(t_cmd *cmd_list, t_parsed *parsed_list);
 t_cmd				*get_fd(t_cmd *cmd_list, t_parsed *parsed_list, t_data *data);
 
-t_parsed 				*temp_list(t_data *data, char **av, char *str);
+t_parsed 			*temp_list(t_data *data, char **av, char *str);
 int					first_char(char *str, int prev_status);
 void				get_command(t_parsed *list, t_data *data);
 
+t_env				*my_lstnew_env(char *str);
+void				my_lstadd_back_env(t_env **lst, t_env *new);
 void				my_lstadd_back_cmd(t_cmd **lst, t_cmd *new);
 t_cmd				*my_lstnew_cmd();
 void				my_lstadd_back(t_parsed **lst, t_parsed *new);
-t_parsed				*my_lstnew(char *content, int status);
+t_parsed			*my_lstnew(char *content, int status);
 void				print_list(t_parsed *token);
 void				print_env(t_env *token);
 void				print_cmd_list(t_cmd *token);

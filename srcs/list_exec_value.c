@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:19:20 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/23 18:35:23 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/30 10:36:30 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ t_parsed	*get_value_i_j(t_parsed *p_list, int *i, int *j)
 {
 	while (p_list && p_list->status != PIPE)
 	{
-		if (p_list->status == ARG || p_list->status == COMMAND || p_list->status == ECHO
+		if (p_list->status == ARG
+			|| p_list->status == COMMAND || p_list->status == ECHO
 			|| p_list->status == PWD || p_list->status == CD
 			|| p_list->status == EXPORT || p_list->status == UNSET
 			|| p_list->status == ENV || p_list->status == EXIT)

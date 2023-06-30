@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:42:04 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/29 14:47:24 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/06/30 10:34:27 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	ft_free_all(t_cmd **c_list, t_parsed **p_list, t_data *data)
 		ft_free_cmd_list(c_list);
 	if (p_list)
 		ft_free_p_list(p_list, data);
+	if (data->envp)
+		ft_free_env((&data->envp));
 	free(data->str_split);
 }
 
@@ -110,7 +112,7 @@ void	ft_free_p_list(t_parsed **lst, t_data *data)
 				&& temp->status != ECHO && temp->status != PWD
 				&& temp->status != CD && temp->status != EXPORT
 				&& temp->status != UNSET && temp->status != ENV
-				&& temp->status != EXIT)
+				&& temp->status != EXIT && temp->status != LIMITER)
 			free(temp->token);
 		tmp2 = temp->next;
 		free(temp);
