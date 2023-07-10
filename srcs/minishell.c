@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:01 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/30 10:32:43 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/10 19:44:24 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,24 @@ int main (int ac, char **av, char **env)
 {
 	t_cmd			*c_list;
 	t_parsed		*p_list;
+	t_env			*env_list;
 	t_data			data;
 	char			*str;
 	
 	(void)ac;
+	env_list = NULL;
+	env_list = get_env(env_list, env);
+	// print_env(env_list);
 	while (1)
 	{
 		str = readline("> ");
 		if (!str)
-			break ;	
+			break ;
 		init_data(&data, env);
 		p_list = temp_list(&data, av, str);
 		c_list = create_cmd_list(p_list, &data);
-		execution(c_list, p_list, &data);
-		ft_end(&c_list, &p_list, &data);
+		execution(c_list, p_list, &data, env_list);
+		ft_end(&c_list, &p_list, &data, env_list);
 		free (str);
 	}
 	return (0);
@@ -43,12 +47,12 @@ int main (int ac, char **av, char **env)
 
 void	init_data(t_data *data, char **env)
 {
+	(void)env;
 	ft_memset(data, 0, sizeof(t_data));
 	data->cmd_count = 0;
-	data->env = env;
-	get_env(data);
 	data->i = 0;
 	data->j = 0;
+
 }
 
 

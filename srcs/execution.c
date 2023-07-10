@@ -6,20 +6,20 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:49:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/30 13:29:16 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/10 21:00:03 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	execution(t_cmd *list, t_parsed *p_list, t_data *data)
+int	execution(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_list)
 {
 	// printf("data->cmd_count = %d\n", data->cmd_count);
 	data->pid = malloc(sizeof(pid_t) * data->cmd_count);
 	data->index = 0;
 	data->fd_pipe[0] = 0;
 	data->fd_pipe[1] = 0;
-	execution_loop(list, p_list, data);
+	execution_loop(list, p_list, data, env_list);
 	return (0);
 }
 
@@ -75,44 +75,50 @@ void	exec_pwd(t_cmd *c_list, t_parsed *p_list, t_data *data)
 	exit (0);
 }
 
-void	exec_export(t_cmd *c_list, t_parsed *p_list, t_data *data)
+t_env	*exec_export(t_cmd *c_list, t_parsed *p_list, t_env *env_list)
 {
 	(void)p_list;
 	t_env	*temp;
 	int		i;
-	// int		lenght;
+	int		lenght;
+	int		check;
 
 	i = 1;
-	// lenght = 0;
 	while (c_list->arg[i])
 	{
-		temp = data->envp;
-		// while (c_list->arg[i][lenght] && c_list->arg[i][lenght] != '=')
-		// 	lenght++;
+		lenght = 0;
+		check = 0;
+		temp = env_list;
+		while (c_list->arg[i][lenght] && c_list->arg[i][lenght] != '=')
+			lenght++;
+		// lenght++;
 		// printf("legnht = %d , %c\n\n", lenght, c_list->arg[i][lenght]);
-		// while (temp)
-		// {
-		// 	if (!ft_strncmp(temp->env, c_list->arg[i], lenght))
-		// 	{
-		// 		if (temp->env)
-		// 			free (temp->env);
-		// 		temp->env = malloc(sizeof(char) * ft_strlen(c_list->arg[i]) + 1);
-		// 		temp->env = c_list->arg[i];
-		// 	}
-		// 	temp = temp->next;
-		// }
-		if (temp == NULL)
-			my_lstadd_back_env(&(data->envp), my_lstnew_env(c_list->arg[i]));
+		while (temp)
+		{
+			if (!ft_strncmp(temp->env, c_list->arg[i], lenght))
+			{
+				if (temp->env)
+					free (temp->env);
+				temp->env = malloc(sizeof(char) * ft_strlen(c_list->arg[i]) + 1);
+				ft_strlcpy(temp->env, c_list->arg[i], ft_strlen(c_list->arg[i]) + 1);
+				check = 1;
+			}
+			temp = temp->next;
+		}
+		if (temp == NULL && check == 0)
+			my_lstadd_back_env(&env_list, my_lstnew_env(c_list->arg[i]));
 		i++;
 	}
-	print_env(data->envp);
-	// free(data->pid);
-	// ft_free_all(&c_list, &p_list, data);
+	// print_env((*env)->envp);
+	// free((*env)->pid);
+	// ft_free_all(&c_list, &p_list, (*env));
 	// exit (0);
+	return (env_list);
 }
 
-void	exec_unset(t_cmd *c_list, t_parsed *p_list, t_data *data)
+void	exec_unset(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list)
 {
+	(void)env_list;
 	(void)p_list;
 	(void)c_list;
 	(void)data;
@@ -122,12 +128,12 @@ void	exec_unset(t_cmd *c_list, t_parsed *p_list, t_data *data)
 	exit (0);
 }
 
-void	exec_env(t_cmd *c_list, t_parsed *p_list, t_data *data)
+void	exec_env(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list)
 {
 	(void)p_list;
 	(void)c_list;
 	// get_env(data);
-	print_env(data->envp);
+	print_env(env_list);
 	free(data->pid);
 	ft_free_all(&c_list, &p_list, data);
 	exit (0);
@@ -144,7 +150,7 @@ void	exec_exit(t_cmd *c_list, t_parsed *p_list, t_data *data)
 	exit (0);
 }
 
-void	exec_builtin(t_cmd *c_list, t_parsed *p_list, t_data *data)
+void	exec_builtin(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list)
 {
 	if (c_list->command_int == ECHO)
 		exec_echo(c_list, p_list, data);
@@ -153,7 +159,7 @@ void	exec_builtin(t_cmd *c_list, t_parsed *p_list, t_data *data)
 	else if (c_list->command_int == EXIT)
 		exec_exit(c_list, p_list, data);
 	else if (c_list->command_int == ENV)
-		exec_env(c_list, p_list, data);
+		exec_env(c_list, p_list, data, env_list);
 	// else if (c_list->command_int == CD)
 	// 	exec_cd(c_list, p_list, data);
 	// else if (c_list->command_int == UNSET)
@@ -162,78 +168,97 @@ void	exec_builtin(t_cmd *c_list, t_parsed *p_list, t_data *data)
 	// 	exec_export(c_list, p_list, data);
 }
 
-void	execution_loop(t_cmd *list, t_parsed *p_list, t_data *data)
+void	execution_loop(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_list)
 {
 	int		i;
 	t_cmd	*c_list;
 
 	i = 0;
 	c_list = list;
-	while (c_list)
+	if (data->cmd_count == 1 && (c_list->command_int == EXPORT))
 	{
-		if (c_list->is_ok)
+		env_list = exec_export(c_list, p_list, env_list);
+		data->pid[data->index] = fork();
+		if (data->pid[data->index] == 0)
 		{
-			data->previous_fd = data->fd_pipe[0];
-			if (c_list->next)
+			free(data->pid);
+			ft_free_all(&c_list, &p_list, data);
+			exit (0);
+		}
+		c_list->is_ok = 0;
+	}
+	else
+	{	
+		while (c_list)
+		{
+			if (c_list->is_ok)
 			{
-				if (pipe(data->fd_pipe) == -1)
-					return (perror("Pipe"));
-				if (c_list->fd_in == 0)
-					c_list->fd_in = data->previous_fd;
-				if (c_list->fd_out == 0)
-					c_list->fd_out = data->fd_pipe[1];
-			}
-			else
-			{
-				if (c_list->fd_in == 0)
-					c_list->fd_in = data->previous_fd;
-				if (i > 0)
-					close(data->fd_pipe[1]);
-			}
-			if (data->cmd_count == 1 && (c_list->command_int == EXPORT))
-			{
-				exec_export(c_list, p_list, data);
-				data->pid[data->index] = fork();
-				if (data->pid[data->index] == 0)
+				data->previous_fd = data->fd_pipe[0];
+				if (c_list->next)
 				{
-					free(data->pid);
-					ft_free_all(&c_list, &p_list, data);
+					if (pipe(data->fd_pipe) == -1)
+						return (perror("Pipe"));
+					if (c_list->fd_in == 0)
+						c_list->fd_in = data->previous_fd;
+					if (c_list->fd_out == 0)
+						c_list->fd_out = data->fd_pipe[1];
 				}
-				// print_env(data->envp);
-			}
-			else
-			{
-				data->pid[data->index] = fork();
-				if (data->pid[data->index] == 0)
+				else
 				{
+					if (c_list->fd_in == 0)
+						c_list->fd_in = data->previous_fd;
+					if (i > 0)
+						close(data->fd_pipe[1]);
+				}
+				// if (data->cmd_count == 1 && (c_list->command_int == EXPORT))
+				// {
+					// env_list = exec_export(c_list, p_list, env_list);
+					// data->pid[data->index] = fork();
+					// if (data->pid[data->index] == 0)
+					// {
+					// 	free(data->pid);
+					// 	ft_free_all(&c_list, &p_list, data);
+					// 	exit (0);
+					// }
+					// c_list = c_list->next;
+					// data->index++;
+					// i++;
 					// print_env(data->envp);
-					redirections(c_list, data);
-					if (c_list->command_int == COMMAND)
-						get_path_and_exec(c_list, p_list, data);
-					else
-						exec_builtin(c_list, p_list, data);
+				// }
+				// else
+				// {
+					data->pid[data->index] = fork();
+					if (data->pid[data->index] == 0)
+					{
+						// print_env(data->envp);
+						redirections(c_list, data);
+						if (c_list->command_int == COMMAND)
+							get_path_and_exec(c_list, p_list, data, env_list);
+						else
+							exec_builtin(c_list, p_list, data, env_list);
+					}
+					if (data->previous_fd > 0)
+						close(data->previous_fd);
+					if (data->fd_pipe[1] > 0)
+						close (data->fd_pipe[1]);
+					c_list = c_list->next;
+					data->index++;
+					i++;
+				// }
+			}
+			else
+			{
+				data->pid[data->index] = fork();
+				if (data->pid[data->index] == 0)
+				{
+					ft_free_all(&list, &p_list, data);
+					free(data->pid);
+					exit(0);
 				}
-				if (data->previous_fd > 0)
-					close(data->previous_fd);
-				if (data->fd_pipe[1] > 0)
-					close (data->fd_pipe[1]);
 				c_list = c_list->next;
 				data->index++;
 				i++;
 			}
-		}
-		else
-		{
-			data->pid[data->index] = fork();
-			if (data->pid[data->index] == 0)
-			{
-				ft_free_all(&list, &p_list, data);
-				free(data->pid);
-				exit(0);
-			}
-			c_list = c_list->next;
-			data->index++;
-			i++;
 		}
 	}
 }
@@ -256,7 +281,7 @@ void	redirections(t_cmd *list, t_data *data)
 	}
 }
 
-void	get_path_and_exec(t_cmd *list, t_parsed *p_list, t_data *data)
+void	get_path_and_exec(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_list)
 {
 	(void)p_list;
 	ft_path(data->env, data);
@@ -271,8 +296,9 @@ void	get_path_and_exec(t_cmd *list, t_parsed *p_list, t_data *data)
 		ft_free_all(&list, &p_list, data);
 		exit (0);
 	}
-	else if (execve(data->path, list->arg, data->env) == -1)
+	else if (execve(data->path, list->arg, env_execve(env_list)) == -1)
 	{
+		printf("test\n\n");
 		// perror("execve");
 		// ft_free_all(&list, &p_list, data);
 
@@ -280,6 +306,31 @@ void	get_path_and_exec(t_cmd *list, t_parsed *p_list, t_data *data)
 	}
 }
 
+char	**env_execve(t_env *env_list)
+{
+	t_env	*temp;
+	char	**env;
+	int		i;
+
+	i = 0;
+	temp = env_list;
+	while (temp)
+	{
+		temp = temp->next;
+		i++;
+	}
+	env = malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	temp = env_list;
+	while (temp)
+	{
+		env[i] = temp->env;
+		temp = temp->next;
+		i++;
+	}
+	env[i] = NULL;
+	return (env);
+}
 
 //-------------------------------------------------------------------------
 

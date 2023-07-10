@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 10:37:49 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/30 10:38:40 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/10 17:38:14 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_parsed *temp_list(t_data *data, char **av, char *str)
 	int		i;
 	int		status;
 	int		prev_status;
-	
+
 	i = 0;
 	(void)av;
 	list = NULL;

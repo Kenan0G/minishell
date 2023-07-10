@@ -6,14 +6,15 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:42:04 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/30 10:34:27 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/10 19:39:07 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_end(t_cmd **c_list, t_parsed **p_list, t_data *data)
+void	ft_end(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env *env_list)
 {
+	(void)env_list;
 	ft_wait(data);
 	ft_unlink(*c_list);
 	ft_free_all(c_list, p_list, data);

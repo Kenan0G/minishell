@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/06/30 11:40:23 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/10 20:41:58 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ typedef struct s_data
 	t_env			*envp;
 } t_data;
 
-void				ft_end(t_cmd **c_list, t_parsed **p_list, t_data *data);
+void				ft_end(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env *env_list);
 void				ft_wait(t_data *data);
 void				ft_unlink(t_cmd *list);
 void				ft_free_cmd_list(t_cmd **lst);
@@ -103,10 +103,10 @@ void				ft_free_all(t_cmd **c_list, t_parsed **p_list, t_data *data);
 void				ft_free_env(t_env **envp);
 
 
-int					execution(t_cmd *list, t_parsed *p_list, t_data *data);
-void				execution_loop(t_cmd *list, t_parsed *p_list, t_data *data);
+int					execution(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_list);
+void				execution_loop(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_list);
 void				redirections(t_cmd *list, t_data *data);
-void				get_path_and_exec(t_cmd *list, t_parsed *p_list, t_data *data);
+void				get_path_and_exec(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_list);
 
 void				hd_execution(t_parsed *p_list, t_cmd *cmd_list);
 void				generate_hd_file_name(t_cmd *c_list, int i);
@@ -151,11 +151,12 @@ void				ft_path(char **envp, t_data *data);
 
 int					ft_strcmp(char *s1, char *s2);
 
-void				exec_builtin(t_cmd *c_list, t_parsed *p_list, t_data *data);
+void				exec_builtin(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list);
 void				exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data);
 int					check_builtin(t_parsed *p_list);
 
-void				get_env(t_data *data);
+t_env				*get_env(t_env *env_list, char **env);
+char				**env_execve(t_env *env_list);
 
 
 // 

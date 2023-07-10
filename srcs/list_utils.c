@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:12:21 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/30 11:35:44 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/10 17:46:24 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,30 +125,30 @@ void	print_cmd_list(t_cmd *token)
 	temp = token;
 	while (temp)
 	{
-		// i = 0;
-		// while (temp->arg[i])
-		// {
-		// 	printf("arg[%d]  = %s\n", i, temp->arg[i]);
-		// 	i++;
-		// }
+		i = 0;
+		while (temp->arg[i])
+		{
+			printf("arg[%d]  = %s\n", i, temp->arg[i]);
+			i++;
+		}
 		// i = 0;
 		// while (temp->limiter[i])
 		// {
 		// 	printf("limiter[%d]  = %s\n", i, temp->limiter[i]);
 		// 	i++;
 		// }
-		i = 0;
-		while (temp->hd_fd[i])
-		{
-			printf("temp->hd_fd[i] = %d\n", temp->hd_fd[i]);
-			i++;
-		}
-		i = 0;
-		while (temp->hd_file[i])
-		{
-			printf("temp->hd_file[i] = %s\n", temp->hd_file[i]);
-			i++;
-		}
+		// i = 0;
+		// while (temp->hd_fd[i])
+		// {
+		// 	printf("temp->hd_fd[i] = %d\n", temp->hd_fd[i]);
+		// 	i++;
+		// }
+		// i = 0;
+		// while (temp->hd_file[i])
+		// {
+		// 	printf("temp->hd_file[i] = %s\n", temp->hd_file[i]);
+		// 	i++;
+		// }
 		// printf("command = %s\n", temp->command);
 		// printf("fd_in   = %d\n", temp->fd_in);
 		// printf("fd_out  = %d\n\n", temp->fd_out);
