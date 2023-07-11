@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/07/10 20:41:58 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/11 13:57:04 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,18 +88,19 @@ typedef struct s_data
 	pid_t			*pid;
 	int				i;
 	int				j;
+	int				export;
 	char			**str_split;
 	t_env			*envp;
 } t_data;
 
-void				ft_end(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env *env_list);
+void				ft_end(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_list);
 void				ft_wait(t_data *data);
 void				ft_unlink(t_cmd *list);
 void				ft_free_cmd_list(t_cmd **lst);
 void				free_cmd_content(t_cmd *lst);
 void				ft_free_p_list(t_parsed **lst, t_data *data);
 void				ft_free_map(char **str);
-void				ft_free_all(t_cmd **c_list, t_parsed **p_list, t_data *data);
+void				ft_free_all(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_list);
 void				ft_free_env(t_env **envp);
 
 
@@ -151,6 +152,7 @@ void				ft_path(char **envp, t_data *data);
 
 int					ft_strcmp(char *s1, char *s2);
 
+t_env				*exec_export(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list);
 void				exec_builtin(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list);
 void				exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data);
 int					check_builtin(t_parsed *p_list);
