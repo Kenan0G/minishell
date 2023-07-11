@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:01 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/11 14:45:01 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/11 18:01:48 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,19 @@ int main (int ac, char **av, char **env)
 	t_env			*env_list;
 	t_data			data;
 	char			*str;
-	
+
 	(void)ac;
 	env_list = NULL;
 	env_list = get_env(env_list, env);
 	// print_env(env_list);
 	while (1)
 	{
-		printf("test debut de boucle \n\n");
+		// printf("test debut de boucle \n\n");
 		str = readline("> ");
-		printf("str = [%s]\n", str);
+		// printf("str = [%s]\n", str);
 		if (!str)
 		{
-			printf("test break\n\n");
+			// printf("test break\n\n");
 			break ;
 		}
 		init_data(&data, env);
@@ -56,10 +56,8 @@ void	init_data(t_data *data, char **env)
 	(void)env;
 	ft_memset(data, 0, sizeof(t_data));
 	data->cmd_count = 0;
-	data->export = 0;
 	data->i = 0;
 	data->j = 0;
-
 }
 
 

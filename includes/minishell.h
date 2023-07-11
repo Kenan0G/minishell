@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/07/11 13:57:04 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/11 18:04:06 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ typedef struct s_data
 	pid_t			*pid;
 	int				i;
 	int				j;
-	int				export;
 	char			**str_split;
 	t_env			*envp;
 } t_data;
@@ -155,6 +154,7 @@ int					ft_strcmp(char *s1, char *s2);
 t_env				*exec_export(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list);
 void				exec_builtin(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list);
 void				exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data);
+t_env				*exec_unset(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env **env_list);
 int					check_builtin(t_parsed *p_list);
 
 t_env				*get_env(t_env *env_list, char **env);

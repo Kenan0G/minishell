@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:49:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/11 14:42:58 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/11 18:49:29 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,9 @@ int	execution(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_list)
 	data->fd_pipe[0] = 0;
 	data->fd_pipe[1] = 0;
 	if (data->cmd_count == 1 && list->command_int == EXPORT)
-	{
 		env_list = exec_export(list, p_list, data, env_list);
-		data->export = 1;
-	}
+	else if (data->cmd_count == 1 && list->command_int == UNSET)
+		env_list = exec_unset(list, p_list, data, &env_list);
 	else
 		execution_loop(list, p_list, data, env_list);
 	return (0);
@@ -98,6 +97,8 @@ t_env	*exec_export(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_lis
 		temp = env_list;
 		while (c_list->arg[i][lenght] && c_list->arg[i][lenght] != '=')
 			lenght++;
+		if (!c_list->arg[i][lenght])
+			return (env_list);
 		while (temp)
 		{
 			if (!ft_strncmp(temp->env, c_list->arg[i], lenght))
@@ -114,23 +115,47 @@ t_env	*exec_export(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_lis
 			my_lstadd_back_env(&env_list, my_lstnew_env(c_list->arg[i]));
 		i++;
 	}
-	// print_env((*env)->envp);
-	// free(data->pid);
-	// ft_free_all(&c_list, &p_list, data, &env_list);
-	// exit (0);
 	return (env_list);
 }
 
-void	exec_unset(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list)
+t_env *exec_unset(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env **env_list)
 {
-	(void)env_list;
 	(void)p_list;
-	(void)c_list;
 	(void)data;
-	printf("exec_unset\n");
-	free(data->pid);
-	ft_free_all(&c_list, &p_list, data, &env_list);
-	// exit (0);
+	t_env *current;
+	t_env *prev;
+	t_env *temp;
+	int i;
+
+	i = 1;
+	while (c_list->arg[i])
+	{
+		temp = NULL;
+		current = *env_list;
+		prev = NULL;
+		while (current)
+		{
+			if (!ft_strncmp(current->env, c_list->arg[i], ft_strlen(c_list->arg[i])))
+			{
+				if (prev)
+					prev->next = current->next;
+				else
+					*env_list = current->next;
+				
+				temp = current;
+				current = current->next;
+				free(temp);
+			}
+			else
+			{
+				prev = current;
+				current = current->next;
+			}
+		}
+		i++;
+	}
+
+	return (*env_list);
 }
 
 void	exec_env(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list)
@@ -167,10 +192,10 @@ void	exec_builtin(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list
 		exec_env(c_list, p_list, data, env_list);
 	else if (c_list->command_int == EXPORT)
 		env_list = exec_export(c_list, p_list, data, env_list);
+	else if (c_list->command_int == UNSET)
+		env_list = exec_unset(c_list, p_list, data, &env_list);
 	// else if (c_list->command_int == CD)
 	// 	exec_cd(c_list, p_list, data);
-	// else if (c_list->command_int == UNSET)
-	// 	exec_unset(c_list, p_list, data);
 	exit(0);
 }
 
@@ -224,7 +249,8 @@ void	execution_loop(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_list
 			}
 			else
 			{
-				dprintf(2, "test isok = 0 \n\n");
+				data->previous_fd = 0;
+				// dprintf(2, "test isok = 0 \n\n");
 				data->pid[data->index] = fork();
 				if (data->pid[data->index] == 0)
 				{
@@ -235,7 +261,7 @@ void	execution_loop(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_list
 				// dprintf(2, "test after \n\n");
 				c_list = c_list->next;
 				data->index++;
-				i++;
+				// i++;
 			}
 		}
 	// }
