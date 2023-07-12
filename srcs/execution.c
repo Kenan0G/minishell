@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:49:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/11 18:49:29 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/12 14:25:00 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,23 +128,30 @@ t_env *exec_unset(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env **env_lis
 	int i;
 
 	i = 1;
+	temp = NULL;
 	while (c_list->arg[i])
 	{
-		temp = NULL;
 		current = *env_list;
 		prev = NULL;
 		while (current)
 		{
+			// printf("%s\n\n", current->env);
 			if (!ft_strncmp(current->env, c_list->arg[i], ft_strlen(c_list->arg[i])))
 			{
 				if (prev)
 					prev->next = current->next;
 				else
+				{	
 					*env_list = current->next;
+					prev = *env_list;
+					// print_env(*env_list);
+					// print_env(prev);
+				}
 				
 				temp = current;
 				current = current->next;
 				free(temp);
+				temp = NULL;
 			}
 			else
 			{
@@ -155,6 +162,7 @@ t_env *exec_unset(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env **env_lis
 		i++;
 	}
 
+	print_env(*env_list);
 	return (*env_list);
 }
 
