@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/07/12 14:22:21 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/12 17:49:51 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void				ft_free_all(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env
 void				ft_free_env(t_env **envp);
 
 
-int					execution(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_list);
+int					execution(t_cmd *list, t_parsed *p_list, t_data *data, t_env **env_list);
 void				execution_loop(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_list);
 void				redirections(t_cmd *list, t_data *data);
 void				get_path_and_exec(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_list);

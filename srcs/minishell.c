@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:01 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/11 18:01:48 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/12 17:50:00 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int main (int ac, char **av, char **env)
 		init_data(&data, env);
 		p_list = temp_list(&data, av, str);
 		c_list = create_cmd_list(p_list, &data);
-		execution(c_list, p_list, &data, env_list);
+		execution(c_list, p_list, &data, &env_list);
 		ft_end(&c_list, &p_list, &data, &env_list);
 		// printf("test fin de boucle \n\n");
 		free (str);

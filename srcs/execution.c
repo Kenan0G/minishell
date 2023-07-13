@@ -6,25 +6,24 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:49:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/12 14:25:00 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/12 18:01:36 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	execution(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_list)
+int	execution(t_cmd *list, t_parsed *p_list, t_data *data, t_env **env_list)
 {
-	// printf("data->cmd_count = %d\n", data->cmd_count);
 	data->pid = malloc(sizeof(pid_t) * data->cmd_count);
 	data->index = 0;
 	data->fd_pipe[0] = 0;
 	data->fd_pipe[1] = 0;
 	if (data->cmd_count == 1 && list->command_int == EXPORT)
-		env_list = exec_export(list, p_list, data, env_list);
+		*env_list = exec_export(list, p_list, data, *env_list);
 	else if (data->cmd_count == 1 && list->command_int == UNSET)
-		env_list = exec_unset(list, p_list, data, &env_list);
+		*env_list = exec_unset(list, p_list, data, env_list);
 	else
-		execution_loop(list, p_list, data, env_list);
+		execution_loop(list, p_list, data, *env_list);
 	return (0);
 }
 
@@ -52,8 +51,6 @@ void	exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data)
 		printf("\n");
 	free(data->pid);
 	ft_free_all(&c_list, &p_list, data, NULL);
-	// exit (0);
-	// kill(data->pid[data->index], SIGTERM);
 }
 
 void	exec_cd(t_cmd *c_list, t_parsed *p_list, t_data *data)
@@ -64,7 +61,6 @@ void	exec_cd(t_cmd *c_list, t_parsed *p_list, t_data *data)
 	printf("exec_cd\n");
 	free(data->pid);
 	ft_free_all(&c_list, &p_list, data, NULL);
-	// exit (0);
 }
 
 void	exec_pwd(t_cmd *c_list, t_parsed *p_list, t_data *data)
@@ -77,7 +73,6 @@ void	exec_pwd(t_cmd *c_list, t_parsed *p_list, t_data *data)
 	printf("%s\n", str);
 	free(data->pid);
 	ft_free_all(&c_list, &p_list, data, NULL);
-	// exit (0);
 }
 
 t_env	*exec_export(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list)
@@ -135,19 +130,15 @@ t_env *exec_unset(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env **env_lis
 		prev = NULL;
 		while (current)
 		{
-			// printf("%s\n\n", current->env);
 			if (!ft_strncmp(current->env, c_list->arg[i], ft_strlen(c_list->arg[i])))
 			{
 				if (prev)
 					prev->next = current->next;
 				else
-				{	
+				{
 					*env_list = current->next;
-					prev = *env_list;
-					// print_env(*env_list);
-					// print_env(prev);
+                    prev = *env_list;
 				}
-				
 				temp = current;
 				current = current->next;
 				free(temp);
@@ -161,8 +152,6 @@ t_env *exec_unset(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env **env_lis
 		}
 		i++;
 	}
-
-	print_env(*env_list);
 	return (*env_list);
 }
 
