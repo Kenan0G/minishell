@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:49:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/12 18:01:36 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/17 16:04:50 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,58 @@ int	execution(t_cmd *list, t_parsed *p_list, t_data *data, t_env **env_list)
 		*env_list = exec_export(list, p_list, data, *env_list);
 	else if (data->cmd_count == 1 && list->command_int == UNSET)
 		*env_list = exec_unset(list, p_list, data, env_list);
+	else if (data->cmd_count == 1 && list->command_int == CD)
+		*env_list = exec_cd(list, *env_list);
 	else
 		execution_loop(list, p_list, data, *env_list);
 	return (0);
+}
+
+t_env	*exec_cd(t_cmd *c_list, t_env *env_list)
+{
+	char	*buf;
+	char	*oldpwd;
+
+	buf = NULL;
+	oldpwd = getcwd(buf, 0);
+	if (chdir(c_list->arg[1]) == -1)
+	{
+		ft_putstr_fd("cd : no such file or directory: ", 2);
+		ft_putstr_fd(c_list->arg[1], 2);
+		ft_putstr_fd("\n", 2);
+		return (env_list);
+	}
+	update_pwd(oldpwd, env_list, NULL);
+	return (env_list);
+}
+
+t_env	*update_pwd(char *oldpwd, t_env *env_list, char  *buf)
+{
+	int		i;
+	char	*path;
+	t_env	*temp;
+	
+	i = 0;
+	temp = env_list;
+	while(temp && i < 2 )
+	{
+		if (!ft_strncmp(temp->env, "PWD=", 4))
+		{
+			free(temp->env);
+			path = ft_strjoin("PWD=", getcwd(buf, 0));
+			temp->env = path;
+			i++;
+		}
+		else if (!ft_strncmp(temp->env, "OLDPWD=", 7))
+		{
+			free(temp->env);
+			path = ft_strjoin("OLDPWD=", oldpwd);
+			temp->env = path;
+			i++;
+		}
+		temp = temp->next;
+	}
+	return (env_list);
 }
 
 void	exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data)
@@ -49,16 +98,6 @@ void	exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data)
 	}
 	if (newline)
 		printf("\n");
-	free(data->pid);
-	ft_free_all(&c_list, &p_list, data, NULL);
-}
-
-void	exec_cd(t_cmd *c_list, t_parsed *p_list, t_data *data)
-{
-	(void)p_list;
-	(void)c_list;
-	(void)data;
-	printf("exec_cd\n");
 	free(data->pid);
 	ft_free_all(&c_list, &p_list, data, NULL);
 }
@@ -113,6 +152,16 @@ t_env	*exec_export(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_lis
 	return (env_list);
 }
 
+size_t	get_lenght(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] != '=')
+		i++;
+	return (i);
+}
+
 t_env *exec_unset(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env **env_list)
 {
 	(void)p_list;
@@ -130,7 +179,8 @@ t_env *exec_unset(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env **env_lis
 		prev = NULL;
 		while (current)
 		{
-			if (!ft_strncmp(current->env, c_list->arg[i], ft_strlen(c_list->arg[i])))
+			if (!ft_strncmp(current->env, c_list->arg[i], ft_strlen(c_list->arg[i]))
+					&& ft_strlen(c_list->arg[i]) == get_lenght(current->env))
 			{
 				if (prev)
 					prev->next = current->next;
@@ -159,11 +209,9 @@ void	exec_env(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list)
 {
 	(void)p_list;
 	(void)c_list;
-	// get_env(data);
 	print_env(env_list);
 	free(data->pid);
 	ft_free_all(&c_list, &p_list, data, &env_list);
-	// exit (0);
 }
 
 void	exec_exit(t_cmd *c_list, t_parsed *p_list, t_data *data)
@@ -191,8 +239,8 @@ void	exec_builtin(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list
 		env_list = exec_export(c_list, p_list, data, env_list);
 	else if (c_list->command_int == UNSET)
 		env_list = exec_unset(c_list, p_list, data, &env_list);
-	// else if (c_list->command_int == CD)
-	// 	exec_cd(c_list, p_list, data);
+	else if (c_list->command_int == CD)
+		exec_cd(c_list, env_list);
 	exit(0);
 }
 
