@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/07/17 17:49:47 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/17 17:55:53 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ void				exec_builtin(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_l
 void				exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data);
 int					check_builtin(t_parsed *p_list);
 size_t				get_lenght(char *str);
+// size_t				get_lenght_2(char *env, char *var_name);
 
 t_env				*update_pwd(char *oldpwd, t_env *env_list, char  *buf);
 t_env				*get_env(t_env *env_list, char **env);
