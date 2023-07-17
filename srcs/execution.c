@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:49:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/17 16:04:50 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/17 17:47:12 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,6 +203,25 @@ t_env *exec_unset(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env **env_lis
 		i++;
 	}
 	return (*env_list);
+}
+
+size_t	get_lenght(char *env, char *var_name)
+{
+	size_t	i;
+
+	i = 0;
+	while (env[i] && env[i] != '=')
+		i++;
+	if (i > ft_strlen(var_name))
+	{
+		printf("i = %ld\n", i);
+		return (i);
+	}
+	else
+	{	
+		printf("strlen = %ld\n", ft_strlen(var_name));
+		return (ft_strlen(var_name));
+	}
 }
 
 void	exec_env(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list)
