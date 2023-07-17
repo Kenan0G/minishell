@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_functions.c                                  :+:      :+:    :+:   */
+/*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:30:52 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/23 18:14:38 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/17 17:44:22 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,5 @@ void	ft_path(char **envp, t_data *data)
 // 		waitpid(data->pid[data->index], NULL, status);
 // 	status = WIFEXITED(status);
 // 	free(data->pid);
-// 	exit (status);
-// }
+// 	exit (status); 
+// } 
