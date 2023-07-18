@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:49:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/18 16:06:38 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/18 17:42:39 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ void	exec_builtin(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list
 		exec_cd(c_list, env_list);
 	exit(0);
 }
-
-
 
 void	redirections(t_cmd *list, t_data *data)
 {
@@ -91,32 +89,6 @@ void	get_path_and_exec(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_l
 
 		exit (EXIT_FAILURE);
 	}
-}
-
-char	**env_char(t_env *env_list)
-{
-	t_env	*temp;
-	char	**env;
-	int		i;
-
-	i = 0;
-	temp = env_list;
-	while (temp)
-	{
-		temp = temp->next;
-		i++;
-	}
-	env = malloc(sizeof(char *) * (i + 1));
-	i = 0;
-	temp = env_list;
-	while (temp)
-	{
-		env[i] = temp->env;
-		temp = temp->next;
-		i++;
-	}
-	env[i] = NULL;
-	return (env);
 }
 
 //-------------------------------------------------------------------------

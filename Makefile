@@ -30,6 +30,7 @@ SRCS =	end_program.c\
 		list_utils.c\
 		minishell.c\
 		utils.c \
+		env_variables.c \
 		test.c
 
 
