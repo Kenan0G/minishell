@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/07/17 17:55:53 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/18 16:19:33 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_data
 	int				fd_pipe[2];
 	char			*path;
 	int				index;
+	int				index_2;
 	char			**env;
 	char			**path_begining;
 	int				previous_fd;
@@ -152,7 +153,14 @@ void				ft_path(char **envp, t_data *data);
 int					ft_strcmp(char *s1, char *s2);
 
 t_env				*exec_export(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list);
+int					export_utils_1(char *str);
+int					export_utils_2(char *env, char *arg, int lenght);
+void				export_utils_3(t_env *temp, int check, t_env *env_list, char *str);
+
 t_env				*exec_unset(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env **env_list);
+void				unset_utils(t_env *current, char *str, t_env **env_list);
+void				unset_utils_2(t_env *current);
+
 t_env				*exec_cd(t_cmd *c_list, t_env *env_list);
 void				exec_builtin(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list);
 void				exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data);
@@ -160,9 +168,15 @@ int					check_builtin(t_parsed *p_list);
 size_t				get_lenght(char *str);
 // size_t				get_lenght_2(char *env, char *var_name);
 
+void				exec_pwd(t_cmd *c_list, t_parsed *p_list, t_data *data);
+t_env				*exec_cd(t_cmd *c_list, t_env *env_list);
 t_env				*update_pwd(char *oldpwd, t_env *env_list, char  *buf);
 t_env				*get_env(t_env *env_list, char **env);
-char				**env_execve(t_env *env_list);
+char				**env_char(t_env *env_list);
+void				exec_exit(t_cmd *c_list, t_parsed *p_list, t_data *data);
+void				exec_env(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list);
+
+void				loop_utils_1(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list);
 
 
 // 

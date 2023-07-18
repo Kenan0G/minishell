@@ -15,7 +15,12 @@ SRCS_DIR = $(shell find srcs -type d)
 
 vpath %.c $(foreach dir, $(SRCS_DIR), $(dir))
 SRCS =	end_program.c\
+		cd_pwd.c\
+		echo_env_exit.c\
+		export.c\
+		unset.c\
 		execution.c\
+		execution_loop.c\
 		get_path.c\
 		here_doc.c\
 		list_exec_fd.c\
