@@ -6,13 +6,13 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 10:37:49 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/10 17:38:14 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/19 15:00:41 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_parsed *temp_list(t_data *data, char **av, char *str)
+t_parsed *temp_list(t_data *data, char **av, char *str, t_env *env_list)
 {
 	t_parsed	*list;
 	int		i;
@@ -31,7 +31,7 @@ t_parsed *temp_list(t_data *data, char **av, char *str)
 		prev_status = status;
 		i++;
 	}
-	get_command(list, data);
+	get_command(list, data, env_list);
 	data->parsed_list_size = i;
 	return (list);
 }
@@ -82,7 +82,7 @@ int	check_builtin(t_parsed *p_list)
 		return (COMMAND);
 }
 
-void	get_command(t_parsed *list, t_data *data)
+void	get_command(t_parsed *list, t_data *data, t_env *env_list)
 {
 	int		i;
 	t_parsed	*temp;
@@ -99,6 +99,8 @@ void	get_command(t_parsed *list, t_data *data)
 				data->cmd_count += 1;
 				i++;
 			}
+			else if (i > 0 && temp->status == ARG)
+				check_env_var(temp->token, env_list);
 			temp = temp->next;
 		}
 		if (temp == NULL)
@@ -106,4 +108,15 @@ void	get_command(t_parsed *list, t_data *data)
 		else
 			temp = temp->next;
 	}
+}
+
+void	check_env_var(char *arg, t_env *env_list)
+{
+	// char	*str;
+	char	*temp;
+
+	temp = NULL;
+	temp = malloc(sizeof(char) * ft_strlen(arg));
+	ft_strlcpy(temp, arg, ft_strlen(arg));
+	printf("[%s]\n", get_env_var(temp, env_list));
 }

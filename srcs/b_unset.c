@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   b_unset.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 14:46:14 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/18 18:01:09 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/19 12:09:37 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void unset_utils(char *str, t_env **env_list)
 	while (current)
 	{
 		if (!ft_strncmp(current->env, str, ft_strlen(str)) 
-				&& ft_strlen(str) == get_lenght(current->env))
+				&& ft_strlen(str) == get_lenght(current->env, '='))
 		{
 			if (prev)
 				prev->next = current->next;
@@ -53,12 +53,12 @@ void unset_utils(char *str, t_env **env_list)
 	}
 }
 
-size_t get_lenght(char *str)
+size_t get_lenght(char *str, char c)
 {
 	size_t	i;
 
 	i = 0;
-	while (str[i] != '=' && str[i] != '\0')
+	while (str[i] != c && str[i] != '\0')
 		i++;
 	return (i);
 }

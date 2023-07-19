@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/07/18 18:01:20 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/19 14:58:59 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,9 +128,9 @@ t_cmd				*create_cmd_list(t_parsed *parsed_list, t_data *data);
 t_cmd				*get_value(t_cmd *cmd_list, t_parsed *parsed_list);
 t_cmd				*get_fd(t_cmd *cmd_list, t_parsed *parsed_list, t_data *data);
 
-t_parsed 			*temp_list(t_data *data, char **av, char *str);
+t_parsed 			*temp_list(t_data *data, char **av, char *str, t_env *env_list);
 int					first_char(char *str, int prev_status);
-void				get_command(t_parsed *list, t_data *data);
+void				get_command(t_parsed *list, t_data *data, t_env *env_list);
 
 t_env				*my_lstnew_env(char *str);
 void				my_lstadd_back_env(t_env **lst, t_env *new);
@@ -153,7 +153,7 @@ int					ft_strcmp(char *s1, char *s2);
 
 void				exec_builtin(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list);
 int					check_builtin(t_parsed *p_list);
-size_t				get_lenght(char *str);
+size_t				get_lenght(char *str, char c);
 
 t_env				*exec_export(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list);
 int					export_utils_1(char *str);
@@ -171,7 +171,6 @@ void				exec_pwd(t_cmd *c_list, t_parsed *p_list, t_data *data);
 t_env				*exec_cd(t_cmd *c_list, t_env *env_list);
 t_env				*update_pwd(char *oldpwd, t_env *env_list, char  *buf);
 
-size_t				get_lenght(char *str);
 t_env				*get_env(t_env *env_list, char **env);
 char				**env_char(t_env *env_list);
 
@@ -180,6 +179,12 @@ void				loop_utils_1(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **en
 void				loop_utils_1_2(t_data *data, t_cmd *c_temp);
 void				loop_utils_1_3(t_data *data);
 void				loop_utils_2(t_cmd **list, t_parsed **p_list, t_data *data, t_env **env_list);
+
+int					env_var_len(char *var_tmp, t_env *env_list);
+int				var_len(char *arg, int i, t_env *env_list);
+char				*convert_env_var(char *arg, t_env *env_list);
+char				*get_env_var(char *arg, t_env *env_list);
+void				check_env_var(char *arg, t_env *env_list);
 
 
 // 
