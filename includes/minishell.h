@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/07/19 14:58:59 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/20 11:31:33 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,8 @@ int					env_var_len(char *var_tmp, t_env *env_list);
 int				var_len(char *arg, int i, t_env *env_list);
 char				*convert_env_var(char *arg, t_env *env_list);
 char				*get_env_var(char *arg, t_env *env_list);
-void				check_env_var(char *arg, t_env *env_list);
+// void				check_env_var(char *arg, t_env *env_list);
+char				*check_env_var(char *arg, t_env *env_list);
 
 
 // 

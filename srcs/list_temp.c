@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 10:37:49 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/19 15:00:41 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/20 18:18:08 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int	check_builtin(t_parsed *p_list)
 
 void	get_command(t_parsed *list, t_data *data, t_env *env_list)
 {
+	(void)env_list;
 	int		i;
 	t_parsed	*temp;
 
@@ -99,8 +100,8 @@ void	get_command(t_parsed *list, t_data *data, t_env *env_list)
 				data->cmd_count += 1;
 				i++;
 			}
-			else if (i > 0 && temp->status == ARG)
-				check_env_var(temp->token, env_list);
+			// else if (i > 0 && temp->status == ARG)
+			// 	temp->token = check_env_var(temp->token, env_list);
 			temp = temp->next;
 		}
 		if (temp == NULL)
@@ -110,13 +111,17 @@ void	get_command(t_parsed *list, t_data *data, t_env *env_list)
 	}
 }
 
-void	check_env_var(char *arg, t_env *env_list)
+char	*check_env_var(char *arg, t_env *env_list)
 {
-	// char	*str;
+	char	*str;
 	char	*temp;
 
 	temp = NULL;
-	temp = malloc(sizeof(char) * ft_strlen(arg));
-	ft_strlcpy(temp, arg, ft_strlen(arg));
-	printf("[%s]\n", get_env_var(temp, env_list));
+	temp = malloc(sizeof(char) * ft_strlen(arg) + 1);
+	ft_strlcpy(temp, arg, ft_strlen(arg) + 1);
+	free (arg);
+	str = get_env_var(temp, env_list);
+	printf("[%s]\n", str);
+	return (str);
+	// printf("[%s]\n", get_env_var(temp, env_list));
 }
