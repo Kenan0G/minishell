@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:49:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/18 17:42:39 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/24 17:56:17 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 int	execution(t_cmd *list, t_parsed *p_list, t_data *data, t_env **env_list)
 {
+	// print_cmd_list(list);
+	// print_list(p_list);
+	// printf("cmd_count = %d\n\n", data->cmd_count);
 	data->pid = malloc(sizeof(pid_t) * data->cmd_count);
-	data->index = 0;
 	data->fd_pipe[0] = 0;
 	data->fd_pipe[1] = 0;
 	if (data->cmd_count == 1 && list->command_int == EXPORT)
@@ -79,16 +81,20 @@ void	get_path_and_exec(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_l
 		free(data->pid);
 		ft_free_map(data->path_begining);
 		ft_free_all(&list, &p_list, data, &env_list);
-		exit (0);
+		printf("apth = NULL\n");
+		exit (127);
 	}
-	else if (execve(data->path, list->arg, env_char(env_list)) == -1)
-	{
-		printf("perror print\n\n");
+	printf("test = test\n");
+	execve(data->path, list->arg, env_char(env_list));
+	// if (execve(data->path, list->arg, env_char(env_list)) == -1)
+	// {
+		
+		// dprintf(2,"perror print\n\n");
 		// perror("execve");
-		// ft_free_all(&list, &p_list, data);
+		// ft_free_all(&list, &p_list, data, &env_list);
 
-		exit (EXIT_FAILURE);
-	}
+		// exit (EXIT_FAILURE);
+	// }
 }
 
 //-------------------------------------------------------------------------

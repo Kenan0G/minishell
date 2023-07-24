@@ -1,12 +1,13 @@
-total 712
--rw-r--r-- 1 kgezgin kgezgin   2791 Jul 18 17:43 Makefile
-drwxr-xr-x 1 kgezgin kgezgin   4096 Jul  4 15:00 get_next_line
--rw-r--r-- 1 kgezgin kgezgin     24 Jul  4 15:00 in
--rw-r--r-- 1 kgezgin kgezgin     79 Jul  4 15:00 in2
-drwxr-xr-x 1 kgezgin kgezgin   4096 Jul 17 17:45 includes
-drwxr-xr-x 1 kgezgin kgezgin   4096 Jul 18 16:58 libft
--rwxr-xr-x 1 kgezgin kgezgin 196688 Jul 18 17:43 minishell
-drwxr-xr-x 1 kgezgin kgezgin   4096 Jul 18 17:43 objs
--rwxr-xr-x 1 kgezgin kgezgin      0 Jul 18 17:43 out
-drwxr-xr-x 1 kgezgin kgezgin   4096 Jul  4 15:00 pipex
-drwxr-xr-x 1 kgezgin kgezgin   4096 Jul 18 16:06 srcs
+Makefile
+get_next_line
+in
+in2
+includes
+libft
+minishell
+noperm
+objs
+out
+pipex
+srcs
+valgrind.txt

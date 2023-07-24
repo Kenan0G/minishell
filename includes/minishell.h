@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/07/20 11:31:33 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/24 14:53:32 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_data
 	pid_t			*pid;
 	int				i;
 	int				j;
+	int				is;
 	char			**str_split;
 	t_env			*envp;
 } t_data;
@@ -195,7 +196,15 @@ char				*check_env_var(char *arg, t_env *env_list);
 // 
 // 
 
-char **mr_split(char *str, char *charset);
+char				**mr_split(char *str, char *charset, t_data *data);
+int					len_split(char *str, char *charset);
+// static char			*create_word(char *str, char *charset, t_data *data);
+// static char			*create_charset(char *str, char *charset, t_data *data);
+// static char			*create_simple_quote(char *str, t_data *data);
+// static char			*create_double_quote(char *str, t_data *data);
+// static int			ft_strlensep(char *str, char c);
+// static int			ft_isspace(char c, char *charset);
+
 
 
 #endif

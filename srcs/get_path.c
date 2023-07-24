@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:30:52 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/17 17:44:22 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/24 17:05:04 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ char	*path_check(t_data *data, t_cmd *list)
 		i++;
 	}
 	ft_error_path(data, temp, list);
+	// exit (127);
 	return (NULL);
 }
 
