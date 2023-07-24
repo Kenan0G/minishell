@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:42:04 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/24 16:45:39 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/24 18:19:01 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ void	ft_wait(t_data *data)
 	// int i = 0;
 	while (data->index-- > 0)
 	{
-		// printf("i = %d\nindex = %d\n", i, data->index);
+		// printf("index = %d\n", data->index);
 		waitpid(data->pid[data->index], NULL, 0);
-		free(data->pid);
 		// i++;
 	}
+	free(data->pid);
 }
 
 // void	ft_wait(t_data *data)

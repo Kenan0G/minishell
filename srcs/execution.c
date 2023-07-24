@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:49:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/24 17:56:17 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/24 18:11:17 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,23 +78,20 @@ void	get_path_and_exec(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_l
 		data->path = path_check(data, list);
 	if (data->path == NULL)
 	{
+		dprintf(2, "test if\n");
 		free(data->pid);
 		ft_free_map(data->path_begining);
 		ft_free_all(&list, &p_list, data, &env_list);
 		printf("apth = NULL\n");
 		exit (127);
 	}
-	printf("test = test\n");
-	execve(data->path, list->arg, env_char(env_list));
-	// if (execve(data->path, list->arg, env_char(env_list)) == -1)
-	// {
-		
-		// dprintf(2,"perror print\n\n");
-		// perror("execve");
+	dprintf(2, "test = test\n");
+	if (execve(data->path, list->arg, env_char(env_list)) == -1)
+	{
+		perror("execve");
 		// ft_free_all(&list, &p_list, data, &env_list);
-
-		// exit (EXIT_FAILURE);
-	// }
+		exit (EXIT_FAILURE);
+	}
 }
 
 //-------------------------------------------------------------------------
