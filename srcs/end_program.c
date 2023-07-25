@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:42:04 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/24 18:19:01 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/25 11:56:56 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ void	ft_wait(t_data *data)
 // 		waitpid(data->pid[data->index], &status, 0);
 // 		status = WEXITSTATUS(status);
 // 		// printf("status = %d\n", status);
-// 		free(data->pid);
 // 	}
+// 	free(data->pid);
 // }
 
 void	ft_unlink(t_cmd *list)
