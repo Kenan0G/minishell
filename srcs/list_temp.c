@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 10:37:49 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/25 13:51:18 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/26 10:39:55 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,12 @@ t_parsed *temp_list(t_data *data, char **av, char *str, t_env *env_list)
 	int		i;
 	int		status;
 	int		prev_status;
-	char	**split;
 
 	i = 0;
 	(void)av;
 	list = NULL;
 	prev_status = 0;
-	split = mr_split(str, "><|", data);
-	data->str_split = split; 
+	data->str_split = mr_split(str, "><|", data); 
 	// data->str_split = ft_split(str, ' ');
 	while (data->str_split[i])
 	{

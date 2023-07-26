@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:43:18 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/25 13:55:54 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/26 16:54:54 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,28 +116,86 @@ static char *create_word(char *str, char *charset, t_data *data)
 	return (temp);
 }
 
+// int len_split(char *str, char *charset)
+// {
+// 	int len;
+// 	int i;
+// 	int quote;
+
+// 	if (!str)
+// 		return (0);
+// 	i = 0;
+// 	len = 0;
+// 	quote = 0;
+// 	while (str[i])
+// 	{
+// 		if (str[i] == ' ' || ft_isspace(str[i], charset))
+// 			len++;
+// 		if (str[i] == '"' || str[i] == '\'')
+// 			quote++;
+// 		i++;
+// 	}
+// 	len += quote / 2;
+// 	printf("lensplit = %d\n", len);
+// 	return (len);
+// }
+
+int	is_charset_or_quote(char c, char *charset, int i)
+{
+	if (i == 1 && c && c != '"' && c != '\'' && !ft_isspace(c, charset))
+		return (1);
+	else if (i == 2 && c && c != ' ' && c != '"' && c != '\'' && !ft_isspace(c, charset))
+		return (1);
+	return (0);
+}
+
 int len_split(char *str, char *charset)
 {
-	int len;
-	int i;
-	int quote;
+	int	len;
+	int	set;
+	int	i;
 
 	if (!str)
 		return (0);
 	i = 0;
-	len = 0;
-	quote = 0;
+	set = 0;
+	while (str[i] == ' ')
+		i++;
+	len = is_charset_or_quote(str[i], charset, 1);
+	printf("len = %d\n", len);
 	while (str[i])
 	{
-		if (str[i] == ' ' || ft_isspace(str[i], charset))
-			len++;
-		if (str[i] == '"' || str[i] == '\'')
-			quote++;
+		while (str[i] == ' ')
+		{
+			i++;
+			if (!str[i])
+				break ;
+			if (is_charset_or_quote(str[i], charset, 2))
+					len++;
+		}
+		if (str[i] == '"')
+		{
+			i++;
+			while (str[i] != '"')
+				i++;
+			if (len > 0)
+				len++;
+			if (is_charset_or_quote(str[i + 1], charset, 2))
+				len++;
+		}
+		if (ft_isspace(str[i], charset))
+		{
+			// ici ca fait pas len++ donc | "okokok" ca marche pas
+			set++;
+			if (is_charset_or_quote(str[i + 1], charset, 2))
+				len++;
+		}
 		i++;
 	}
-	len += quote / 2;
-	return (len);
+	printf("lensplit = %d\n", len + set);
+	return (len + set);
 }
+
 
 char **mr_split(char *str, char *charset, t_data *data)
 {
