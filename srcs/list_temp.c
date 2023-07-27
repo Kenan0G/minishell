@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 10:37:49 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/26 10:39:55 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/27 18:01:06 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_parsed *temp_list(t_data *data, char **av, char *str, t_env *env_list)
 	(void)av;
 	list = NULL;
 	prev_status = 0;
-	data->str_split = mr_split(str, "><|", data); 
+	data->str_split = mr_split(str, "><|", data);
 	// data->str_split = ft_split(str, ' ');
 	while (data->str_split[i])
 	{
@@ -101,8 +101,8 @@ void	get_command(t_parsed *list, t_data *data, t_env *env_list)
 				data->cmd_count += 1;
 				i++;
 			}
-			// else if (i > 0 && temp->status == ARG)
-			// 	temp->token = check_env_var(temp->token, env_list);
+			else if (i > 0 && temp->status == ARG)
+				temp->token = check_env_var(temp, env_list);
 			temp = temp->next;
 		}
 		if (temp == NULL)
@@ -112,17 +112,18 @@ void	get_command(t_parsed *list, t_data *data, t_env *env_list)
 	}
 }
 
-char	*check_env_var(char *arg, t_env *env_list)
-{
-	char	*str;
-	char	*temp;
 
-	temp = NULL;
-	temp = malloc(sizeof(char) * ft_strlen(arg) + 1);
-	ft_strlcpy(temp, arg, ft_strlen(arg) + 1);
-	free (arg);
-	str = get_env_var(temp, env_list);
-	printf("[%s]\n", str);
-	return (str);
-	// printf("[%s]\n", get_env_var(temp, env_list));
-}
+// char	*check_env_var(t_parsed *p_list, t_env *env_list)
+// {
+// 	char	*str;
+// 	char	*temp;
+
+// 	temp = NULL;
+// 	temp = malloc(sizeof(char) * ft_strlen(arg) + 1);
+// 	ft_strlcpy(temp, arg, ft_strlen(arg) + 1);
+// 	free (arg);
+// 	str = get_env_var(temp, env_list);
+// 	printf("[%s]\n", str);
+// 	return (str);
+// 	// printf("[%s]\n", get_env_var(temp, env_list));
+// }
