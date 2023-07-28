@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/07/27 17:34:36 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/28 13:18:23 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,25 @@
 #define ENV 16
 #define EXIT 17
 
+typedef struct s_arg
+{
+	char			c;
+	struct s_arg	*next;
+}					t_arg;
+
+typedef struct s_env
+{
+	char			*env;
+	struct s_env	*next;
+}					t_env;
+
+typedef struct s_parsed
+{
+	char			*token;
+	int				status;
+	struct s_parsed	*next;
+} 					t_parsed;
+
 typedef struct s_cmd
 {
 	char			*command;
@@ -60,20 +79,7 @@ typedef struct s_cmd
 	int				is_ok;
 	int				command_int;
 	struct s_cmd	*next;
-}	t_cmd;
-
-typedef struct s_parsed
-{
-	char			*token;
-	int				status;
-	struct s_parsed	*next;
-} t_parsed;
-
-typedef struct s_env
-{
-	char			*env;
-	struct s_env	*next;
-}					t_env;
+}					t_cmd;
 
 typedef struct s_data
 {
@@ -134,13 +140,16 @@ int					first_char(char *str, int prev_status);
 void				get_command(t_parsed *list, t_data *data, t_env *env_list);
 
 t_env				*my_lstnew_env(char *str);
-void				my_lstadd_back_env(t_env **lst, t_env *new);
-void				my_lstadd_back_cmd(t_cmd **lst, t_cmd *new);
+t_arg				*my_lstnew_arg(char c);
 t_cmd				*my_lstnew_cmd();
-void				my_lstadd_back(t_parsed **lst, t_parsed *new);
 t_parsed			*my_lstnew(char *content, int status);
+void				my_lstadd_back_env(t_env **lst, t_env *new);
+void				my_lstadd_back_arg(t_arg **lst, t_arg *new);
+void				my_lstadd_back_cmd(t_cmd **lst, t_cmd *new);
+void				my_lstadd_back(t_parsed **lst, t_parsed *new);
 void				print_list(t_parsed *token);
 void				print_env(t_env *token);
+void				print_arg(t_arg *token);
 void				print_cmd_list(t_cmd *token);
 
 void				init_data(t_data *data, char **env);
@@ -189,6 +198,10 @@ char				*get_env_var(char *arg, t_env *env_list);
 // char				*check_env_var(char *arg, t_env *env_list);
 char				*check_env_var(t_parsed *p_list, t_env *env_list);
 
+char				*get_checked_arg(t_parsed *p_list, t_env *env_list);
+char				*is_expand(t_parsed *p_list, t_env *env_list);
+int					get_expand_value(char *str, t_arg *arg_list, t_env *env_list);
+int					is_permutable(char *arg, char *env);
 
 // 
 // 

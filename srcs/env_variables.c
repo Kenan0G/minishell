@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:09:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/27 18:01:14 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/28 13:21:14 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,34 +147,99 @@ char	**env_char(t_env *env_list)
 // 	return (return_str(arg, malloc_len, env_list));	
 // }
 
-char	*get_env_var(char *arg, t_env *env_list)
+char	*get_checked_arg(t_parsed *p_list, t_env *env_list)
 {
-	if (arg[0] == '\'')
-		return (ft_strdup(arg + 1));
-	else if (arg[0] == '\"')
-		return (convert_env_var(arg + 1, env_list));
+	if (p_list->token[0] == '\'')
+		return (ft_strdup(p_list->token + 1));
+	else if (p_list->token[0] == '\"')
+		return (is_expand(p_list, env_list));
 	else
-		return (convert_env_var(arg, env_list));
+		return (is_expand(p_list, env_list));
 }
 
-// int main(int ac, char **av, char **env)
-// {
-// 	(void)ac;
-// 	t_env	*env_list;
-// 	env_list = NULL;
-// 	env_list = get_env(env_list, env);
-// 	char *str = get_env_var(av[1], env_list);
-// 	printf("[%s]\n", str);
-// 	return (0);
-// }
 
-
-char	*check_env_var(t_parsed *p_list, t_env *env_list)
+char	*is_expand(t_parsed *p_list, t_env *env_list)
 {
-	char	*str;
-	char	*temp;
-
-	str = get_env_var(temp, env_list);
-	printf("[%s]\n", str);
-	return (str);
+	t_arg	*list;
+	int		i;
+	int		j;
+	
+	list = NULL;
+	i = 0;
+	while (p_list->token[i])
+	{
+		j = 0;
+		while (p_list->token[i] && p_list->token[i] != '$')
+		{
+			my_lstadd_back_arg(&list, my_lstnew_arg(p_list->token[i]));
+			i++;
+		}
+		if (!p_list->token[i])
+			break ;
+		i++;
+		printf("p_list->token + i = %s\n", p_list->token + i);
+		j = get_expand_value(p_list->token + i, list, env_list);
+		while (j != 0)
+		{
+			i++;
+			j--;
+		}
+		printf("--p_list->token[i] = %c\n", p_list->token[i]);
+	}
+	print_arg(list);
+	return (p_list->token);
 }
+
+int	get_expand_value(char *str, t_arg *arg_list, t_env *env_list)
+{
+	t_env	*temp_e;
+	int		i;
+	int		len;
+
+	i = 0;
+	temp_e = env_list;
+	while (temp_e)
+	{
+		len = is_permutable(str, temp_e->env);
+		if (len > 0)
+		{
+			while (i < len)
+			{
+				// ici je recup pas la variable mis le nom de la variable
+				my_lstadd_back_arg(&arg_list, my_lstnew_arg(temp_e->env[i]));
+				i++;
+			}
+			return (len);
+		}
+		temp_e = temp_e->next;
+	}
+	return (0);
+	
+}
+
+int	is_permutable(char *arg, char *env)
+{
+	int	i;
+
+	i = 0;
+	if (arg[0] == '$')
+		return (0);
+	while (arg[i] && env[i] && arg[i] == env[i])
+		i++;
+	if ((arg[i] == ' '|| arg[i] == '$') && env[i] == '=')
+	{
+		printf("arg[i] = %c\nenv[i] = %c\ni = %d\n", arg[i], env[i], i);
+		return (i + 1);
+	}
+	return (0);
+}
+
+
+
+		// i = 0;
+
+
+		
+		// temp = malloc(sizeof(char) * (i + 1));
+		// if (!temp)
+		// 	return ;

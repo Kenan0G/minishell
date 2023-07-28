@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:12:21 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/10 17:46:24 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/28 11:44:08 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,30 @@ t_env	*my_lstnew_env(char *str)
 	return (liste);
 }
 
+void	my_lstadd_back_arg(t_arg **lst, t_arg *new)
+{	
+	t_arg	*current_node;
+
+	current_node = *lst;
+	if (!*lst)
+	{
+		*lst = new;
+		return ;
+	}
+	while (current_node->next != NULL)
+		current_node = current_node->next;
+	current_node->next = new;
+}
+
+t_arg	*my_lstnew_arg(char c)
+{
+	t_arg	*liste;
+
+	liste = malloc(sizeof(*liste));
+	liste->next = NULL;
+	liste->c = c;
+	return (liste);
+}
 
 void	my_lstadd_back_cmd(t_cmd **lst, t_cmd *new)
 {	
@@ -115,6 +139,19 @@ void	print_env(t_env *token)
 		printf("%s\n", temp->env);
 		temp = temp->next;
 	}
+}
+
+void	print_arg(t_arg *token)
+{
+	t_arg	*temp;
+
+	temp = token;
+	while (temp)
+	{
+		printf("[%c]", temp->c);
+		temp = temp->next;
+	}
+	printf("\n");
 }
 
 void	print_cmd_list(t_cmd *token)
