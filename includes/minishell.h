@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/07/28 13:18:23 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/28 19:22:17 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,8 +200,9 @@ char				*check_env_var(t_parsed *p_list, t_env *env_list);
 
 char				*get_checked_arg(t_parsed *p_list, t_env *env_list);
 char				*is_expand(t_parsed *p_list, t_env *env_list);
-int					get_expand_value(char *str, t_arg *arg_list, t_env *env_list);
+int					get_expand_value(char *str, t_arg **arg_list, t_env *env_list);
 int					is_permutable(char *arg, char *env);
+char				*convert_list_to_str(t_arg *list);
 
 // 
 // 
