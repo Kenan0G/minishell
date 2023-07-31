@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/07/28 19:22:17 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/31 13:38:29 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@
 #define UNSET 15
 #define ENV 16
 #define EXIT 17
+#define SIMPLE_QUOTE 18
+#define DOUBLE_QUOTE 19
+#define NO_QUOTE 20
 
 typedef struct s_arg
 {
@@ -63,6 +66,7 @@ typedef struct s_parsed
 {
 	char			*token;
 	int				status;
+	int				quote_status;
 	struct s_parsed	*next;
 } 					t_parsed;
 
@@ -78,6 +82,7 @@ typedef struct s_cmd
 	int				fd_out;
 	int				is_ok;
 	int				command_int;
+	int				*quote_status;
 	struct s_cmd	*next;
 }					t_cmd;
 

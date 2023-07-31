@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:09:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/28 19:25:29 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/31 14:02:01 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,20 @@ char	**env_char(t_env *env_list)
 char	*get_checked_arg(t_parsed *p_list, t_env *env_list)
 {
 	if (p_list->token[0] == '\'')
+	{
+		p_list->quote_status = SIMPLE_QUOTE;
 		return (ft_strdup(p_list->token + 1));
+	}
 	else if (p_list->token[0] == '\"')
+	{
+		p_list->quote_status = DOUBLE_QUOTE;
 		return (is_expand(p_list, env_list));
+	}
 	else
+	{
+		p_list->quote_status = NO_QUOTE;
 		return (is_expand(p_list, env_list));
+	}
 }
 
 // le cas "$$USER" ou/et "$$" est peut etre a revoir
@@ -77,13 +86,13 @@ char	*is_expand(t_parsed *p_list, t_env *env_list)
 			break ;
 			// return (ft_strdup(p_list->token + 1));
 		i++;
-		printf("p_list->token + i = %s\n", p_list->token + i);
+		// printf("p_list->token + i = %s\n", p_list->token + i);
 		get_expand_value(p_list->token + i, &list, env_list);
 		while (p_list->token[i] != ' ' && p_list->token[i] != '$' && p_list->token[i])
 			i++;
-		printf("--p_list->token[i] = %c\n", p_list->token[i]);
+		// printf("--p_list->token[i] = %c\n", p_list->token[i]);
 	}
-	print_arg(list);
+	// print_arg(list);
 	return (convert_list_to_str(list));
 }
 
@@ -113,7 +122,7 @@ char	*convert_list_to_str(t_arg *list)
 		temp = temp->next;
 	}
 	res[i] = '\0';
-	printf("str = %s\n", res);
+	// printf("str = %s\n", res);
 	return (res);
 }
 
@@ -132,7 +141,7 @@ int	get_expand_value(char *str, t_arg **arg_list, t_env *env_list)
 			i = len + 1;
 			while (temp_e->env[i])
 			{
-				printf("temp_e->env[i] = %c\n", temp_e->env[i]);
+				// printf("temp_e->env[i] = %c\n", temp_e->env[i]);
 				my_lstadd_back_arg(arg_list, my_lstnew_arg(temp_e->env[i]));
 				i++;
 			}
@@ -154,7 +163,7 @@ int	is_permutable(char *arg, char *env)
 		i++;
 	if ((arg[i] == ' '|| arg[i] == '$' || !arg[i]) && (env[i] == '=' || !env[i]))
 	{
-		printf("arg[i] = %c\nenv[i] = %c\ni = %d\n", arg[i], env[i], i);
+		// printf("arg[i] = %c\nenv[i] = %c\ni = %d\n", arg[i], env[i], i);
 		return (i);
 	}
 	return (0);

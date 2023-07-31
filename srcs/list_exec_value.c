@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:19:20 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/06/30 10:36:30 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/07/31 13:39:22 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	get_value_malloc(t_cmd *c_list, int i, int j)
 	c_list->limiter = malloc(sizeof(char *) * (j + 1));
 	c_list->hd_fd = malloc(sizeof(int) * (j));
 	c_list->arg = malloc(sizeof(char *) * (i + 1));
+	c_list->quote_status = malloc(sizeof(int) * (i));
 }
 
 void	get_args(t_cmd *cmd_list, t_parsed *parsed_list)
@@ -79,6 +80,7 @@ void	get_args_utils(t_cmd *c_list, t_parsed *p_list, int *i, int *j)
 	else if (p_list->status == ARG)
 	{
 		c_list->arg[*i] = p_list->token;
+		c_list->quote_status[*i] = p_list->quote_status;
 		(*i)++;
 	}
 	else if (p_list->status == LIMITER)
