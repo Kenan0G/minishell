@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/07/31 13:38:29 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/01 14:33:47 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,8 @@ size_t				get_lenght(char *str, char c);
 
 t_env				*exec_export(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list);
 int					export_utils_1(char *str);
-int					export_utils_2(char *env, char *arg, int lenght);
+// int					export_utils_2(char *env, char *arg, int lenght);
+int					export_utils_2(char **env, char *arg, int lenght);
 void				export_utils_3(t_env *temp, int check, t_env *env_list, char *str);
 
 t_env				*exec_unset(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env **env_list);

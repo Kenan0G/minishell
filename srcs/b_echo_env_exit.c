@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 14:44:49 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/31 13:40:28 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/01 17:32:47 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ void	exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data)
 		else
 		{
 			printf("%s", c_list->arg[i]);
-			if (c_list->arg[i + 1] && c_list->quote_status[i + 1] == NO_QUOTE
-					&& c_list->quote_status[i] == NO_QUOTE)
+			// if (c_list->arg[i + 1] && c_list->quote_status[i + 1] == NO_QUOTE
+			// 		&& c_list->quote_status[i] == NO_QUOTE)
+			if (c_list->arg[i + 1])
 				printf(" ");
 		}
 		i++;

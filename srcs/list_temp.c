@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 10:37:49 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/31 14:09:01 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/01 14:29:51 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ void	get_command(t_parsed *list, t_data *data, t_env *env_list)
 		i = 0;
 		while (temp && temp->status != PIPE)
 		{
-			// if (temp->status == ARG)
-				// temp->token = get_checked_arg(temp, env_list);
+			if (temp->status == ARG)
+				temp->token = get_checked_arg(temp, env_list);
 			if (i == 0 && temp->status == ARG)
 			{
 				temp->status = check_builtin(temp);

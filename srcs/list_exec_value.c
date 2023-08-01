@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:19:20 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/31 13:39:22 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/01 16:58:46 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,13 @@ void	get_args_utils(t_cmd *c_list, t_parsed *p_list, int *i, int *j)
 	}
 	else if (p_list->status == ARG)
 	{
-		c_list->arg[*i] = p_list->token;
+		if (!p_list->token)
+		{
+			c_list->arg[*i] = malloc(sizeof(char) * 1);
+			c_list->arg[*i][0]	= '\0';
+		}
+		else
+			c_list->arg[*i] = p_list->token;
 		c_list->quote_status[*i] = p_list->quote_status;
 		(*i)++;
 	}

@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 16:06:24 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/24 16:48:07 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/01 16:45:10 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	execution_loop(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_list
 		}
 		else
 		{	
-			dprintf(2, "test\n");
 			loop_utils_2(&list, &p_list, data, &env_list);
 			c_list = c_list->next;
 			data->index++;
@@ -98,6 +97,6 @@ void	loop_utils_2(t_cmd **list, t_parsed **p_list, t_data *data, t_env **env_lis
 	{
 		ft_free_all(list, p_list, data, env_list);
 		free(data->pid);
-		exit(0);
+		exit(1);
 	}
 }

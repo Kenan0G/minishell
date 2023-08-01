@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:13:30 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/31 17:22:57 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/01 15:07:57 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_env	*exec_export(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_lis
 			return (env_list);
 		while (temp && check != 1)
 		{
-			check = export_utils_2(temp->env, c_list->arg[i], lenght);
+			check = export_utils_2(&temp->env, c_list->arg[i], lenght);
 			temp = temp->next;
 		}
 		export_utils_3(temp, check, env_list, c_list->arg[i]);
@@ -52,19 +52,16 @@ int	export_utils_1(char *str)
 	return (i);
 }
 
-int	export_utils_2(char *env, char *arg, int lenght)
+int	export_utils_2(char **env, char *arg, int lenght)
 {
-	// printf("env =	%s\narg =	%s\nlen =	%d\n",env, arg, lenght);
-	if (!ft_strncmp(env, arg, lenght))
+	if (!ft_strncmp(*env, arg, lenght))
 	{
-		if (env)
+		if (*env)
 		{
-			free (env);
-			env = NULL;
+			free (*env);
+			*env = NULL;
 		}
-		env = malloc(sizeof(char) * ft_strlen(arg) + 1);
-		env = ft_strdup(arg);
-		// ft_strlcpy(env, arg, ft_strlen(arg) + 1);
+		*env = ft_strdup(arg);
 		return (1);
 	}
 	return (0);
