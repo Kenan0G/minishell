@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:22:01 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/31 13:32:37 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/02 11:08:36 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	ft_open(t_parsed *p_list, t_cmd *c_list, t_data *data)
 
 void	fd_file_in(t_parsed *p_list, t_cmd *c_list, t_data *data)
 {
-	printf("test\n");
 	if (c_list->fd_in > 0)
 		close(c_list->fd_in);
 	c_list->fd_in = open(p_list->token, O_RDONLY);

@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:09:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/01 16:49:24 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/02 16:40:39 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	**env_char(t_env *env_list)
 	temp = env_list;
 	while (temp)
 	{
-		env[i] = temp->env;
+		env[i] = ft_strdup(temp->env);
 		temp = temp->next;
 		i++;
 	}
@@ -41,10 +41,14 @@ char	**env_char(t_env *env_list)
 
 char	*get_checked_arg(t_parsed *p_list, t_env *env_list)
 {
+	char	*res;
+
 	if (p_list->token[0] == '\'')
 	{
 		p_list->quote_status = SIMPLE_QUOTE;
-		return (ft_strdup(p_list->token + 1));
+		res = ft_strdup(p_list->token + 1);
+		free(p_list->token);
+		return (res);
 	}
 	else if (p_list->token[0] == '\"')
 	{
@@ -52,7 +56,7 @@ char	*get_checked_arg(t_parsed *p_list, t_env *env_list)
 		return (is_expand(p_list, env_list));
 	}
 	else if (p_list->token[0] == '\0')
-		return (NULL);
+		return (p_list->token);
 	else
 	{
 		p_list->quote_status = NO_QUOTE;
@@ -66,7 +70,7 @@ char	*is_expand(t_parsed *p_list, t_env *env_list)
 {
 	t_arg	*list;
 	int		i;
-	
+
 	list = NULL;
 	i = 0;
 	// a check la condition d'en dessous pour le cas du ""
@@ -94,6 +98,7 @@ char	*is_expand(t_parsed *p_list, t_env *env_list)
 			i++;
 		// printf("--p_list->token[i] = %c\n", p_list->token[i]);
 	}
+	free (p_list->token);
 	// print_arg(list);
 	return (convert_list_to_str(list));
 }
@@ -124,6 +129,7 @@ char	*convert_list_to_str(t_arg *list)
 		temp = temp->next;
 	}
 	res[i] = '\0';
+	ft_free_arg_list(&list);
 	// printf("str = %s\n", res);
 	return (res);
 }

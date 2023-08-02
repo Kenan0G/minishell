@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:30:52 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/24 17:05:04 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/02 16:00:12 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ void	ft_path(char **envp, t_data *data)
 	if (envp && !envp[i])
 		return ;
 	data->path_begining = ft_split(envp[i] + 5, ':');
+	if (envp)
+		ft_free_map(envp);
 }
 
 

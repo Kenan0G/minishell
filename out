@@ -1,20 +1,4 @@
-b_cd_pwd.c
-b_echo_env_exit.c
-b_export.c
-b_unset.c
-end_program.c
-env_variables.c
-execution.c
-execution_loop.c
-get_path.c
-here_doc.c
-list_exec.c
-list_exec_fd.c
-list_exec_value.c
-list_temp.c
-list_utils.c
-minishell.c
-split.c
-test.c
-utils.c
-ceci est pour tester le append
+ceci est
+du texte
+pour le
+outfile

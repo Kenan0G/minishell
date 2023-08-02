@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/08/01 14:33:47 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/02 14:43:45 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ void				ft_free_p_list(t_parsed **lst, t_data *data);
 void				ft_free_map(char **str);
 void				ft_free_all(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_list);
 void				ft_free_env(t_env **envp);
+void				ft_free_arg_list(t_arg **arg);
 
 
 int					execution(t_cmd *list, t_parsed *p_list, t_data *data, t_env **env_list);
@@ -141,7 +142,7 @@ t_cmd				*get_value(t_cmd *cmd_list, t_parsed *parsed_list);
 t_cmd				*get_fd(t_cmd *cmd_list, t_parsed *parsed_list, t_data *data);
 
 t_parsed 			*temp_list(t_data *data, char **av, char *str, t_env *env_list);
-int					first_char(char *str, int prev_status);
+int					get_status(char *str, int prev_status);
 void				get_command(t_parsed *list, t_data *data, t_env *env_list);
 
 t_env				*my_lstnew_env(char *str);
@@ -179,7 +180,7 @@ void				export_utils_3(t_env *temp, int check, t_env *env_list, char *str);
 t_env				*exec_unset(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env **env_list);
 void				unset_utils(char *str, t_env **env_list);
 
-void				exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data);
+void				exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list);
 void				exec_env(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list);
 void				exec_exit(t_cmd *c_list, t_parsed *p_list, t_data *data);
 

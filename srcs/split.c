@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:43:18 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/27 17:28:47 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/02 15:39:45 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,20 +141,6 @@ static char *create_simple_quote(char *str, t_data *data)
 	return (temp);
 }
 
-// static char *create_charset(char *str, t_data *data)
-// {
-// 	char *temp;
-// 	int i;
-
-// 	i = 0;
-// 	temp = malloc(sizeof(char) * 2);
-// 	temp[i] = str[data->is];
-// 	data->is++;
-// 	i++;
-// 	temp[i] = '\0';
-// 	return (temp);
-// }
-
 static char *create_charset(char *str, char *charset, t_data *data)
 {
 	char *temp;
@@ -168,7 +154,6 @@ static char *create_charset(char *str, char *charset, t_data *data)
 		i++;
 		len++;
 	}
-	printf("len = %d\n", len);
 	temp = malloc(sizeof(char) * (len + 1));
 	i = 0;
 	while (str[data->is] && ft_ischarset(str[data->is], charset))
@@ -242,7 +227,7 @@ int len_split(char *str, char *charset)
 		{
 			i++;
 			if (!str[i])
-				return (/*printf("lensplit = %d\n\n", len + set), */len + set);
+				return (len + set);
 			if (not_charset_or_quote(str[i], charset, 2))
 					len++;
 		}
@@ -272,7 +257,6 @@ int len_split(char *str, char *charset)
 		}
 		i++;
 	}
-	// printf("lensplit = %d\n\n", len + set);
 	return (len + set);
 }
 
@@ -281,13 +265,15 @@ char **mr_split(char *str, char *charset, t_data *data)
 {
 	char **split;
 	int j;
+	int malloc_len;
 
 	data->is = 0;
-	split = malloc(sizeof(char *) * (len_split(str, charset) + 1));
+	malloc_len = len_split(str, charset) + 1;
+	split = malloc(sizeof(char *) * malloc_len);
 	if (!split)
 		return (NULL);
 	j = 0;
-	while (str[data->is])
+	while (str[data->is] && malloc_len > 1)
 	{
 		while (str[data->is] == ' ')
 			data->is++;

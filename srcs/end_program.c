@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:42:04 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/01 15:46:49 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/02 14:49:46 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	ft_end(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_list)
 {
-	// (void)env_list;
+	(void)env_list;
+	(void)p_list;
 	ft_wait(data);
 	ft_unlink(*c_list);
 	ft_free_all(c_list, p_list, data, env_list);
@@ -23,14 +24,12 @@ void	ft_end(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_list)
 void	ft_free_all(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_list)
 {
 	(void)env_list;
-	if (c_list)
-		ft_free_cmd_list(c_list);
+	// if (data->str_split)	
+	// 	ft_free_map(data->str_split);
 	if (p_list)
 		ft_free_p_list(p_list, data);
-	// if (env_list)
-	// 	ft_free_env(env_list);
-	if (data->str_split)
-		free(data->str_split);
+	if (c_list)
+		ft_free_cmd_list(c_list);
 }
 
 // void	ft_wait(t_data *data)
@@ -106,16 +105,18 @@ void	ft_free_cmd_list(t_cmd **lst)
 
 void	free_cmd_content(t_cmd *lst)
 {
-	// if (lst->command)
-	// 	free(lst->command);
-	if (lst->hd_fd)
-		free(lst->hd_fd);
-	if (lst->hd_file)
-		ft_free_map(lst->hd_file);
+	if (lst->command)
+		free(lst->command);
 	if (lst->arg)
 		ft_free_map(lst->arg);
 	if (lst->limiter)
 		ft_free_map(lst->limiter);
+	if (lst->hd_file)
+		ft_free_map(lst->hd_file);
+	if (lst->hd_fd)
+		free(lst->hd_fd);
+	if (lst->quote_status)
+		free(lst->quote_status);
 }
 
 void	ft_free_p_list(t_parsed **lst, t_data *data)
@@ -129,11 +130,7 @@ void	ft_free_p_list(t_parsed **lst, t_data *data)
 	temp = (*lst);
 	while (temp)
 	{
-		if (temp->status != COMMAND && temp->status != ARG
-				&& temp->status != ECHO && temp->status != PWD
-				&& temp->status != CD && temp->status != EXPORT
-				&& temp->status != UNSET && temp->status != ENV
-				&& temp->status != EXIT && temp->status != LIMITER)
+		if (temp->token)
 			free(temp->token);
 		tmp2 = temp->next;
 		free(temp);
@@ -152,7 +149,23 @@ void	ft_free_env(t_env **envp)
 	temp = (*envp);
 	while (temp)
 	{
-		free(temp->env);
+		if (temp->env)
+			free(temp->env);
+		tmp2 = temp->next;
+		free(temp);
+		temp = tmp2;
+	}
+	free(temp);
+}
+
+void	ft_free_arg_list(t_arg **arg)
+{
+	t_arg	*temp;
+	t_arg	*tmp2;
+	
+	temp = (*arg);
+	while (temp)
+	{
 		tmp2 = temp->next;
 		free(temp);
 		temp = tmp2;

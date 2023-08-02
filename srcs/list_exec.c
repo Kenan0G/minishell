@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 18:27:17 by jsabound          #+#    #+#             */
-/*   Updated: 2023/08/01 16:50:46 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/02 11:06:46 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_cmd	*get_value(t_cmd *cmd_list, t_parsed *parsed_list)
 		k++;
 	}
 	get_args(cmd_list, parsed_list);
-	print_cmd_list(cmd_list);
+	// print_cmd_list(cmd_list);
 	return (cmd_list);
 }
 

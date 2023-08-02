@@ -6,23 +6,36 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 14:44:49 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/01 17:32:47 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/02 17:24:53 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data)
+void	exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list)
 {
 	int	i;
 	int	newline;
 
 	i = 1;
 	newline = 1;
+	// 
+	// 
+	// 
+	// echo -n -n -n -n a gerer
+	// 
+	// 
+	// 
 	while (c_list->arg[i])
 	{
-		if (i == 1 && !ft_strcmp(c_list->arg[1], "-n"))
-			newline = 0;
+		if (i == 1)
+		{	
+			while (!ft_strcmp(c_list->arg[i], "-n"))
+			{
+				i++;
+				newline = 0;
+			}
+		}
 		else
 		{
 			printf("%s", c_list->arg[i]);
@@ -37,6 +50,7 @@ void	exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data)
 		printf("\n");
 	free(data->pid);
 	ft_free_all(&c_list, &p_list, data, NULL);
+	ft_free_env(&env_list);
 }
 
 void	exec_env(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list)
@@ -46,6 +60,7 @@ void	exec_env(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list)
 	print_env(env_list);
 	free(data->pid);
 	ft_free_all(&c_list, &p_list, data, &env_list);
+	ft_free_env(&env_list);
 }
 
 void	exec_exit(t_cmd *c_list, t_parsed *p_list, t_data *data)

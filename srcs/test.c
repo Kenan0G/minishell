@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 15:54:30 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/24 14:04:07 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/02 11:47:42 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ t_env	*get_env(t_env *env_list, char **env)
 	while (env[i])
 	{
 		temp->env = NULL;
-		temp->env = ft_strjoin(temp->env, env[i]);
+		// temp->env = ft_strjoin(temp->env, env[i]);
+		temp->env = ft_strdup(env[i]);
 		if (!env[i + 1])
 			temp->next = NULL;
 		else

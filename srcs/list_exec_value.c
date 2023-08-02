@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:19:20 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/01 16:58:46 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/02 14:17:34 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ void	get_args_utils(t_cmd *c_list, t_parsed *p_list, int *i, int *j)
 			|| p_list->status == EXPORT || p_list->status == UNSET
 			|| p_list->status == ENV || p_list->status == EXIT)
 	{
-		c_list->command = p_list->token;
+		c_list->command = ft_strdup(p_list->token);
 		c_list->command_int = p_list->status;
-		c_list->arg[*i] = p_list->token;
+		c_list->arg[*i] = ft_strdup(p_list->token);
 		(*i)++;
 	}
 	else if (p_list->status == ARG)
@@ -85,13 +85,13 @@ void	get_args_utils(t_cmd *c_list, t_parsed *p_list, int *i, int *j)
 			c_list->arg[*i][0]	= '\0';
 		}
 		else
-			c_list->arg[*i] = p_list->token;
+			c_list->arg[*i] = ft_strdup(p_list->token);
 		c_list->quote_status[*i] = p_list->quote_status;
 		(*i)++;
 	}
 	else if (p_list->status == LIMITER)
 	{
-		c_list->limiter[*j] = p_list->token;
+		c_list->limiter[*j] = ft_strdup(p_list->token);
 		(*j)++;
 	}
 	c_list->limiter[*j] = NULL;

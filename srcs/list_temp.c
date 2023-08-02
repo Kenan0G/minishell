@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 10:37:49 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/01 14:29:51 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/02 17:13:30 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,21 @@ t_parsed *temp_list(t_data *data, char **av, char *str, t_env *env_list)
 	list = NULL;
 	prev_status = 0;
 	data->str_split = mr_split(str, "><|", data);
-	// data->str_split = ft_split(str, ' ');
 	while (data->str_split[i])
 	{
-		status = first_char(data->str_split[i], prev_status);
+		status = get_status(data->str_split[i], prev_status);
 		my_lstadd_back(&list, my_lstnew(data->str_split[i], status));
 		prev_status = status;
 		i++;
 	}
 	get_command(list, data, env_list);
 	data->parsed_list_size = i;
+	if (data->str_split)	
+		ft_free_map(data->str_split);
 	return (list);
 }
 
-int	first_char(char *str, int prev_status)
+int	get_status(char *str, int prev_status)
 {
 	if (str[0] == '<' && str[1] == '\0')
 		return (REDIR_IN);
@@ -65,6 +66,8 @@ int	first_char(char *str, int prev_status)
 
 int	check_builtin(t_parsed *p_list)
 {
+	// if (!p_list->token)
+	// 	return (COMMAND);
 	if (!ft_strcmp(p_list->token, "echo"))
 		return (ECHO);
 	else if (!ft_strcmp(p_list->token, "cd"))
@@ -95,8 +98,13 @@ void	get_command(t_parsed *list, t_data *data, t_env *env_list)
 		i = 0;
 		while (temp && temp->status != PIPE)
 		{
-			if (temp->status == ARG)
+			if (temp->status == ARG && !ft_strcmp(temp->token, "\"\"")
+					&& !ft_strcmp(temp->token, "''"))
+			{
+				printf("temp->token[0] = %c\n", temp->token[0]);
 				temp->token = get_checked_arg(temp, env_list);
+			}
+			// if (!temp->token)
 			if (i == 0 && temp->status == ARG)
 			{
 				temp->status = check_builtin(temp);
@@ -111,19 +119,3 @@ void	get_command(t_parsed *list, t_data *data, t_env *env_list)
 			temp = temp->next;
 	}
 }
-
-
-// char	*check_env_var(t_parsed *p_list, t_env *env_list)
-// {
-// 	char	*str;
-// 	char	*temp;
-
-// 	temp = NULL;
-// 	temp = malloc(sizeof(char) * ft_strlen(arg) + 1);
-// 	ft_strlcpy(temp, arg, ft_strlen(arg) + 1);
-// 	free (arg);
-// 	str = get_env_var(temp, env_list);
-// 	printf("[%s]\n", str);
-// 	return (str);
-// 	// printf("[%s]\n", get_env_var(temp, env_list));
-// }

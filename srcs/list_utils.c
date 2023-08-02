@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:12:21 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/31 17:02:18 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/02 14:48:24 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,8 @@ t_parsed	*my_lstnew(char *content, int status)
 	t_parsed	*liste;
 
 	liste = malloc(sizeof(*liste));
-	liste->token = content;
+	// liste->token = content;
+	liste->token = ft_strdup(content);
 	liste->status = status;
 	liste->next = NULL;
 	return (liste);
