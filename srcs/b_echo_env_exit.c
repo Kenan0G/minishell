@@ -6,11 +6,14 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 14:44:49 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/02 17:24:53 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/03 11:49:03 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+		// if (c_list->arg[i + 1] && c_list->quote_status[i + 1] == NO_QUOTE
+		// 		&& c_list->quote_status[i] == NO_QUOTE)
 
 void	exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list)
 {
@@ -19,31 +22,22 @@ void	exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list)
 
 	i = 1;
 	newline = 1;
-	// 
-	// 
-	// 
-	// echo -n -n -n -n a gerer
-	// 
-	// 
-	// 
 	while (c_list->arg[i])
 	{
 		if (i == 1)
 		{	
-			while (!ft_strcmp(c_list->arg[i], "-n"))
-			{
+			while (c_list->arg[i] && !ft_strcmp(c_list->arg[i], "-n"))
 				i++;
-				newline = 0;
-			}
+			newline = 0;
 		}
-		else
-		{
+		if (c_list->arg[i])
+		{		
 			printf("%s", c_list->arg[i]);
-			// if (c_list->arg[i + 1] && c_list->quote_status[i + 1] == NO_QUOTE
-			// 		&& c_list->quote_status[i] == NO_QUOTE)
 			if (c_list->arg[i + 1])
 				printf(" ");
 		}
+		if (!c_list->arg[i])
+			break ;
 		i++;
 	}
 	if (newline)

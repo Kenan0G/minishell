@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:43:18 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/02 15:39:45 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/03 17:01:19 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,62 +84,62 @@ static int ft_ischarset(char c, char *charset)
 	return (0);
 }
 
-static int ft_strlensep(char *str, char c, t_data *data)
-{
-	int i;
-	int j;
+// static int ft_strlensep(char *str, char c, t_data *data)
+// {
+// 	int i;
+// 	int j;
 
-	i = 0;
-	j = data->is;
-	if (str[j] == c)
-		j++;
-	while (str[j] && str[j] != c)
-	{
-		j++;
-		i++;
-	}
-	return (i);
-}
+// 	i = 0;
+// 	j = data->is;
+// 	if (str[j] == c)
+// 		j++;
+// 	while (str[j] && str[j] != c)
+// 	{
+// 		j++;
+// 		i++;
+// 	}
+// 	return (i);
+// }
 
-static char *create_double_quote(char *str, t_data *data)
-{
-	char *temp;
-	int i;
+// static char *create_double_quote(char *str, t_data *data)
+// {
+// 	char *temp;
+// 	int i;
 
-	temp = malloc(sizeof(char) * ft_strlensep(str, '"', data) + 2);
-	i = 0;
-	while (str[data->is] )
-	{
-		temp[i] = str[data->is];
-		i++;
-		data->is++;
-		if (str[data->is] == '"')
-			break ;
-	}
-	data->is++;
-	temp[i] = '\0';
-	return (temp);
-}
+// 	temp = malloc(sizeof(char) * ft_strlensep(str, '"', data) + 2);
+// 	i = 0;
+// 	while (str[data->is] )
+// 	{
+// 		temp[i] = str[data->is];
+// 		i++;
+// 		data->is++;
+// 		if (str[data->is] == '"')
+// 			break ;
+// 	}
+// 	data->is++;
+// 	temp[i] = '\0';
+// 	return (temp);
+// }
 
-static char *create_simple_quote(char *str, t_data *data)
-{
-	char *temp;
-	int i;
+// static char *create_simple_quote(char *str, t_data *data)
+// {
+// 	char *temp;
+// 	int i;
 
-	temp = malloc(sizeof(char) * ft_strlensep(str, '\'', data) + 2);
-	i = 0;
-	while (str[data->is] )
-	{
-		temp[i] = str[data->is];
-		i++;
-		data->is++;
-		if (str[data->is] == '\'')
-			break ;
-	}
-	data->is++;
-	temp[i] = '\0';
-	return (temp);
-}
+// 	temp = malloc(sizeof(char) * ft_strlensep(str, '\'', data) + 2);
+// 	i = 0;
+// 	while (str[data->is] )
+// 	{
+// 		temp[i] = str[data->is];
+// 		i++;
+// 		data->is++;
+// 		if (str[data->is] == '\'')
+// 			break ;
+// 	}
+// 	data->is++;
+// 	temp[i] = '\0';
+// 	return (temp);
+// }
 
 static char *create_charset(char *str, char *charset, t_data *data)
 {
@@ -173,7 +173,7 @@ int	wordlen(char *str, char *charset, t_data *data)
 
 	i = data->is;
 	j = 0;
-	while (str[i] && str[i] != '"' && str[i] != '\'' && str[i] != ' ' && !ft_ischarset(str[i], charset))
+	while (str[i] && str[i] != ' ' && !ft_ischarset(str[i], charset))
 	{
 		i++;
 		j++;
@@ -186,10 +186,10 @@ static char *create_word(char *str, char *charset, t_data *data)
 	char *temp;
 	int i;
 
-	temp = malloc(sizeof(char) * (wordlen(str, charset, data) + 1));
+	int len = wordlen(str, charset, data);
+	temp = malloc(sizeof(char) * (len + 1));
 	i = 0;
-	while (str[data->is] && str[data->is] != '"' && str[data->is] != '\''
-			&& str[data->is] != ' ' && !ft_ischarset(str[data->is], charset))
+	while (str[data->is] && str[data->is] != ' ' && !ft_ischarset(str[data->is], charset))
 	{
 		temp[i] = str[data->is];
 		data->is++;
@@ -201,7 +201,7 @@ static char *create_word(char *str, char *charset, t_data *data)
 
 int	not_charset_or_quote(char c, char *charset, int i)
 {
-	if (i == 1 && c && c != '"' && c != '\'' && !ft_ischarset(c, charset))
+	if (i == 1 && c && c != ' ' && !ft_ischarset(c, charset))
 		return (1);
 	else if (i == 2 && c && c != ' ' && c != '"' && c != '\'' && !ft_ischarset(c, charset))
 		return (1);
@@ -213,6 +213,7 @@ int len_split(char *str, char *charset)
 	int	len;
 	int	set;
 	int	i;
+	int	is_quote;
 
 	if (!str)
 		return (0);
@@ -221,44 +222,70 @@ int len_split(char *str, char *charset)
 	while (str[i] == ' ')
 		i++;
 	len = not_charset_or_quote(str[i], charset, 1);
+	is_quote = 0;
 	while (str[i])
 	{
-		while (str[i] == ' ')
+		if (str[i] == '"' && is_quote == 0)
+			is_quote = 1;
+		else if (str[i] == '\'' && is_quote == 0)
+			is_quote = 2;
+		else if (str[i] == '\'' && is_quote == 2)
+			is_quote = 0;
+		else if (str[i] == '"' && is_quote == 1)
+			is_quote = 0;
+		while (str[i] == ' ' && is_quote == 0)
 		{
 			i++;
 			if (!str[i])
 				return (len + set);
-			if (not_charset_or_quote(str[i], charset, 2))
-					len++;
-		}
-		if (str[i] == '"')
-		{
-			i++;
-			while (str[i] != '"')
-				i++;
-			len++;
-			if (not_charset_or_quote(str[i + 1], charset, 2))
+			if (!ft_ischarset(str[i], charset) && str[i] != ' ')
+			{
+				if (str[i] == '"' && is_quote == 0)
+					is_quote = 1;
+				else if (str[i] == '\'' && is_quote == 0)
+					is_quote = 2;
 				len++;
+			}
 		}
-		if (str[i] == '\'')
-		{
-			i++;
-			while (str[i] != '\'')
-				i++;
-			len++;
-			if (not_charset_or_quote(str[i + 1], charset, 2))
-				len++;
-		}
-		if (ft_ischarset(str[i], charset))
+		if (ft_ischarset(str[i], charset) && is_quote == 0)
 		{
 			set++;
-			if (not_charset_or_quote(str[i + 1], charset, 2))
+			if (not_charset_or_quote(str[i + 1], charset, 1))
 				len++;
 		}
 		i++;
 	}
 	return (len + set);
 }
+
+// int len_split(char *str, char *charset)
+// {
+//         int len;
+//         int i;
+
+//         if (!str)
+//                 return (0);
+//         i = 0;
+//         len = 0;
+//         while (str[i])
+// 		{
+// 			if (str[i] == ' ')
+// 			{
+// 				len++;
+// 				while (str[i] == ' ')
+// 					i++;
+// 			}
+// 			if (ft_ischarset(str[i], charset))
+// 			{
+// 				len++;
+// 				while (ft_ischarset(str[i], charset))
+// 					i++;
+// 			}
+// 			i++;
+//         }
+// 		printf("len = %d\n", len);
+//         return (len);
+// }
 
 
 char **mr_split(char *str, char *charset, t_data *data)
@@ -277,17 +304,13 @@ char **mr_split(char *str, char *charset, t_data *data)
 	{
 		while (str[data->is] == ' ')
 			data->is++;
-		if (str[data->is] == '"')
-			split[j] = create_double_quote(str, data);
-		else if (str[data->is] == '\'')
-			split[j] = create_simple_quote(str, data);
-		else if (ft_ischarset(str[data->is], charset))
+		if (ft_ischarset(str[data->is], charset))
 			split[j] = create_charset(str, charset, data);
 		else
 			split[j] = create_word(str, charset, data);
 		j++;
-		while (str[data->is] == ' ')
-			data->is++;
+		// while (str[data->is] == ' ')
+			// data->is++;
 	}
 	split[j] = NULL;
 	return (split);
