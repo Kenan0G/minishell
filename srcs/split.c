@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:43:18 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/03 17:01:19 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/04 16:06:22 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,26 @@ int	wordlen(char *str, char *charset, t_data *data)
 	j = 0;
 	while (str[i] && str[i] != ' ' && !ft_ischarset(str[i], charset))
 	{
+		if (str[i] == '"')
+		{
+			i++;
+			j++;
+			while (str[i] != '"')
+			{
+				i++;
+				j++;
+			}
+		}
+		else if (str[i] == '\'')
+		{
+			i++;
+			j++;
+			while (str[i] != '\'')
+			{
+				i++;
+				j++;
+			}
+		}
 		i++;
 		j++;
 	}
@@ -191,6 +211,30 @@ static char *create_word(char *str, char *charset, t_data *data)
 	i = 0;
 	while (str[data->is] && str[data->is] != ' ' && !ft_ischarset(str[data->is], charset))
 	{
+		if (str[data->is] == '"')
+		{
+			temp[i] = str[data->is];
+			data->is++;
+			i++;
+			while (str[data->is] != '"')
+			{
+				temp[i] = str[data->is];
+				data->is++;
+				i++;
+			}
+		}
+		else if (str[data->is] == '\'')
+		{
+			temp[i] = str[data->is];
+			data->is++;
+			i++;
+			while (str[data->is] != '\'')
+			{
+				temp[i] = str[data->is];
+				data->is++;
+				i++;
+			}
+		}
 		temp[i] = str[data->is];
 		data->is++;
 		i++;
@@ -309,8 +353,8 @@ char **mr_split(char *str, char *charset, t_data *data)
 		else
 			split[j] = create_word(str, charset, data);
 		j++;
-		// while (str[data->is] == ' ')
-			// data->is++;
+		while (str[data->is] == ' ')
+			data->is++;
 	}
 	split[j] = NULL;
 	return (split);

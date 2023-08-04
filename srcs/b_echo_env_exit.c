@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 14:44:49 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/03 11:49:03 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/04 15:03:45 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ void	exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list)
 		if (i == 1)
 		{	
 			while (c_list->arg[i] && !ft_strcmp(c_list->arg[i], "-n"))
-				i++;
+		{
 			newline = 0;
+			i++;
+		}	
 		}
 		if (c_list->arg[i])
 		{		

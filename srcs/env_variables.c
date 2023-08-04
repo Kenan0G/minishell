@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:09:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/02 16:40:39 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/04 17:48:38 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ char	*is_expand(t_parsed *p_list, t_env *env_list)
 	list = NULL;
 	i = 0;
 	// a check la condition d'en dessous pour le cas du ""
-	if (p_list->token[0] == '"')
-		i = 1;
+	// if (p_list->token[0] == '"')
+	// 	i = 1;
 	while (p_list->token[i])
 	{
 		while (p_list->token[i] && p_list->token[i] != '$')
@@ -169,9 +169,8 @@ int	is_permutable(char *arg, char *env)
 		return (0);
 	while (arg[i] && env[i] && arg[i] == env[i])
 		i++;
-	if ((arg[i] == ' '|| arg[i] == '$' || !arg[i]) && (env[i] == '=' || !env[i]))
+	if ((arg[i] == ' '|| arg[i] == '$' || arg[i] == '"' || !arg[i]) && (env[i] == '=' || !env[i]))
 	{
-		// printf("arg[i] = %c\nenv[i] = %c\ni = %d\n", arg[i], env[i], i);
 		return (i);
 	}
 	return (0);
