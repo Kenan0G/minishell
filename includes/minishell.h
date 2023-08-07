@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/08/02 14:43:45 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/07 16:04:51 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,7 @@ t_env				*exec_unset(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env **env_
 void				unset_utils(char *str, t_env **env_list);
 
 void				exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list);
+int					check_param_echo(char *str);
 void				exec_env(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list);
 void				exec_exit(t_cmd *c_list, t_parsed *p_list, t_data *data);
 
@@ -210,6 +211,10 @@ char				*is_expand(t_parsed *p_list, t_env *env_list);
 int					get_expand_value(char *str, t_arg **arg_list, t_env *env_list);
 int					is_permutable(char *arg, char *env);
 char				*convert_list_to_str(t_arg *list);
+int					*get_char_status(t_arg *list, int tablen);
+int					str_malloc_len(int *tab, int tablen);
+int					get_tab_len(t_arg *list);
+char				*get_res(t_arg *list, int *tab, char *res);
 
 // 
 // 

@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 14:44:49 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/04 15:03:45 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/07 16:04:12 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void	exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list)
 	{
 		if (i == 1)
 		{	
-			while (c_list->arg[i] && !ft_strcmp(c_list->arg[i], "-n"))
-		{
-			newline = 0;
-			i++;
-		}	
+			while (c_list->arg[i] && check_param_echo(c_list->arg[i]))
+			{
+				newline = 0;
+				i++;
+			}
 		}
 		if (c_list->arg[i])
 		{		
@@ -49,6 +49,21 @@ void	exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list)
 	ft_free_env(&env_list);
 }
 
+int	check_param_echo(char *str)
+{
+	int	i;
+
+	i = 1;
+	if (!str[0] || !str[1] || str[0] != '-')
+		return (0);
+	while (str[i])
+	{
+		if (str[i] != 'n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
 void	exec_env(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list)
 {
 	(void)p_list;

@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:43:18 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/04 16:06:22 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/07 15:35:03 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -357,6 +357,12 @@ char **mr_split(char *str, char *charset, t_data *data)
 			data->is++;
 	}
 	split[j] = NULL;
+	// int k = 0;
+	// while (split[k])
+	// {
+	// 	printf("%s\n", split[k]);
+	// 	k++;
+	// }
 	return (split);
 }
 
