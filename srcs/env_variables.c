@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:09:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/07 16:49:31 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/08 17:39:21 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,19 +79,19 @@ char	*is_expand(t_parsed *p_list, t_env *env_list)
 		{
 			my_lstadd_back_arg(&list, my_lstnew_arg(p_list->token[i]));
 			i++;
-			if (p_list->token[i] == '$' && (p_list->token[i + 1] == ' ' || !p_list->token[i + 1]) && p_list->token[i + 1] != '$')
-			{
-				printf("test dollar\n\n");
-				my_lstadd_back_arg(&list, my_lstnew_arg('$'));	
-				i++;
-			}
 		}
 		if (!p_list->token[i])
 			break ;
+		// else if (p_list->token[i] == '$' && (p_list->token[i + 1] == '\0' || p_list->token[i + 1] != ' '|| p_list->token[i + 1] != ' ' || p_list->token[i + 1] != '"'))
+		// {
+		// 	printf("test dollar\n\n");
+		// 	my_lstadd_back_arg(&list, my_lstnew_arg('$'));	
+		// 	i++;
+		// }
 		i++;
-		// printf("p_list->token + i = %s\n", p_list->token + i);
 		get_expand_value(p_list->token + i, &list, env_list);
-		while (p_list->token[i] != ' ' && p_list->token[i] != '$' && p_list->token[i])
+		// printf("p_list->token + i = %s\n", p_list->token + i);
+		while (p_list->token[i] != ' ' && p_list->token[i] != '$' && p_list->token[i]) // quand je fait echo "$", quand on arrive ici on rentre jamais dans la boucle en gros a gere echo "$"
 			i++;
 		// printf("--p_list->token[i] = %c\n", p_list->token[i]);
 	}
@@ -107,9 +107,12 @@ int	get_expand_value(char *str, t_arg **arg_list, t_env *env_list)
 	int		len;
 
 	temp_e = env_list;
-	if (!str[0])
+	i = 0;
+	if (!str[0] || (str[0] == '"' && !str[1]) || str[0] == ' ')
 	{
-		
+		my_lstadd_back_arg(arg_list, my_lstnew_arg('$'));
+		i++;
+		return (2);
 	}
 	while (temp_e)
 	{
@@ -241,7 +244,8 @@ int	*get_char_status(t_arg *list, int tablen)
 				i++;
 				temp = temp->next;
 			}
-			tab[i] = 1;
+			if (i < tablen)
+				tab[i] = 1;
 		}
 		else if (temp->c == '\'')
 		{
@@ -254,7 +258,8 @@ int	*get_char_status(t_arg *list, int tablen)
 				i++;
 				temp = temp->next;
 			}
-			tab[i] = 1;
+			if (i < tablen)
+				tab[i] = 1;
 		}
 		else
 			tab[i] = 0;
