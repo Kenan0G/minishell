@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/08/07 16:04:51 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/09 16:22:09 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,7 @@ int					*get_char_status(t_arg *list, int tablen);
 int					str_malloc_len(int *tab, int tablen);
 int					get_tab_len(t_arg *list);
 char				*get_res(t_arg *list, int *tab, char *res);
+int					ret_expend(char *str);
 
 // 
 // 
