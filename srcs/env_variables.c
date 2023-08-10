@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:09:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/09 17:53:30 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/10 17:09:58 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,18 +83,6 @@ char	*is_expand(t_parsed *p_list, t_env *env_list)
 		}
 		if (!p_list->token[i])
 			break ;
-		// else if (p_list->token[i] == '$' && !p_list->token[i + 1])
-		// {
-		// 	my_lstadd_back_arg(&list, my_lstnew_arg(p_list->token[i]));
-		// 	i++;
-		// }
-		// else if (p_list->token[i] == '$' && p_list->token[i + 1] == '"' && !p_list->token[i + 2])
-		// {
-		// 	my_lstadd_back_arg(&list, my_lstnew_arg(p_list->token[i]));
-		// 	i++;
-		// }
-		// else
-		// {
 		i++;
 		ret_expend = get_expand_value(p_list->token + i, &list, env_list);
 		if ( ret_expend == -1)
@@ -103,27 +91,10 @@ char	*is_expand(t_parsed *p_list, t_env *env_list)
 				i++;
 		}
 		else
-		{
 			i = i + ret_expend;
-			// while (p_list->token[i] && p_list->token[i] != ' ' && p_list->token[i] != '$') // && (p_list->token[i] != '"' && !p_list->token[i + 1])) // quand je fait echo "$", quand on arrive ici on rentre jamais dans la boucle en gros a gere echo "$"
-			// while (ret_expend != 0)
-			// {
-			// 	ret_expend--;
-			// 	i++;
-			// }
-		}
 		printf("a la sortie de du if, on est sur [%c] et cleui d'avant c = [%c]\n", p_list->token[i], p_list->token[i - 1]);
 		if (!p_list->token[i])
 			break ;
-		// } 
-		// else if (p_list->token[i] == '$' && (p_list->token[i + 1] == '\0' || p_list->token[i + 1] != ' '|| p_list->token[i + 1] != ' ' || p_list->token[i + 1] != '"'))
-		// {
-		// 	printf("test dollar\n\n");
-		// 	my_lstadd_back_arg(&list, my_lstnew_arg('$'));	
-		// 	i++;
-		// }
-		// printf("p_list->token + i = %s\n", p_list->token + i);
-		// printf("--p_list->token[i] = %c\n", p_list->token[i]);
 	}
 	free (p_list->token);
 	print_arg(list);
