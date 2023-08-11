@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/08/09 16:22:09 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/11 15:08:03 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@
 #define SIMPLE_QUOTE 18
 #define DOUBLE_QUOTE 19
 #define NO_QUOTE 20
+
+extern int	exit_status;
 
 typedef struct s_arg
 {
@@ -104,6 +106,7 @@ typedef struct s_data
 	char			**str_split;
 	t_env			*envp;
 } t_data;
+
 
 void				ft_end(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_list);
 void				ft_wait(t_data *data);
@@ -216,6 +219,8 @@ int					str_malloc_len(int *tab, int tablen);
 int					get_tab_len(t_arg *list);
 char				*get_res(t_arg *list, int *tab, char *res);
 int					ret_expend(char *str);
+int					nb_quote(char *str);
+void				get_fork_status(t_arg **arg_list);
 
 // 
 // 

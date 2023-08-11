@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:49:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/02 15:50:35 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/11 16:23:57 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ void	exec_builtin(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list
 		env_list = exec_unset(c_list, p_list, data, &env_list);
 	else if (c_list->command_int == CD)
 		exec_cd(c_list, env_list);
+	free(data->pid);
+	ft_free_all(&c_list, &p_list, data, NULL);
+	// ft_free_cmd_list(&c_list);
+	ft_free_env(&env_list);
 	// ft_free_env(&env_list);
 	// ft_free_p_list(&p_list, data);
 	// ft_free_all(&c_list, &p_list, data, &env_list);

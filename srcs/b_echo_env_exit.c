@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 14:44:49 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/07 16:04:12 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/11 16:12:04 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 
 void	exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list)
 {
+	(void)data;
+	(void)p_list;
+	(void)env_list;
 	int	i;
 	int	newline;
 
@@ -44,9 +47,6 @@ void	exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list)
 	}
 	if (newline)
 		printf("\n");
-	free(data->pid);
-	ft_free_all(&c_list, &p_list, data, NULL);
-	ft_free_env(&env_list);
 }
 
 int	check_param_echo(char *str)

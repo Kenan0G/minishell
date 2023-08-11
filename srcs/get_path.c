@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:30:52 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/02 16:00:12 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/11 15:48:15 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,19 +77,3 @@ void	ft_path(char **envp, t_data *data)
 	if (envp)
 		ft_free_map(envp);
 }
-
-
-// corriger
-// void	ft_wait(t_data *data)
-// {
-// 	int		status;
-// 	int		i;
-
-// 	i = 0;
-// 	status = 0;
-// 	while (i != data->cmd_count)
-// 		waitpid(data->pid[data->index], NULL, status);
-// 	status = WIFEXITED(status);
-// 	free(data->pid);
-// 	exit (status); 
-// } 

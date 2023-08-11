@@ -14,7 +14,8 @@ OBJS_DIR = objs
 SRCS_DIR = $(shell find srcs -type d)
 
 vpath %.c $(foreach dir, $(SRCS_DIR), $(dir))
-SRCS =	end_program.c\
+SRCS =	minishell.c\
+		end_program.c\
 		b_cd_pwd.c\
 		b_echo_env_exit.c\
 		b_export.c\
@@ -28,7 +29,6 @@ SRCS =	end_program.c\
 		list_exec.c\
 		list_temp.c\
 		list_utils.c\
-		minishell.c\
 		utils.c \
 		env_variables.c \
 		split.c\
