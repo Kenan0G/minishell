@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:09:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/11 15:17:22 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/14 16:34:09 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,7 @@ char	**env_char(t_env *env_list)
 
 char	*get_checked_arg(t_parsed *p_list, t_env *env_list)
 {
-	char	*res;
-
-	if (p_list->token[0] == '\'')
-	{
-		p_list->quote_status = SIMPLE_QUOTE;
-		res = ft_strdup(p_list->token + 1);
-		free(p_list->token);
-		return (res);
-	}
-	else if (p_list->token[0] == '\"')
+	if (p_list->token[0] == '\"' || p_list->token[0] == '\'')
 	{
 		p_list->quote_status = DOUBLE_QUOTE;
 		return (is_expand(p_list, env_list));
@@ -64,6 +55,13 @@ char	*get_checked_arg(t_parsed *p_list, t_env *env_list)
 	}
 }
 
+// char	*get_simple_quote_str(char *str)
+// {
+// 	int	i;
+
+// 	i = 1;
+// }
+
 // le cas "$$USER" ou/et "$$" est peut etre a revoir
 
 char	*is_expand(t_parsed *p_list, t_env *env_list)
@@ -76,6 +74,18 @@ char	*is_expand(t_parsed *p_list, t_env *env_list)
 	i = 0;
 	while (p_list->token[i])
 	{
+		if (p_list->token[i] == '\'')
+		{
+			my_lstadd_back_arg(&list, my_lstnew_arg(p_list->token[i]));
+			i++;
+			// printf("si je rentre dedans ou pas\n");
+			while (p_list->token[i] && p_list->token[i] != '\'')
+			{
+				// printf("et combien de fois je boucle\n");
+				my_lstadd_back_arg(&list, my_lstnew_arg(p_list->token[i]));
+				i++;
+			}
+		}
 		while (p_list->token[i] && p_list->token[i] != '$')
 		{
 			my_lstadd_back_arg(&list, my_lstnew_arg(p_list->token[i]));
@@ -207,12 +217,12 @@ int	is_permutable(char *arg, char *env)
 	int	i;
 
 	i = 0;
-	printf("arg = %s\n", arg);
+	// printf("arg = %s\n", arg);
 	if (arg[0] == '$')
 		return (0);
 	while (arg[i] && env[i] && arg[i] == env[i])
 		i++;
-	if ((arg[i] == ' '|| arg[i] == '$' || arg[i] == '"' || !arg[i]) && (env[i] == '=' || !env[i]))
+	if ((arg[i] == ' '|| arg[i] == '$' || arg[i] == '"' || arg[i] == '\'' || !arg[i]) && (env[i] == '=' || !env[i]))
 	{
 		// printf("arg[i] = %c\nenv[i] = %c\ni = %d\n", arg[i], env[i], i);
 		return (i);

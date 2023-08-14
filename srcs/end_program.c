@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:42:04 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/11 15:08:27 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/14 16:08:36 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ void	ft_end(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_list)
 	ft_unlink(*c_list);
 	ft_free_all(c_list, p_list, data, env_list);
 }
+
+// void	ft_close(t_data *data)
+// {		
+// }
 
 void	ft_free_all(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_list)
 {
