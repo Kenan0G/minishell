@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 14:44:49 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/11 16:12:04 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/14 15:29:07 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,8 @@
 		// if (c_list->arg[i + 1] && c_list->quote_status[i + 1] == NO_QUOTE
 		// 		&& c_list->quote_status[i] == NO_QUOTE)
 
-void	exec_echo(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list)
+void	exec_echo(t_cmd *c_list)
 {
-	(void)data;
-	(void)p_list;
-	(void)env_list;
 	int	i;
 	int	newline;
 
@@ -64,23 +61,11 @@ int	check_param_echo(char *str)
 	}
 	return (1);
 }
-void	exec_env(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list)
-{
-	(void)p_list;
-	(void)c_list;
-	print_env(env_list);
-	free(data->pid);
-	ft_free_all(&c_list, &p_list, data, &env_list);
-	ft_free_env(&env_list);
-}
 
-void	exec_exit(t_cmd *c_list, t_parsed *p_list, t_data *data)
+void	exec_exit(t_cmd *c_list, t_parsed *p_list)
 {
 	(void)p_list;
 	(void)c_list;
-	(void)data;
 	printf("exec_exit\n");
-	free(data->pid);
-	ft_free_all(&c_list, &p_list, data, NULL);
 	// exit (0);
 }

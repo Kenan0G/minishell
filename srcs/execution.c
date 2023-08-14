@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:49:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/11 16:23:57 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/14 15:35:03 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int	execution(t_cmd *list, t_parsed *p_list, t_data *data, t_env **env_list)
 	data->fd_pipe[0] = 0;
 	data->fd_pipe[1] = 0;
 	if (data->cmd_count == 1 && list->command_int == EXPORT)
-		*env_list = exec_export(list, p_list, data, *env_list);
+		*env_list = exec_export(list, *env_list);
 	else if (data->cmd_count == 1 && list->command_int == UNSET)
-		*env_list = exec_unset(list, p_list, data, env_list);
+		*env_list = exec_unset(list, env_list);
 	else if (data->cmd_count == 1 && list->command_int == CD)
 		*env_list = exec_cd(list, *env_list);
 	else
@@ -28,30 +28,22 @@ int	execution(t_cmd *list, t_parsed *p_list, t_data *data, t_env **env_list)
 	return (0);
 }
 
-void	exec_builtin(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env *env_list)
+void	exec_builtin(t_cmd *c_list, t_parsed *p_list, t_env *env_list)
 {
 	if (c_list->command_int == ECHO)
-		exec_echo(c_list, p_list, data, env_list);
+		exec_echo(c_list);
 	else if (c_list->command_int == PWD)
-		exec_pwd(c_list, p_list, data);
+		exec_pwd();
 	else if (c_list->command_int == EXIT)
-		exec_exit(c_list, p_list, data);
+		exec_exit(c_list, p_list);
 	else if (c_list->command_int == ENV)
-		exec_env(c_list, p_list, data, env_list);
+		print_env(env_list);
 	else if (c_list->command_int == EXPORT)
-		env_list = exec_export(c_list, p_list, data, env_list);
+		env_list = exec_export(c_list, env_list);
 	else if (c_list->command_int == UNSET)
-		env_list = exec_unset(c_list, p_list, data, &env_list);
+		env_list = exec_unset(c_list, &env_list);
 	else if (c_list->command_int == CD)
 		exec_cd(c_list, env_list);
-	free(data->pid);
-	ft_free_all(&c_list, &p_list, data, NULL);
-	// ft_free_cmd_list(&c_list);
-	ft_free_env(&env_list);
-	// ft_free_env(&env_list);
-	// ft_free_p_list(&p_list, data);
-	// ft_free_all(&c_list, &p_list, data, &env_list);
-	exit(0);
 }
 
 void	redirections(t_cmd *list, t_data *data)

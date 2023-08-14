@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 16:06:24 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/01 16:45:10 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/14 15:59:24 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	execution_loop(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_list
 
 	data->index_2 = 0;
 	c_list = list;
+	data->c_list_temp = &list;
 	while (c_list)
 	{
 		if (c_list->is_ok)
@@ -55,11 +56,16 @@ void	loop_utils_1(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_l
 		if (c_temp->command_int == COMMAND)
 			get_path_and_exec(c_temp, p_temp, data, e_temp);
 		else
-			exec_builtin(c_temp, p_temp, data, e_temp);
+		{
+			exec_builtin(c_temp, p_temp, *env_list);
+			free(data->pid);
+			ft_free_all(data->c_list_temp, p_list, data, env_list);
+			ft_free_env(env_list);
+			exit (0);
+		}
 	}
 	loop_utils_1_3(data);
 }
-
 
 void	loop_utils_1_2(t_data *data, t_cmd *c_temp)
 {

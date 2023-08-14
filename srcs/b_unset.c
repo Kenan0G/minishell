@@ -6,17 +6,15 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 14:46:14 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/19 12:09:37 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/14 15:30:43 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 
-t_env *exec_unset(t_cmd *c_list, t_parsed *p_list, t_data *data, t_env **env_list)
+t_env *exec_unset(t_cmd *c_list, t_env **env_list)
 {
-	(void)p_list;
-	(void)data;
 	int i;
 
 	i = 1;

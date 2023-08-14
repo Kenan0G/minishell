@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:01 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/11 15:51:53 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/14 11:56:33 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,11 @@ int main (int ac, char **av, char **env)
 		// print_list(p_list);
 		c_list = create_cmd_list(p_list, &data);
 		execution(c_list, p_list, &data, &env_list);
-		dprintf(2, "============end\n\n\n\n");
+		// dprintf(2, "============end\n\n\n\n");
 		ft_end(&c_list, &p_list, &data, &env_list);
 		free (str);
 	}
+	// ft_end(&c_list, &p_list, &data, &env_list);
 	if (env_list)
 		ft_free_env(&env_list);
 	return (0);

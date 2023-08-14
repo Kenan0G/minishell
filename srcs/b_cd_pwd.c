@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd_pwd.c                                           :+:      :+:    :+:   */
+/*   b_cd_pwd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:11:54 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/18 13:17:12 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/14 15:27:29 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	exec_pwd(t_cmd *c_list, t_parsed *p_list, t_data *data)
+void	exec_pwd(void)
 {
 	char	*buf;
 	char	*str;
@@ -20,8 +20,8 @@ void	exec_pwd(t_cmd *c_list, t_parsed *p_list, t_data *data)
 	buf = NULL;
 	str = getcwd(buf, 0);
 	printf("%s\n", str);
-	free(data->pid);
-	ft_free_all(&c_list, &p_list, data, NULL);
+	// free(data->pid);
+	// ft_free_all(&c_list, &p_list, data, NULL);
 }
 
 t_env	*exec_cd(t_cmd *c_list, t_env *env_list)
