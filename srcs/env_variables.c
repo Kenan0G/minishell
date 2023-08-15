@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:09:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/15 14:07:24 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/15 16:25:26 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,16 +212,12 @@ int	is_permutable(char *arg, char *env)
 	int	i;
 
 	i = 0;
-	// printf("arg = %s\n", arg);
 	if (arg[0] == '$')
 		return (0);
 	while (arg[i] && env[i] && arg[i] == env[i])
 		i++;
 	if ((arg[i] == ' '|| arg[i] == '$' || arg[i] == '"' || arg[i] == '\'' || !arg[i]) && (env[i] == '=' || !env[i]))
-	{
-		// printf("arg[i] = %c\nenv[i] = %c\ni = %d\n", arg[i], env[i], i);
 		return (i);
-	}
 	return (0);
 }
 
@@ -238,7 +234,6 @@ char	*convert_list_to_str(t_arg *list)
 	res = get_res(list, tab, res);
 	free(tab);
 	ft_free_arg_list(&list);
-	// printf("str = %s\n", res);
 	return (res);
 }
 
@@ -278,7 +273,6 @@ int	str_malloc_len(int *tab, int tablen)
 			len++;
 		i++;
 	}
-	// printf("malloc_len = %d\n", len);
 	return (len);
 }
 
@@ -341,13 +335,5 @@ int	*get_char_status(t_arg *list, int tablen)
 		i++;
 		temp = temp->next;
 	}
-	// i = 0;
-	// temp = list;
-	// while (temp)
-	// {
-	// 	printf("[%c]\ntab[%d] = %d\n",temp->c,  i, tab[i]);
-	// 	temp = temp->next;
-	// 	i++;
-	// }
 	return(tab);
 }
