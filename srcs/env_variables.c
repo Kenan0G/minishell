@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:09:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/14 16:34:09 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/15 14:07:24 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ char	*is_expand(t_parsed *p_list, t_env *env_list)
 			break ;
 	}
 	free (p_list->token);
-	print_arg(list);
+	// print_arg(list);
 	return (convert_list_to_str(list));
 }
 
@@ -126,21 +126,18 @@ int	get_expand_value(char *str, t_arg **arg_list, t_env *env_list)
 	}
 	else if (str[0] == '"' && !str[1])
 	{
-		printf(" dollar\" et rien \n\n");
 		my_lstadd_back_arg(arg_list, my_lstnew_arg('$'));
 		return (-1);
 	}
 	else if (str[0] == '"' && nb_quote(str) % 2 == 0)
-		return (printf(" $\"HOME\" \n\n"), 0);	
+		return (0);	
 	else if (str[0] == '"' && nb_quote(str) % 2 == 1)
 	{
-		printf(" \"$\"HOME \n\n");
 		my_lstadd_back_arg(arg_list, my_lstnew_arg('$'));
 		return (0);
 	}
 	else if (str[0] == '?')
 	{
-		printf("$?\n");
 		get_fork_status(arg_list);
 		return (1);
 	}
@@ -152,7 +149,6 @@ int	get_expand_value(char *str, t_arg **arg_list, t_env *env_list)
 			i = len + 1;
 			while (temp_e->env[i])
 			{
-				printf("temp_e->env[i] = %c\n", temp_e->env[i]);
 				my_lstadd_back_arg(arg_list, my_lstnew_arg(temp_e->env[i]));
 				i++;
 			}
@@ -208,7 +204,6 @@ int	ret_expend(char *str)
 	}
 	while (str[i] && str[i] != ' ' && str[i] != '$' && str[i] != '"')
 		i++;
-	printf("i = %d\n", i);
 	return (i);
 }
 
