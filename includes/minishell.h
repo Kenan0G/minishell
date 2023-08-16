@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/08/14 15:58:08 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/16 11:30:34 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,7 @@ void				unset_utils(char *str, t_env **env_list);
 
 void				exec_echo(t_cmd *c_list);
 int					check_param_echo(char *str);
+void				exec_env(t_env *e_list, t_cmd *c_list);
 void				exec_exit(t_cmd *c_list, t_parsed *p_list);
 
 void				exec_pwd();

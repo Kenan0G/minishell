@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 14:44:49 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/14 15:29:07 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/16 11:45:47 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,14 @@ int	check_param_echo(char *str)
 		i++;
 	}
 	return (1);
+}
+
+void	exec_env(t_env *e_list, t_cmd *c_list)
+{
+	if (!c_list->arg[1] )
+		print_env(e_list);
+	else
+		printf("env: %s: No such file or directory\n", c_list->arg[1]);
 }
 
 void	exec_exit(t_cmd *c_list, t_parsed *p_list)
