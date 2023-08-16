@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:12:21 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/07 12:09:58 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/16 13:28:53 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,13 @@ void	my_lstadd_back_env(t_env **lst, t_env *new)
 	current_node->next = new;
 }
 
-t_env	*my_lstnew_env(char *str)
+t_env	*my_lstnew_env(char *str, int nb)
 {
 	t_env	*liste;
 
 	liste = malloc(sizeof(*liste));
 	liste->next = NULL;
+	liste->printable = nb;
 	liste->env = ft_strdup(str);
 	return (liste);
 }

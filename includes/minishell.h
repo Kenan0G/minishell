@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/08/16 11:30:34 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/16 13:29:11 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_arg
 typedef struct s_env
 {
 	char			*env;
+	int				printable;
 	struct s_env	*next;
 }					t_env;
 
@@ -149,7 +150,7 @@ t_parsed 			*temp_list(t_data *data, char **av, char *str, t_env *env_list);
 int					get_status(char *str, int prev_status);
 void				get_command(t_parsed *list, t_data *data, t_env *env_list);
 
-t_env				*my_lstnew_env(char *str);
+t_env				*my_lstnew_env(char *str, int nb);
 t_arg				*my_lstnew_arg(char c);
 t_cmd				*my_lstnew_cmd();
 t_parsed			*my_lstnew(char *content, int status);
