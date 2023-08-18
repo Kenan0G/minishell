@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:12:21 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/16 13:28:53 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/18 11:25:06 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,10 @@ void	print_env(t_env *token)
 	temp = token;
 	while (temp)
 	{
-		printf("%s\n", temp->env);
+		if (temp->printable)
+			printf("%s\n", temp->env);
+		// else
+		// 	printf("[[[[[[[[[[[[%s]]]]]]]]]]]]]]]]]\n", temp->env);
 		temp = temp->next;
 	}
 }

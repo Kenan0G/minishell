@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/08/16 13:29:11 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/18 12:12:51 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,6 +224,7 @@ int					ret_expend(char *str);
 int					nb_quote(char *str);
 void				get_fork_status(t_arg **arg_list);
 
+void 				export(t_env *env_list);
 // 
 // 
 // PARSING  

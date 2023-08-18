@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 14:44:49 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/16 13:54:06 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/18 11:27:06 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ int	check_param_echo(char *str)
 void	exec_env(t_env *e_list, t_cmd *c_list)
 {
 	(void)c_list;
-	// if (!c_list->arg[1] )
+	if (!c_list->arg[1])
 		print_env(e_list);
-	// else
-		// printf("env: %s: No such file or directory\n", c_list->arg[1]);
+	else
+		printf("env: %s: No such file or directory\n", c_list->arg[1]);
 }
 
 void	exec_exit(t_cmd *c_list, t_parsed *p_list)

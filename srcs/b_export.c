@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:13:30 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/16 13:43:30 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/18 12:52:22 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,15 @@ t_env	*exec_export(t_cmd *c_list, t_env *env_list)
 	int		check;
 
 	i = 1;
+	if (c_list->arg[1] == NULL)
+		return (export(env_list), env_list);
 	while (c_list->arg[i])
 	{
 		check = 0;
 		temp = env_list;
 		lenght = export_utils_1(c_list->arg[i]);
 		if (lenght == -1)
-			my_lstadd_back_env(&env_list, my_lstnew_env(ft_strdup(c_list->arg[i]), 0));
+			my_lstadd_back_env(&env_list, my_lstnew_env(c_list->arg[i], 0));
 		else
 		{
 			while (temp && check != 1)
@@ -39,6 +41,71 @@ t_env	*exec_export(t_cmd *c_list, t_env *env_list)
 		i++;
 	}
 	return (env_list);
+}
+
+void export(t_env *env_list)
+{
+	int		i;
+	int		j;
+	char	*temp;
+	char **env;
+	
+	env = env_char(env_list);
+	i = 0;
+	while (env[i])
+	{
+		j = i;
+		while (env[j])
+		{
+			if (env[i][0] > env[j][0])
+			{
+				temp = env[i];
+				env[i] = env[j];
+				env[j] = temp;
+			}
+			j++;
+		}
+		i++;
+	}
+	i = 0;
+	while (env[i])
+	{
+		j = 0;
+		printf("export ");
+		while (env[i][j])
+		{	
+			while (env[i][j] && env[i][j] != '=')
+			{
+				printf("%c", env[i][j]);
+				j++;
+			}
+			if (!env[i][j])
+			{
+				printf("\n");
+				break ;
+			}
+			printf("%c", env[i][j]);
+			j++;
+			printf("\"");
+			while (env[i][j])
+			{
+				printf("%c", env[i][j]);
+				j++;
+			}
+			printf("\"");
+			printf("\n");
+		}
+		i++;
+	}
+	if (temp)
+		free(temp);
+	i = 0;
+	while (env[i + 1])
+	{
+		free(env[i]);
+		i++;
+	}
+	free(env);
 }
 
 int	export_utils_1(char *str)
@@ -71,5 +138,5 @@ int	export_utils_2(char **env, char *arg, int lenght)
 void	export_utils_3(t_env *temp, int check, t_env *env_list, char *str)
 {	
 	if (temp == NULL && check == 0)
-		my_lstadd_back_env(&env_list, my_lstnew_env(ft_strdup(str), 1));
+		my_lstadd_back_env(&env_list, my_lstnew_env(str, 1));
 }
