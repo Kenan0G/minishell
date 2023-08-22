@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:49:05 by jsabound          #+#    #+#             */
-/*   Updated: 2023/08/01 16:53:51 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/18 15:07:47 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*ft_strdup(const char *s)
 	int		i;
 
 	i = 0;
+	if (!s)
+		return (NULL);
 	dest = (char *)malloc(sizeof(char) * ft_strlen(s) + 1);
 	if (!dest)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 16:06:24 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/16 13:55:35 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/18 14:48:32 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	loop_utils_1(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_l
 	data->pid[data->index] = fork();
 	if (data->pid[data->index] == 0)
 	{
-		if (c_temp->command_int != EXPORT)
-			redirections(c_temp, data);
+		// if (c_temp->command_int != EXPORT)
+		redirections(c_temp, data);
 		if (c_temp->command_int == COMMAND)
 			get_path_and_exec(c_temp, p_temp, data, e_temp);
 		else

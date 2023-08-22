@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:09:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/15 16:25:26 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/18 17:12:47 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*get_checked_arg(t_parsed *p_list, t_env *env_list)
 		return (is_expand(p_list, env_list));
 	}
 	else if (p_list->token[0] == '\0')
-		return (p_list->token);
+		return (ft_strdup(p_list->token));
 	else
 	{
 		p_list->quote_status = NO_QUOTE;
