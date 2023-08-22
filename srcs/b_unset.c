@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 14:46:14 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/14 15:30:43 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/22 21:36:08 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_env *exec_unset(t_cmd *c_list, t_env **env_list)
 	i = 1;
 	while (c_list->arg[i])
 	{
+		// check comme le export
 		unset_utils(c_list->arg[i], env_list);
 		i++;
 	}
@@ -35,7 +36,7 @@ void unset_utils(char *str, t_env **env_list)
 	current = *env_list;
 	while (current)
 	{
-		if (!ft_strncmp(current->env, str, ft_strlen(str)) 
+		if (!ft_strncmp(current->env, str, ft_strlen(str))
 				&& ft_strlen(str) == get_lenght(current->env, '='))
 		{
 			if (prev)

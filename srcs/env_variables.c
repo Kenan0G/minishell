@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:09:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/22 15:10:37 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/22 22:54:24 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,12 @@ char	*is_expand(t_parsed *p_list, t_env *env_list)
 	i = 0;
 	while (p_list->token[i])
 	{
-		printf("debut [%c]\n", p_list->token[i]);
 		if (p_list->token[i] == '\'')
 		{
 			my_lstadd_back_arg(&list, my_lstnew_arg(p_list->token[i]));
 			i++;
-			// printf("si je rentre dedans ou pas\n");
-			printf("avant boucle [%c]\n", p_list->token[i]);
 			while (p_list->token[i] && p_list->token[i] != '\'')
 			{
-				// printf("et combien de fois je boucle\n");
-				printf("dedans [%c]\n", p_list->token[i]);
 				my_lstadd_back_arg(&list, my_lstnew_arg(p_list->token[i]));
 				i++;
 			}
@@ -102,7 +97,6 @@ char	*is_expand(t_parsed *p_list, t_env *env_list)
 			}
 			else
 				i = i + ret_expend;
-			// printf("a la sortie de du if, on est sur [%c] et cleui d'avant c = [%c]\n", p_list->token[i], p_list->token[i - 1]);
 			if (!p_list->token[i])
 				break ;
 		}
