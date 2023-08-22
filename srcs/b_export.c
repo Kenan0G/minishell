@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:13:30 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/18 12:52:22 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/22 13:44:35 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,24 @@ t_env	*exec_export(t_cmd *c_list, t_env *env_list)
 		return (export(env_list), env_list);
 	while (c_list->arg[i])
 	{
-		check = 0;
-		temp = env_list;
-		lenght = export_utils_1(c_list->arg[i]);
-		if (lenght == -1)
-			my_lstadd_back_env(&env_list, my_lstnew_env(c_list->arg[i], 0));
+		if (c_list->arg[i][0] == '\0')
+			printf("export: '\": not a valid  identifier\n");
 		else
 		{
-			while (temp && check != 1)
+			check = 0;
+			temp = env_list;
+			lenght = export_utils_1(c_list->arg[i]);
+			if (lenght == -1)
+				my_lstadd_back_env(&env_list, my_lstnew_env(c_list->arg[i], 0));
+			else
 			{
-				check = export_utils_2(&temp->env, c_list->arg[i], lenght);
-				temp = temp->next;
+				while (temp && check != 1)
+				{
+					check = export_utils_2(&temp->env, c_list->arg[i], lenght);
+					temp = temp->next;
+				}
+				export_utils_3(temp, check, env_list, c_list->arg[i]);
 			}
-			export_utils_3(temp, check, env_list, c_list->arg[i]);
 		}
 		i++;
 	}

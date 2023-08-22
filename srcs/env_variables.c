@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:09:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/18 17:12:47 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/22 13:52:09 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,6 @@ char	*get_checked_arg(t_parsed *p_list, t_env *env_list)
 		return (is_expand(p_list, env_list));
 	}
 }
-
-// char	*get_simple_quote_str(char *str)
-// {
-// 	int	i;
-
-// 	i = 1;
-// }
 
 // le cas "$$USER" ou/et "$$" est peut etre a revoir
 
@@ -143,7 +136,10 @@ int	get_expand_value(char *str, t_arg **arg_list, t_env *env_list)
 	}
 	while (temp_e)
 	{
-		len = is_permutable(str, temp_e->env);
+		if (temp_e->printable == 1)
+			len = is_permutable(str, temp_e->env);
+		else
+			len = 0;
 		if (len > 0)
 		{
 			i = len + 1;

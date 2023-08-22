@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:30:52 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/18 16:15:18 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/22 11:18:16 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ char	*path_check(t_data *data, t_cmd *list)
 	int		i;
 
 	i = 0;
+	if (list->command[0] == '\0')
+		return (ft_error_path(data, NULL, list), NULL);	
 	str = list->command;
 	temp = ft_strjoin("/", str);
 	while (data->path_begining && data->path_begining[i])
@@ -55,7 +57,8 @@ void	ft_error_path(t_data *data, char *temp, t_cmd *list)
 	char	*str_2;
 
 	(void)data;
-	free(temp);
+	if (temp)
+		free(temp);
 	str = ft_strjoin("Command '", list->command);
 	str_2 = ft_strjoin(str, "' not found \n");
 	write(2, str_2, ft_strlen(str_2));
