@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:13:30 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/22 13:44:35 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/22 16:14:35 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ t_env	*exec_export(t_cmd *c_list, t_env *env_list)
 		return (export(env_list), env_list);
 	while (c_list->arg[i])
 	{
-		if (c_list->arg[i][0] == '\0')
-			printf("export: '\": not a valid  identifier\n");
-		else
+		if (export_check(c_list->arg[i]))
 		{
 			check = 0;
 			temp = env_list;
@@ -46,6 +44,24 @@ t_env	*exec_export(t_cmd *c_list, t_env *env_list)
 		i++;
 	}
 	return (env_list);
+}
+
+int	export_check(char *str)
+{
+	// int	i;
+	// int	simple_quote;
+	// int	double_quote;
+	// int	status;
+
+	// i = 0;
+	if (str[0] == '\0')
+		return (printf("export: '\": not a valid  identifier\n"), 0);
+	return (1);
+		
+	// while(str[i])
+	// {
+		
+	// }
 }
 
 void export(t_env *env_list)
