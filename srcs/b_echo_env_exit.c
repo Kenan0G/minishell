@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 14:44:49 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/18 11:27:06 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/23 15:14:50 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,10 @@ void	exec_env(t_env *e_list, t_cmd *c_list)
 	(void)c_list;
 	if (!c_list->arg[1])
 		print_env(e_list);
+	else if (c_list->arg[1][0] == '-' && c_list->arg[1][1] != '\0')
+		printf("env: %c%c: Invalid option\n", c_list->arg[1][0], c_list->arg[1][1]);
+	else if (c_list->arg[1][0] == '-' && c_list->arg[1][1] == '\0')
+		return ;
 	else
 		printf("env: %s: No such file or directory\n", c_list->arg[1]);
 }

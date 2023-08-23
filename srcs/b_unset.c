@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 14:46:14 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/22 21:36:08 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/23 15:17:59 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@ t_env *exec_unset(t_cmd *c_list, t_env **env_list)
 	int i;
 
 	i = 1;
+	if (c_list->arg[1] && c_list->arg[1][0] == '-' && c_list->arg[1][1] != '\0')
+	{
+		printf("env: %c%c: Invalid option\n", c_list->arg[1][0], c_list->arg[1][1]); 	
+		return (*env_list);
+	}
+	else if (c_list->arg[1] && c_list->arg[1][0] == '-' && c_list->arg[1][1] == '\0')
+		return (*env_list);
 	while (c_list->arg[i])
 	{
 		// check comme le export

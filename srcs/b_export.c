@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:13:30 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/22 16:14:35 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/23 15:11:31 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ t_env	*exec_export(t_cmd *c_list, t_env *env_list)
 	i = 1;
 	if (c_list->arg[1] == NULL)
 		return (export(env_list), env_list);
+	else if (c_list->arg[1][0] == '-')
+		return (printf("export: %c%c: Invalid option\n", c_list->arg[1][0], c_list->arg[1][1]), env_list);
 	while (c_list->arg[i])
 	{
 		if (export_check(c_list->arg[i]))
