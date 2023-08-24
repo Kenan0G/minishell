@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:01 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/23 13:27:27 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/24 19:07:30 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	init_data(t_data *data, char **env)
 	data->index = 0;
 	data->i = 0;
 	data->j = 0;
+	data->error_status = 0;
+	data->free_oldpwd = 0;
 }
 
 // valgrind --leak-check=full --show-leak-kinds=all --suppressions=valgrind.txt ./minishell

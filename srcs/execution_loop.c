@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 16:06:24 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/18 14:48:32 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/24 13:39:25 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@ void	loop_utils_1(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_l
 			get_path_and_exec(c_temp, p_temp, data, e_temp);
 		else
 		{
-			exec_builtin(c_temp, p_temp, *env_list);
+			exec_builtin(c_temp, p_temp, *env_list, data);
 			free(data->pid);
 			ft_free_all(data->c_list_temp, p_list, data, env_list);
 			ft_free_env(env_list);
-			exit (0);
+			exit (data->error_status);
 		}
 	}
 	loop_utils_1_3(data);
@@ -102,6 +102,7 @@ void	loop_utils_2(t_cmd **list, t_parsed **p_list, t_data *data, t_env **env_lis
 	if (data->pid[data->index] == 0)
 	{
 		ft_free_all(list, p_list, data, env_list);
+		ft_free_env(env_list);
 		free(data->pid);
 		exit(1);
 	}

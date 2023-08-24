@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:49:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/23 13:45:00 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/24 13:38:26 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ int	execution(t_cmd *list, t_parsed *p_list, t_data *data, t_env **env_list)
 	else if (data->cmd_count == 1 && list->command_int == UNSET)
 		*env_list = exec_unset(list, env_list);
 	else if (data->cmd_count == 1 && list->command_int == CD)
-		*env_list = exec_cd(list, *env_list);
+		*env_list = exec_cd(list, *env_list, data);
 	else
 		execution_loop(list, p_list, data, *env_list);
 	return (0);
 }
 
-void	exec_builtin(t_cmd *c_list, t_parsed *p_list, t_env *env_list)
+void	exec_builtin(t_cmd *c_list, t_parsed *p_list, t_env *env_list, t_data *data)
 {
 	if (c_list->command_int == ECHO)
 		exec_echo(c_list);
@@ -43,7 +43,7 @@ void	exec_builtin(t_cmd *c_list, t_parsed *p_list, t_env *env_list)
 	else if (c_list->command_int == UNSET)
 		env_list = exec_unset(c_list, &env_list);
 	else if (c_list->command_int == CD)
-		exec_cd(c_list, env_list);
+		exec_cd(c_list, env_list, data);
 }
 
 void	redirections(t_cmd *list, t_data *data)
