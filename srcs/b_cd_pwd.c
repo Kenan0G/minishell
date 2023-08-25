@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:11:54 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/24 19:11:38 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/25 14:28:59 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ t_env	*exec_cd(t_cmd *c_list, t_env *env_list, t_data *data)
 	}
 	else if (!oldpwd || chdir(c_list->arg[1]) == -1)
 	{	
+		ft_putstr_fd("cd: ", 2);
 		perror(c_list->arg[1]);
 		free(oldpwd);
 		data->error_status = 1;

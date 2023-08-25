@@ -6,18 +6,19 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:01 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/24 19:07:30 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/25 14:57:38 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// revoir correctement les free et les fd open pour toute les situations
-// revoir les leaks sur l'env
 // rajouter les signaux
 // gerer le control+C pour les here_doc
-// recuperer le bon code erreur a chaque fois
-
+// faire la fonction de parsing sur le export qui va etre utilisé aussi sur le unset
+// gerer env -i
+// faire le exit
+// revoir le code d'erreur lors des pipes si il y a un command not found au debut ou a la fin
+// gerer les tabs horizontaux
 
 int main (int ac, char **av, char **env)
 {
