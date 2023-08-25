@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:42:04 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/14 16:08:36 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/25 18:11:32 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,9 @@ void	ft_end(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_list)
 	ft_free_all(c_list, p_list, data, env_list);
 }
 
-// void	ft_close(t_data *data)
-// {		
-// }
-
 void	ft_free_all(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_list)
 {
 	(void)env_list;
-	// if (data->str_split)	
-	// 	ft_free_map(data->str_split);
 	if (p_list)
 		ft_free_p_list(p_list, data);
 	if (c_list)
@@ -40,13 +34,22 @@ void	ft_free_all(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_li
 
 void	ft_wait(t_data *data)
 {
-	while (data->index-- > 0)
+	int	i;
+	int	j;
+
+	j = data->index;
+	if (j == 0)
+		j = j - 1;
+	i = 0;
+	while (i < j)
 	{
-		waitpid(data->pid[data->index], &exit_status, 0);
+		waitpid(data->pid[i], &exit_status, 0);
 		exit_status = WEXITSTATUS(exit_status);
-		printf("status = %d\n", exit_status);
+		// printf("status = %d\n", exit_status);
+		i++;
 	}
-	free(data->pid);
+	if (data->pid)
+		free(data->pid);
 }
 
 void	ft_unlink(t_cmd *list)
@@ -173,9 +176,11 @@ void	ft_free_map(char **str)
 	while (str[i])
 	{
 		// printf("i = %d\n", i);
-		free(str[i]);
+		if (str[i])
+			free(str[i]);
 		i++;
 	}
-	free(str);	
+	if (str)
+		free(str);
 }
 

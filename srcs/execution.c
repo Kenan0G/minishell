@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:49:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/24 13:38:26 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/25 18:08:30 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ int	execution(t_cmd *list, t_parsed *p_list, t_data *data, t_env **env_list)
 		*env_list = exec_unset(list, env_list);
 	else if (data->cmd_count == 1 && list->command_int == CD)
 		*env_list = exec_cd(list, *env_list, data);
-	else
+	else if (data->cmd_count > 0)
 		execution_loop(list, p_list, data, *env_list);
+	// if (data->pid)
+	// 	free(data->pid);
 	return (0);
 }
 

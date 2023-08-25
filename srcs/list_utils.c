@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:12:21 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/22 11:45:01 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/25 17:53:55 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,13 @@ t_cmd	*my_lstnew_cmd()
 
 	liste = malloc(sizeof(*liste));
 	liste->next = NULL;
+	liste->arg = NULL;
+	liste->command = NULL;
+	liste->hd_fd = NULL;
+	liste->quote_status = NULL;
+	liste->hd_fd = NULL;
+	liste->limiter = NULL;
+	liste->command_int = 0;
 	liste->fd_in = 0;
 	liste->fd_out = 0;
 	liste->is_ok = 1;

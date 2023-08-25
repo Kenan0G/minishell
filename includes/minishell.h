@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/08/24 19:10:51 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/25 17:16:12 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct s_cmd
 typedef struct s_data
 {
 	int				cmd_count;
+	int				pipe_count;
 	int				parsed_list_size;
 	int				fd_pipe[2];
 	char			*path;

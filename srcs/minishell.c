@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:01 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/25 16:04:25 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/25 18:08:20 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 // faire la fonction de parsing sur le export qui va etre utilisé aussi sur le unset
 // gerer env -i
 // faire le exit
-// revoir le code d'erreur lors des pipes si il y a un command not found au debut ou a la fin
 // gerer les tabs horizontaux
+// gerer < fichier et > fichier sans aucune commande
 
 int main (int ac, char **av, char **env)
 {
@@ -39,15 +39,13 @@ int main (int ac, char **av, char **env)
 			break ;
 		init_data(&data, env);
 		p_list = temp_list(&data, av, str, env_list);
-		print_list(p_list);
+		// print_list(p_list);
 		c_list = create_cmd_list(p_list, &data);
-		print_cmd_list(c_list);
+		// print_cmd_list(c_list);
 		execution(c_list, p_list, &data, &env_list);
-		// dprintf(2, "============end\n\n\n\n");
 		ft_end(&c_list, &p_list, &data, &env_list);
 		free (str);
 	}
-	// ft_end(&c_list, &p_list, &data, &env_list);
 	if (env_list)
 		ft_free_env(&env_list);
 	return (0);
@@ -59,6 +57,7 @@ void	init_data(t_data *data, char **env)
 	(void)env;
 	ft_memset(data, 0, sizeof(t_data));
 	data->cmd_count = 0;
+	data->pipe_count = 0;
 	data->index = 0;
 	data->i = 0;
 	data->j = 0;

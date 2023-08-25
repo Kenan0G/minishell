@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 18:27:17 by jsabound          #+#    #+#             */
-/*   Updated: 2023/08/02 11:06:46 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/25 17:38:44 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_cmd	*create_cmd_list(t_parsed *parsed_list, t_data *data)
 
 	i = 0;
 	cmd_list = NULL;
-	while (i != data->cmd_count)
+	while (i != data->pipe_count)
 	{
 		my_lstadd_back_cmd(&cmd_list, my_lstnew_cmd());
 		i++;

@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 16:06:24 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/24 13:39:25 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/25 17:47:50 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	loop_utils_1(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_l
 	e_temp = *env_list;
 	data->previous_fd = data->fd_pipe[0];
 	loop_utils_1_2(data, c_temp);
+	// printf("data->index = %d\n", data->index);
 	data->pid[data->index] = fork();
 	if (data->pid[data->index] == 0)
 	{
