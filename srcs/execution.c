@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:49:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/25 18:08:30 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/26 20:37:46 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	execution(t_cmd *list, t_parsed *p_list, t_data *data, t_env **env_list)
 {
-	data->pid = malloc(sizeof(pid_t) * data->cmd_count);
+	data->pid = malloc(sizeof(pid_t) * data->pipe_count);
 	data->fd_pipe[0] = 0;
 	data->fd_pipe[1] = 0;
 	if (data->cmd_count == 1 && list->command_int == EXPORT)

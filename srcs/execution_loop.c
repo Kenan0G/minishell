@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 16:06:24 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/25 17:47:50 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/26 23:34:48 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	execution_loop(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_list
 	data->c_list_temp = &list;
 	while (c_list)
 	{
-		if (c_list->is_ok)
+		if (c_list->is_ok && c_list->command)
 		{
 			loop_utils_1(&c_list, &p_list, data, &env_list);
 			c_list = c_list->next;
@@ -30,10 +30,15 @@ void	execution_loop(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_list
 		}
 		else
 		{	
-			loop_utils_2(&list, &p_list, data, &env_list);
+			loop_utils_2(&c_list, &p_list, data, &env_list);
 			c_list = c_list->next;
 			data->index++;
 		}
+		// dprintf(2, "[%d]--fd_in 		= %d\n", data->index, list->fd_in);
+		// dprintf(2, "[%d]--fd_out		= %d\n", data->index, list->fd_out);
+		// dprintf(2, "[%d]--fd_pipe[1]	= %d\n", data->index, data->fd_pipe[1]);
+		// dprintf(2, "[%d]--fd_pipe[0]	= %d\n", data->index, data->fd_pipe[0]);
+		// dprintf(2, "[%d]--previous fd	= %d\n", data->index, data->previous_fd);
 	}
 }
 
@@ -96,9 +101,13 @@ void	loop_utils_1_3(t_data *data)
 		close (data->fd_pipe[1]);
 }
 
+// dans utils 1, rajouter  a un moment if c_list->next->isok pour gerer les pipes (peeeut etre close fd_pipe[0])
+
 void	loop_utils_2(t_cmd **list, t_parsed **p_list, t_data *data, t_env **env_list)
 {
-	data->previous_fd = 0;
+	data->previous_fd = data->fd_pipe[0];
+	loop_utils_1_2(data, *list);
+	// printf("data->index = %d\n", data->index);
 	data->pid[data->index] = fork();
 	if (data->pid[data->index] == 0)
 	{
@@ -107,4 +116,27 @@ void	loop_utils_2(t_cmd **list, t_parsed **p_list, t_data *data, t_env **env_lis
 		free(data->pid);
 		exit(1);
 	}
+	loop_utils_1_3(data);
 }
+
+/*
+void	loop_utils_2(t_cmd **list, t_parsed **p_list, t_data *data, t_env **env_list)
+{
+	// data->previous_fd = 0;
+	data->pid[data->index] = fork();
+	loop_utils_1_2(data, list);
+	if (data->pid[data->index] == 0)
+	{
+		ft_free_all(list, p_list, data, env_list);
+		ft_free_env(env_list);
+		free(data->pid);
+		exit(1);
+	}
+	// if (data->previous_fd > 0)
+		// close(data->previous_fd);
+	if (data->previous_fd > 0)
+		close(data->previous_fd);
+	if (data->fd_pipe[1] > 0)
+		close (data->fd_pipe[1]);
+}
+*/
