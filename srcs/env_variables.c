@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:09:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/22 22:54:24 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/27 17:14:33 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	get_expand_value(char *str, t_arg **arg_list, t_env *env_list)
 
 	temp_e = env_list;
 	i = 0;
-	if (!str[0] || str[0] == ' ')
+	if (!str[0] || str[0] == ' ' || str[0] == '\t')
 	{
 		my_lstadd_back_arg(arg_list, my_lstnew_arg('$'));
 		return (0);
@@ -200,7 +200,7 @@ int	ret_expend(char *str)
 			i++;
 		return (i + 1);
 	}
-	while (str[i] && str[i] != ' ' && str[i] != '$' && str[i] != '"')
+	while (str[i] && str[i] != ' ' && str[i] != '\t' && str[i] != '$' && str[i] != '"')
 		i++;
 	return (i);
 }
@@ -214,7 +214,7 @@ int	is_permutable(char *arg, char *env)
 		return (0);
 	while (arg[i] && env[i] && arg[i] == env[i])
 		i++;
-	if ((arg[i] == ' '|| arg[i] == '$' || arg[i] == '"' || arg[i] == '\'' || !arg[i]) && (env[i] == '=' || !env[i]))
+	if ((arg[i] == ' ' || arg[i] == '\t' || arg[i] == '$' || arg[i] == '"' || arg[i] == '\'' || !arg[i]) && (env[i] == '=' || !env[i]))
 		return (i);
 	return (0);
 }

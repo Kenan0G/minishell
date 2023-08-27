@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:01 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/25 18:08:20 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/27 17:27:41 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 // faire la fonction de parsing sur le export qui va etre utilisé aussi sur le unset
 // gerer env -i
 // faire le exit
-// gerer les tabs horizontaux
-// gerer < fichier et > fichier sans aucune commande
 
 int main (int ac, char **av, char **env)
 {
