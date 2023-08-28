@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: red <red@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 18:27:17 by jsabound          #+#    #+#             */
-/*   Updated: 2023/08/27 09:48:40 by red              ###   ########.fr       */
+/*   Updated: 2023/08/28 17:29:08 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,16 @@ t_cmd	*get_fd(t_cmd *cmd_list, t_parsed *parsed_list, t_data *data)
 {
 	t_cmd	*c_list;
 	t_parsed	*p_list;
+	// pid_t	pid;
 	
 	p_list = parsed_list;
 	c_list = cmd_list;
-	hd_execution(p_list, c_list);
+	// pid = fork();
+	// if (pid == 0)
+	// {
+		// signal(SIGINT, exit_here_doc);
+		hd_execution(p_list, c_list);
+	// }
 	while (c_list)
 	{
 		data->i = 0;

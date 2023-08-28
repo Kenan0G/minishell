@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 10:37:49 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/28 10:41:17 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/28 18:40:34 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	get_command(t_parsed *list, t_data *data, t_env *env_list)
 		{
 			// printf("temp->token[0] = %c\n", temp->token[0]);
 			if (temp->status == ARG)
-				temp->token = get_checked_arg(temp, env_list);
+				temp->token = get_checked_arg(temp, env_list, data);
 			if (i == 0 && temp->status == ARG)
 			{
 				temp->status = check_builtin(temp);

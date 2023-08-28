@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/08/28 15:49:25 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/28 18:43:40 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@
 #define DOUBLE_QUOTE 19
 #define NO_QUOTE 20
 
-extern int exit_status;
+extern int sig;
 
 typedef struct s_arg
 {
@@ -105,8 +105,10 @@ typedef struct s_data
 	int i;
 	int j;
 	int is;
+	int	on_here_doc;
 	int free_oldpwd;
 	int error_status;
+	int	exit_no;
 	char *pwd_temp;
 	char **str_split;
 	t_cmd **c_list_temp;
@@ -114,7 +116,7 @@ typedef struct s_data
 } t_data;
 
 void ft_end(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_list);
-void ft_wait(t_data *data);
+int ft_wait(t_data *data);
 void ft_unlink(t_cmd *list);
 void ft_free_cmd_list(t_cmd **lst);
 void free_cmd_content(t_cmd *lst);
@@ -132,6 +134,7 @@ void hd_execution(t_parsed *p_list, t_cmd *cmd_list);
 void generate_hd_file_name(t_cmd *c_list, int i);
 int here_doc(char *limiter, char *path);
 int open_here_doc(char *path);
+void	exit_here_doc(int signo);
 
 void ft_open(t_parsed *p_list, t_cmd *c_list, t_data *data);
 void fd_file_in(t_parsed *p_list, t_cmd *c_list, t_data *data);
@@ -165,7 +168,7 @@ void print_env(t_env *token);
 void print_arg(t_arg *token);
 void print_cmd_list(t_cmd *token);
 
-void init_data(t_data *data, char **env);
+void init_data(t_data *data, int exit_no);
 
 int is_path(char *str);
 char *path_check(t_data *data, t_cmd *list);
@@ -212,9 +215,9 @@ void loop_utils_1_2(t_data *data, t_cmd *c_temp);
 void loop_utils_1_3(t_data *data);
 void loop_utils_2(t_cmd **list, t_parsed **p_list, t_data *data, t_env **env_list);
 
-char *get_checked_arg(t_parsed *p_list, t_env *env_list);
-char *is_expand(t_parsed *p_list, t_env *env_list);
-int get_expand_value(char *str, t_arg **arg_list, t_env *env_list);
+char *get_checked_arg(t_parsed *p_list, t_env *env_list, t_data *data);
+char *is_expand(t_parsed *p_list, t_env *env_list, t_data *data);
+int get_expand_value(char *str, t_arg **arg_list, t_env *env_list, t_data *data);
 int is_permutable(char *arg, char *env);
 char *convert_list_to_str(t_arg *list);
 int	*get_char_status(t_arg *list, int tablen);
@@ -223,7 +226,7 @@ int get_tab_len(t_arg *list);
 char *get_res(t_arg *list, int *tab, char *res);
 int ret_expend(char *str);
 int nb_quote(char *str);
-void get_fork_status(t_arg **arg_list);
+void get_fork_status(t_arg **arg_list, t_data *data);
 
 
 
@@ -246,7 +249,7 @@ int		check_double_quote(char *str);
 int		check_simple_quote(char *str);
 int		check_chevron_out(char *str);
 int		check_chevron_in(char *str);
-void	signal_ctrl_c(int signo);
+void    signal_ctrl_c(int signo);
 void	signal_ctrl_slash(int signo);
 void	signal_ctrl_backslash(int signo);
 void	signal_ctrl_d(void);

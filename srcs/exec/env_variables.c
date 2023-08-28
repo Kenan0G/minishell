@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:09:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/27 17:52:46 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/28 18:41:14 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,25 +39,25 @@ char	**env_char(t_env *env_list)
 }
 
 
-char	*get_checked_arg(t_parsed *p_list, t_env *env_list)
+char	*get_checked_arg(t_parsed *p_list, t_env *env_list, t_data *data)
 {
 	if (p_list->token[0] == '\"' || p_list->token[0] == '\'')
 	{
 		p_list->quote_status = DOUBLE_QUOTE;
-		return (is_expand(p_list, env_list));
+		return (is_expand(p_list, env_list, data));
 	}
 	else if (p_list->token[0] == '\0')
 		return (ft_strdup(p_list->token));
 	else
 	{
 		p_list->quote_status = NO_QUOTE;
-		return (is_expand(p_list, env_list));
+		return (is_expand(p_list, env_list, data));
 	}
 }
 
 // le cas "$$USER" ou/et "$$" est peut etre a revoir
 
-char	*is_expand(t_parsed *p_list, t_env *env_list)
+char	*is_expand(t_parsed *p_list, t_env *env_list, t_data *data)
 {
 	t_arg	*list;
 	int		i;
@@ -89,7 +89,7 @@ char	*is_expand(t_parsed *p_list, t_env *env_list)
 		else if (p_list->token[i] != '\'')
 		{
 			i++;
-			ret_expend = get_expand_value(p_list->token + i, &list, env_list);
+			ret_expend = get_expand_value(p_list->token + i, &list, env_list, data);
 			if ( ret_expend == -1)
 			{
 				while (p_list->token[i] != '"')
@@ -106,7 +106,7 @@ char	*is_expand(t_parsed *p_list, t_env *env_list)
 	return (convert_list_to_str(list));
 }
 
-int	get_expand_value(char *str, t_arg **arg_list, t_env *env_list)
+int	get_expand_value(char *str, t_arg **arg_list, t_env *env_list, t_data *data)
 {
 	t_env	*temp_e;
 	int		i;
@@ -133,7 +133,7 @@ int	get_expand_value(char *str, t_arg **arg_list, t_env *env_list)
 	}
 	else if (str[0] == '?')
 	{
-		get_fork_status(arg_list);
+		get_fork_status(arg_list, data);
 		return (1);
 	}
 	while (temp_e)
@@ -157,14 +157,14 @@ int	get_expand_value(char *str, t_arg **arg_list, t_env *env_list)
 	return (ret_expend(str));
 }
 
-void	get_fork_status(t_arg **arg_list)
+void	get_fork_status(t_arg **arg_list, t_data *data)
 {
 	int		i;
 	char	*str;
 
 	i = 0;
 	
-	str = ft_itoa(exit_status);
+	str = ft_itoa(data->exit_no);
 	while (str[i])
 	{
 		my_lstadd_back_arg(arg_list, my_lstnew_arg(str[i]));

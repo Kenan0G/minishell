@@ -3,22 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   end_program.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: red <red@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:42:04 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/27 09:48:40 by red              ###   ########.fr       */
+/*   Updated: 2023/08/28 18:43:08 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	exit_status = 0;
-
 void	ft_end(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_list)
 {
 	(void)env_list;
 	(void)p_list;
-	ft_wait(data);
+	// ft_wait(data);
 	ft_unlink(*c_list);
 	ft_free_all(c_list, p_list, data, env_list);
 }
@@ -32,24 +30,27 @@ void	ft_free_all(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_li
 		ft_free_cmd_list(c_list);
 }
 
-void	ft_wait(t_data *data)
+int	ft_wait(t_data *data)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	int	exit_no;
 
+	exit_no = 0;
 	j = data->index;
 	if (j == 0)
 		j = j - 1;
 	i = 0;
 	while (i < j)
 	{
-		waitpid(data->pid[i], &exit_status, 0);
-		exit_status = WEXITSTATUS(exit_status);
+		waitpid(data->pid[i], &exit_no, 0);
+		exit_no = WEXITSTATUS(exit_no);
 		// printf("status = %d\n", exit_status);
 		i++;
 	}
 	if (data->pid)
 		free(data->pid);
+	return (exit_no);
 }
 
 void	ft_unlink(t_cmd *list)

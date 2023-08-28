@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   b_unset.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: red <red@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 14:46:14 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/27 09:48:40 by red              ###   ########.fr       */
+/*   Updated: 2023/08/28 16:30:20 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ t_env *exec_unset(t_cmd *c_list, t_env **env_list)
 		return (*env_list);
 	while (c_list->arg[i])
 	{
-		// check comme le export
-		unset_utils(c_list->arg[i], env_list);
+		if (export_check(c_list->arg[i]))
+			unset_utils(c_list->arg[i], env_list);
 		i++;
 	}
 	return (*env_list);

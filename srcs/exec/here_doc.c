@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: red <red@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 11:50:45 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/27 09:48:40 by red              ###   ########.fr       */
+/*   Updated: 2023/08/28 18:44:32 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+// int	sig = 0;
 
 void	hd_execution(t_parsed *p_list, t_cmd *cmd_list)
 {
@@ -91,4 +93,13 @@ int	open_here_doc(char *path)
 		exit (EXIT_FAILURE);
 	}
 	return (fd);
+}
+
+void	exit_here_doc(int signo)
+{
+    if (signo == SIGINT) 
+	{
+		ft_putstr_fd("^C\n", 1);
+		exit (0);
+	}
 }
