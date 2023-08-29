@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:01 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/28 18:43:32 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/29 11:22:45 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ int main(int ac, char **av, char **env)
 	}
 	env_list = NULL;
 	env_list = get_env(env_list, env);
-	signal(SIGQUIT, signal_ctrl_backslash);
-	signal(SIGINT, signal_ctrl_c);
 	while (1)
 	{
+		signal(SIGQUIT, signal_ctrl_backslash);
+		signal(SIGINT, signal_ctrl_c);
 		str = readline("minishell$> ");
 		if (!str)
 			break;
