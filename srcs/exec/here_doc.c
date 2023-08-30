@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 11:50:45 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/30 15:34:17 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/30 15:46:32 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	hd_execution(t_parsed *p_list, t_cmd *cmd_list)
 
 	(void)p_list;
 	c_list = cmd_list;
+	signal(SIGINT, signal_ctrl_c);
 	while (c_list)
 	{
 		i = 0;
@@ -43,6 +44,7 @@ int	hd_execution(t_parsed *p_list, t_cmd *cmd_list)
 		c_list->hd_file[i] = NULL;
 		c_list = c_list->next;
 	}
+	signal(SIGINT, signal_ctrl_c);
 	return (1);
 }
 
@@ -68,7 +70,7 @@ int	here_doc(char *limiter, char *path)
 	fd = open_here_doc(path);
 	while (in_here_doc == 1)
 	{
-		line = get_next_line(0, 0);
+		line = readline("> ");
 		printf("line = %s\n", line);
 		if (!line)
 		{

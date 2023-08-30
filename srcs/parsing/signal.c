@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 17:57:05 by red               #+#    #+#             */
-/*   Updated: 2023/08/30 15:40:18 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/30 15:49:57 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ void    signal_ctrl_c(int signo)
     {
         // ft_putstr_fd("exit here doc \n", 2);
         in_here_doc = 0;
-        write(2, "\n", 1);
-        rl_replace_line("", 0);
-        rl_on_new_line();
-        rl_redisplay();
+        // write(2, "\n", 1);
+        // rl_replace_line("", 0);
+        // rl_on_new_line();
+        // rl_redisplay();
         // exit (100);
     }
     // if (signo == SIGINT) 
