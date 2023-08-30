@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/08/28 18:43:40 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/30 14:50:43 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@
 #define DOUBLE_QUOTE 19
 #define NO_QUOTE 20
 
-extern int sig;
+extern int in_here_doc;
 
 typedef struct s_arg
 {
@@ -130,7 +130,7 @@ int execution(t_cmd *list, t_parsed *p_list, t_data *data, t_env **env_list);
 void redirections(t_cmd *list, t_data *data);
 void get_path_and_exec(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_list);
 
-void hd_execution(t_parsed *p_list, t_cmd *cmd_list);
+int hd_execution(t_parsed *p_list, t_cmd *cmd_list);
 void generate_hd_file_name(t_cmd *c_list, int i);
 int here_doc(char *limiter, char *path);
 int open_here_doc(char *path);

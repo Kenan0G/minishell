@@ -6,15 +6,15 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 11:50:45 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/28 18:44:32 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/30 15:34:17 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// int	sig = 0;
+// int	in_here_doc= 0;
 
-void	hd_execution(t_parsed *p_list, t_cmd *cmd_list)
+int	hd_execution(t_parsed *p_list, t_cmd *cmd_list)
 {
 	int		i;
 	t_cmd	*c_list;
@@ -24,11 +24,13 @@ void	hd_execution(t_parsed *p_list, t_cmd *cmd_list)
 	while (c_list)
 	{
 		i = 0;
-		while (i < c_list->nb_here_doc)
+		while (i < c_list->nb_here_doc && in_here_doc == 1)
 		{
 			generate_hd_file_name(c_list, i);
 			unlink(c_list->hd_file[i]);
 			c_list->hd_fd[i] = here_doc(c_list->limiter[i], c_list->hd_file[i]);
+			if (in_here_doc == 0)
+				return (0);
 			c_list->hd_fd[i] = open(c_list->hd_file[i], O_RDWR, 0644);
 			if (c_list->hd_fd[i] <= 0)
 			{
@@ -36,9 +38,12 @@ void	hd_execution(t_parsed *p_list, t_cmd *cmd_list)
 			}
 			i++;
 		}
+		if (in_here_doc == 0)
+			return (0);
 		c_list->hd_file[i] = NULL;
 		c_list = c_list->next;
 	}
+	return (1);
 }
 
 void	generate_hd_file_name(t_cmd *c_list, int i)
@@ -57,14 +62,22 @@ int	here_doc(char *limiter, char *path)
 {
 	char	*line;
 	int		fd;
+	// int		x;
 
+	// x = dup(0);
 	fd = open_here_doc(path);
-	while (1)
+	while (in_here_doc == 1)
 	{
-		line = readline("> ");
+		line = get_next_line(0, 0);
+		printf("line = %s\n", line);
 		if (!line)
 		{
 			write(2, "warning: here-document delimited by end-of-file.\n", 49);
+			break ;
+		}
+		if (in_here_doc == 0)
+		{
+			// close(x);
 			break ;
 		}
 		if (!ft_strcmp(line, limiter))
@@ -76,9 +89,11 @@ int	here_doc(char *limiter, char *path)
 		}
 		free(line);
 	}
-	// if (line)
-		free(line);
 	close(fd);
+	if (in_here_doc == 0)
+		return (printf("return test\n"), 0);
+	if (line)
+		free(line);
 	return (fd);
 }
 
@@ -95,11 +110,11 @@ int	open_here_doc(char *path)
 	return (fd);
 }
 
-void	exit_here_doc(int signo)
-{
-    if (signo == SIGINT) 
-	{
-		ft_putstr_fd("^C\n", 1);
-		exit (0);
-	}
-}
+// void	exit_here_doc(int signo)
+// {
+//     if (signo == SIGINT) 
+// 	{
+// 		ft_putstr_fd("^C\n", 1);
+// 		exit (0);
+// 	}
+// }

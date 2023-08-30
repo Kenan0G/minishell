@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:01 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/28 18:43:32 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/30 14:24:00 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // gerer le control+C pour les here_doc
 
-int	sig = 0;
+int	in_here_doc= 0;
 
 int main(int ac, char **av, char **env)
 {

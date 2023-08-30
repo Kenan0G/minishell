@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 18:27:17 by jsabound          #+#    #+#             */
-/*   Updated: 2023/08/28 17:29:08 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/30 14:53:39 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,17 @@ t_cmd	*get_fd(t_cmd *cmd_list, t_parsed *parsed_list, t_data *data)
 	// if (pid == 0)
 	// {
 		// signal(SIGINT, exit_here_doc);
-		hd_execution(p_list, c_list);
+	in_here_doc = 1;
+	if (hd_execution(p_list, c_list) == 0)
+	{
+		c_list->is_ok = 0;
+		
+	}
+	in_here_doc = 0;
+		// ft_free_all(&c_list, &p_list, data, NULL);
+	// 	exit (0);
 	// }
+	// waitpid(pid, NULL, 0);
 	while (c_list)
 	{
 		data->i = 0;

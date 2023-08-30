@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_exec_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: red <red@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:22:01 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/27 09:48:40 by red              ###   ########.fr       */
+/*   Updated: 2023/08/30 14:54:48 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ void	fd_here_doc(t_cmd *c_list, t_data *data)
 {
 	if (c_list->fd_in > 0)
 		close(c_list->fd_in);
-	c_list->fd_in = c_list->hd_fd[data->j];
+	if (c_list->hd_fd[data->j] > 0)
+		c_list->fd_in = c_list->hd_fd[data->j];
+	else
+		c_list->fd_in = 0;
 	data->j++;
 }
 

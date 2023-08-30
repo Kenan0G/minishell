@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_exec_value.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: red <red@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:19:20 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/27 09:48:40 by red              ###   ########.fr       */
+/*   Updated: 2023/08/30 15:00:24 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,12 @@ t_parsed	*get_value_i_j(t_parsed *p_list, int *i, int *j)
 
 void	get_value_malloc(t_cmd *c_list, int i, int j)
 {
+	// int	i;
+
 	c_list->nb_here_doc = j;
-	c_list->hd_file = malloc(sizeof(char *) * (j + 1));
+	c_list->hd_file = ft_calloc(sizeof(char *), (j + 1));
 	c_list->limiter = malloc(sizeof(char *) * (j + 1));
-	c_list->hd_fd = malloc(sizeof(int) * (j));
+	c_list->hd_fd = ft_calloc(sizeof(int), j);
 	c_list->arg = malloc(sizeof(char *) * (i + 1));
 	c_list->quote_status = malloc(sizeof(int) * (i));
 }

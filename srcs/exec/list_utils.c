@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: red <red@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:12:21 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/27 09:48:40 by red              ###   ########.fr       */
+/*   Updated: 2023/08/30 14:36:16 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ t_cmd	*my_lstnew_cmd()
 	liste->next = NULL;
 	liste->arg = NULL;
 	liste->command = NULL;
-	liste->hd_fd = NULL;
+	liste->hd_file = NULL;
 	liste->quote_status = NULL;
 	liste->hd_fd = NULL;
 	liste->limiter = NULL;
