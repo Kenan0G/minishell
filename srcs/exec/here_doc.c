@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 11:50:45 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/30 15:46:32 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/31 18:49:18 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	here_doc(char *limiter, char *path)
 	while (in_here_doc == 1)
 	{
 		line = readline("> ");
-		printf("line = %s\n", line);
+		// printf("line = %s\n", line);
 		if (!line)
 		{
 			write(2, "warning: here-document delimited by end-of-file.\n", 49);

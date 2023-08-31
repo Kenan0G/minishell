@@ -6,13 +6,14 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:01 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/30 15:39:27 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/31 18:54:56 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 // gerer le control+C pour les here_doc
+// protgerer les writes qvec juste un if (write = -1)
 
 int	in_here_doc= 0;
 
