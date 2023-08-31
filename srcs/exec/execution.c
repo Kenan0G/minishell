@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:49:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/28 16:32:17 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/31 20:30:18 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void	get_path_and_exec(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_l
 		ft_free_all(data->c_list_temp, &p_list, data, &env_list);
 		ft_free_map(data->path_begining);
 		free(data->pid);
+		free(data->path);
 		ft_free_env(&env_list);
 		ft_free_map(env);
 		close (data->fd_pipe[0]);

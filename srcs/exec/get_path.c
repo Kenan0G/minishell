@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: red <red@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:30:52 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/27 09:48:40 by red              ###   ########.fr       */
+/*   Updated: 2023/08/31 20:29:59 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,12 @@ char	*path_check(t_data *data, t_cmd *list)
 	while (data->path_begining && data->path_begining[i])
 	{
 		good_path = ft_strjoin(data->path_begining[i], temp);
-		if (access(good_path, X_OK) == 0)
+		if (access(good_path, X_OK | F_OK) != -1)
 			return (free(temp), good_path);
 		free(good_path);
 		i++;
 	}
+	free(good_path);
 	ft_error_path(data, temp, list);
 	// exit (127);
 	return (NULL);

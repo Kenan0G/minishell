@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/08/30 14:50:43 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/31 20:24:20 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ void print_env(t_env *token);
 void print_arg(t_arg *token);
 void print_cmd_list(t_cmd *token);
 
-void init_data(t_data *data, int exit_no);
+void init_data(t_data *data, int exit_no, t_env *env);
 
 int is_path(char *str);
 char *path_check(t_data *data, t_cmd *list);

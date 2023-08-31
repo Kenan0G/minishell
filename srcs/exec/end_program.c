@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:42:04 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/28 18:43:08 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/08/31 20:21:37 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int	ft_wait(t_data *data)
 	while (i < j)
 	{
 		waitpid(data->pid[i], &exit_no, 0);
-		exit_no = WEXITSTATUS(exit_no);
+		if (WIFEXITED(exit_no))
+			exit_no = WEXITSTATUS(exit_no);
 		// printf("status = %d\n", exit_status);
 		i++;
 	}
