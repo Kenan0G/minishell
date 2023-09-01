@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/08/31 20:24:20 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/01 19:01:35 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,17 @@ typedef struct s_cmd
 	struct s_cmd *next;
 } t_cmd;
 
+typedef struct s_here_doc
+{
+	int	fd;
+	char	*line;
+	int		fd;
+	char	*limiter;
+	char	*path;
+
+} t_here_doc;
+
+
 typedef struct s_data
 {
 	int cmd_count;
@@ -105,6 +116,7 @@ typedef struct s_data
 	int i;
 	int j;
 	int is;
+	int	exit_here_doc;
 	int	on_here_doc;
 	int free_oldpwd;
 	int error_status;
@@ -130,11 +142,11 @@ int execution(t_cmd *list, t_parsed *p_list, t_data *data, t_env **env_list);
 void redirections(t_cmd *list, t_data *data);
 void get_path_and_exec(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_list);
 
-int hd_execution(t_parsed *p_list, t_cmd *cmd_list);
+int hd_execution(t_parsed *p_list, t_cmd *cmd_list, t_data *data);
 void generate_hd_file_name(t_cmd *c_list, int i);
-int here_doc(char *limiter, char *path);
+int	here_doc(t_cmd *c_list, t_parsed *p_list, t_data *data, int i);
 int open_here_doc(char *path);
-void	exit_here_doc(int signo);
+void	ft_close(t_cmd *c_list, int i);
 
 void ft_open(t_parsed *p_list, t_cmd *c_list, t_data *data);
 void fd_file_in(t_parsed *p_list, t_cmd *c_list, t_data *data);
