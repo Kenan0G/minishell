@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 11:50:45 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/01 19:02:49 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/02 16:42:20 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,12 @@ int	hd_execution(t_parsed *p_list, t_cmd *cmd_list, t_data *data)
 {
 	int		i;
 	t_cmd	*c_list;
-	pid_t	pid;
-	int		exit_no;
+	// pid_t	pid;
+	// int		exit_no;
 
 	(void)p_list;
 	c_list = cmd_list;
 	data->exit_here_doc = 0;
-	signal(SIGINT, signal_ctrl_c);
 	while (c_list)
 	{
 		i = 0;
@@ -53,6 +52,8 @@ int	hd_execution(t_parsed *p_list, t_cmd *cmd_list, t_data *data)
 			// 	exit_no = WEXITSTATUS(exit_no);
 			// c_list->hd_fd[i] = exit_no;
 			c_list->hd_fd[i] = here_doc(c_list, p_list, data, i);
+			if (c_list->hd_fd[i] == -1)
+				return (-1);
 			c_list->hd_fd[i] = open(c_list->hd_file[i], O_RDWR, 0644);
 			if (c_list->hd_fd[i] <= 0)
 			{
@@ -60,14 +61,9 @@ int	hd_execution(t_parsed *p_list, t_cmd *cmd_list, t_data *data)
 			}
 			i++;
 		}
-		if (in_here_doc == 0)
-		{
-			return (0);
-		}
 		c_list->hd_file[i] = NULL;
 		c_list = c_list->next;
 	}
-	signal(SIGINT, signal_ctrl_c);
 	return (1);
 }
 
@@ -88,37 +84,61 @@ int	here_doc(t_cmd *c_list, t_parsed *p_list, t_data *data, int i)
 	(void)p_list;
 	(void)data;
 	t_here_doc	var;
+	pid_t	pid;
+	int		exit_no;
 // 
 // 
 // essayer avec un pid seulement sur le readline dans la boucle
 // et gerer les variables end essous
 // 
-	var->limiter = c_list->limiter[i];
-	var->path = c_list->hd_file[i];
-	var->fd = open_here_doc(var->path);
-	while (in_here_doc == 1)
+	// pid = NULL;
+	ft_memset(&var, 0, sizeof(t_here_doc));
+	var.limiter = ft_strdup(c_list->limiter[i]);
+	var.path = c_list->hd_file[i];
+	var.fd = open_here_doc(var.path);
+	exit_no = 0;
+	while (exit_no == 0)
 	{
-		if (in_here_doc == 0)
-			return (-1);
-		line = readline("> ");
-		// printf("line = %s\n", line);
-		if (!line)
+		pid = fork();
+		if (pid == 0)
 		{
-			write(2, "warning: here-document delimited by end-of-file.\n", 49);
-			break ;
+			signal(SIGINT, signal_ctrl_c);
+			printf("in_here_doc = %d\n", in_here_doc);
+			ft_free_all(&c_list, &p_list, data, NULL);
+			ft_free_env(&data->envp);
+			var.line = readline("> ");
+			if (!var.line)
+			{
+				free(var.limiter);
+				close(var.fd);
+				write(2, "warning: here-document delimited by end-of-file.\n", 49);
+				exit (1) ;
+			}
+			if (!ft_strcmp(var.line, var.limiter))
+			{	
+				free(var.limiter);
+				close(var.fd);
+				exit (1) ;
+			}
+			if (var.line)
+				ft_putendl_fd(var.line, var.fd);
+			free(var.line);
+			free(var.limiter);
+			close(var.fd);
+			exit (0);
 		}
-		if (!ft_strcmp(line, limiter))
-			break ;
-		if (line)
-			ft_putendl_fd(line, fd);
-		free(line);
+		waitpid(pid, &exit_no, 0);
+		if (WIFEXITED(exit_no))
+			exit_no = WEXITSTATUS(exit_no);
 	}
-	close(fd);
+	close(var.fd);
+	if (var.limiter)
+		free(var.limiter);
+	// if (var.line)
+	// 	free(var.line);
 	if (in_here_doc == 0)
 		return (-1);
-	if (line)
-		free(line);
-	return (fd);
+	return (var.fd);
 }
 
 void	ft_close(t_cmd *c_list, int i)

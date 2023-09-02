@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 17:57:05 by red               #+#    #+#             */
-/*   Updated: 2023/09/01 17:27:29 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/02 16:43:50 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@ void    signal_ctrl_c(int signo)
     else
     {
         in_here_doc = 0;
+        dprintf(2, "exit here_doc\n");
         write(2, "\n", 1);
         rl_replace_line("", 0);
         rl_on_new_line();
         rl_redisplay();
-        exit (-1);
+        // exit (-1);
     }
 }
 

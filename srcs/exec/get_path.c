@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:30:52 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/31 20:29:59 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/02 16:28:30 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,12 @@ char	*path_check(t_data *data, t_cmd *list)
 		good_path = ft_strjoin(data->path_begining[i], temp);
 		if (access(good_path, X_OK | F_OK) != -1)
 			return (free(temp), good_path);
-		free(good_path);
+		if (good_path)
+			free(good_path);
 		i++;
 	}
-	free(good_path);
+	// if (good_path)
+		// free(good_path);
 	ft_error_path(data, temp, list);
 	// exit (127);
 	return (NULL);

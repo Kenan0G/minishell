@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/09/01 19:01:35 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/02 15:50:24 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ typedef struct s_cmd
 
 typedef struct s_here_doc
 {
-	int	fd;
 	char	*line;
 	int		fd;
 	char	*limiter;
