@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 17:57:05 by red               #+#    #+#             */
-/*   Updated: 2023/09/02 16:43:50 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/03 18:08:12 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void    signal_ctrl_c(int signo)
         rl_replace_line("", 0);
         rl_on_new_line();
         rl_redisplay();
-        // exit (-1);
+        exit (-1);
     }
 }
 
