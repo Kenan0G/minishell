@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:01 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/05 17:55:50 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/05 18:01:07 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,13 @@
 
 // regler les derniers details du control c
 // apres un control c aucune commande ne se lance et ya un leaks et fd open
-// voir le export LA=" -la" ; ls$LA
+
 // protgerer les writes qvec juste un if (write = -1)
+// echo fsafsdf > /dev/full
+// echo: write error: no space left on device
+
+
+// (((((voir le export LA=" -la" ; ls$LA)))))
 
 int	in_here_doc= 0;
 
