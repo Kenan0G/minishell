@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 17:57:05 by red               #+#    #+#             */
-/*   Updated: 2023/09/03 18:08:12 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/05 17:43:04 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,29 @@ void    signal_ctrl_c(int signo)
         rl_on_new_line();
         rl_redisplay();
     }
-    else
+    // else
+    // {
+    //     in_here_doc = 0;
+    //     exit (-1);
+    //     dprintf(2, "exit here_doc\n");
+    //     write(2, "\n", 1);
+    //     rl_replace_line("", 0);
+    //     rl_on_new_line();
+    //     rl_redisplay();
+    // }
+}
+
+void    signal_ctrl_c_here_doc(int signo)
+{
+    (void)signo;
+    if (in_here_doc == 1)
     {
         in_here_doc = 0;
-        dprintf(2, "exit here_doc\n");
         write(2, "\n", 1);
         rl_replace_line("", 0);
         rl_on_new_line();
         rl_redisplay();
-        exit (-1);
+        exit (130);
     }
 }
 

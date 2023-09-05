@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/09/02 15:50:24 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/05 17:48:35 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef struct s_here_doc
 
 typedef struct s_data
 {
+	int	here_doc_exit;
 	int cmd_count;
 	int pipe_count;
 	int parsed_list_size;
@@ -238,6 +239,7 @@ char *get_res(t_arg *list, int *tab, char *res);
 int ret_expend(char *str);
 int nb_quote(char *str);
 void get_fork_status(t_arg **arg_list, t_data *data);
+void    signal_ctrl_c_here_doc(int signo);
 
 
 
