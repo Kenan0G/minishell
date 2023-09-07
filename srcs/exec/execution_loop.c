@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 16:06:24 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/30 15:21:54 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/07 11:33:38 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	loop_utils_1(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_l
 	data->pid[data->index] = fork();
 	if (data->pid[data->index] == 0)
 	{
+		// signal(SIGINT, signal_ctrl_c_in_child);
+		// dprintf(2, "test exec\n");
 		// if (c_temp->command_int != EXPORT)
 		if (c_temp->is_ok && c_temp->command)
 		{
@@ -65,6 +67,7 @@ void	loop_utils_1(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_l
 		}
 		else
 		{
+			// dprintf(2, "test NO exec\n");
 			if (data->pipe_count > 1 && data->index < data->pipe_count - 1)
 				close(data->fd_pipe[0]);
 			if (data->previous_fd > 0)

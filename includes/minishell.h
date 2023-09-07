@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/09/05 17:48:35 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/07 11:18:34 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ typedef struct s_data
 	int i;
 	int j;
 	int is;
-	int	exit_here_doc;
 	int	on_here_doc;
 	int free_oldpwd;
 	int error_status;
@@ -147,6 +146,7 @@ void generate_hd_file_name(t_cmd *c_list, int i);
 int	here_doc(t_cmd *c_list, t_parsed *p_list, t_data *data, int i);
 int open_here_doc(char *path);
 void	ft_close(t_cmd *c_list, int i);
+void *starthd();
 
 void ft_open(t_parsed *p_list, t_cmd *c_list, t_data *data);
 void fd_file_in(t_parsed *p_list, t_cmd *c_list, t_data *data);
@@ -266,6 +266,7 @@ void    signal_ctrl_c(int signo);
 void	signal_ctrl_slash(int signo);
 void	signal_ctrl_backslash(int signo);
 void	signal_ctrl_d(void);
+void	signal_ctrl_c_in_child(int signo);
 int		check_between_pipe(char *str);
 int		check_first_char(char *str);
 int		check_pipe(char *str);

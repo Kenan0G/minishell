@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:09:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/28 18:41:14 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/07 11:48:53 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -335,3 +335,21 @@ int	*get_char_status(t_arg *list, int tablen)
 	}
 	return(tab);
 }
+
+// char	**uptade_args(char **arg)
+// {
+// 	int		len;
+// 	char	**new;
+// 	int		i;
+// 	int		j;
+
+// 	len = get_len(arg, 1);
+// 	if (len == get_len(arg, 2))
+// 		return (arg);
+// 	new = malloc(sizeof(char *) * len + 1);
+// 	if (!new)
+// 		return (NULL);
+// 	i = 0;
+// 	while(str)
+	
+// }

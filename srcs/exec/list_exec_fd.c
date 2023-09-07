@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:22:01 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/30 14:54:48 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/07 10:58:02 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	fd_file_in(t_parsed *p_list, t_cmd *c_list, t_data *data)
 	c_list->fd_in = open(p_list->token, O_RDONLY);
 	if (c_list->fd_in == -1)
 	{
+		dprintf(2, "p_list->token = %s\n", p_list->token);
 		perror(p_list->token);
 		c_list->is_ok = 0;
 		data->i = 1;
@@ -70,6 +71,13 @@ void	fd_file_out(t_parsed *p_list, t_cmd *c_list, t_data *data)
 			|| !ft_strcmp(p_list->next->token, "/proc/self/fd/1")
 			|| !ft_strcmp(p_list->next->token, "/dev/fd/1"))
 		c_list->fd_out = 0;
+	else if (!ft_strcmp(p_list->next->token, "/dev/full"))
+	{
+		ft_putendl_fd("write error: no space left on device", 2);
+		c_list->fd_out = 0;
+		c_list->is_ok = 0;
+		data->i = 1;
+	}
 	else	
 		c_list->fd_out = open(p_list->next->token, O_WRONLY
 				| O_TRUNC | O_CREAT, 0777);

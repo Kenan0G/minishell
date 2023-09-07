@@ -6,19 +6,15 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:01 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/05 18:01:07 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/07 11:34:43 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// regler les derniers details du control c
-// apres un control c aucune commande ne se lance et ya un leaks et fd open
-
-// protgerer les writes qvec juste un if (write = -1)
-// echo fsafsdf > /dev/full
-// echo: write error: no space left on device
-
+// voir les expand dans le here doc
+// re split les arg sur espace apres avoir gerer les expands
+// gerer ls signaux dans les commandes persistantes
 
 // (((((voir le export LA=" -la" ; ls$LA)))))
 
@@ -48,6 +44,11 @@ int main(int ac, char **av, char **env)
 		str = readline("minishell$> ");
 		if (!str)
 			break;
+		if (!*str)
+		{
+			free(str);
+			continue;
+		}
 		add_history(str);
 		parsing_is_ok = check(str);
 		if (parsing_is_ok == 0)
