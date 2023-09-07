@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 17:00:49 by jsabound          #+#    #+#             */
-/*   Updated: 2023/09/07 10:52:21 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/07 14:57:07 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,5 @@ void	ft_putstr_fd(char *s, int fd)
 			perror("write");
 			break ;
 		}
-		
 	}
 }

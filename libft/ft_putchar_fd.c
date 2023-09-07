@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 16:58:52 by jsabound          #+#    #+#             */
-/*   Updated: 2023/09/07 10:43:29 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/07 14:57:30 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,5 @@
 void	ft_putchar_fd(char c, int fd)
 {
 	if (write(fd, &c, 1) == -1)
-	{
 		perror("write");
-	}
-		return ;
 }

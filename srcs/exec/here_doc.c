@@ -6,13 +6,13 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 11:50:45 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/07 10:49:47 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/07 15:01:36 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// int	in_here_doc= 0;
+// int	g_in_here_doc= 0;
 
 int	hd_execution(t_parsed *p_list, t_cmd *cmd_list, t_data *data)
 {
@@ -24,7 +24,7 @@ int	hd_execution(t_parsed *p_list, t_cmd *cmd_list, t_data *data)
 	{
 		i = 0;
 		data->here_doc_exit = 0;
-		while (i < c_list->nb_here_doc && in_here_doc == 1)
+		while (i < c_list->nb_here_doc && g_in_here_doc == 1)
 		{
 			data->here_doc_exit = 0;
 			generate_hd_file_name(c_list, i);
@@ -61,7 +61,7 @@ int	here_doc(t_cmd *c_list, t_parsed *p_list, t_data *data, int i)
 	{
 		ft_free_all(&c_list, &p_list, data, NULL);
 		ft_free_env(&data->envp);
-		while (data->here_doc_exit == 0 && in_here_doc == 1)
+		while (data->here_doc_exit == 0 && g_in_here_doc == 1)
 		{
 			signal(SIGINT, signal_ctrl_c_here_doc);
 			var->line = readline("> ");
@@ -154,6 +154,6 @@ int	open_here_doc(char *path)
 
 			// dprintf(2, "entree dans la boucle\n\n");
 			// dprintf(2, "%d\n\n", data->here_doc_exit);
-			// in_here_doc = 1;
+			// g_in_here_doc = 1;
 			// dprintf(2, "entree dans un pipe\n\n");
-			// printf("in_here_doc = %d\n", in_here_doc);
+			// printf("g_in_here_doc = %d\n", g_in_here_doc);

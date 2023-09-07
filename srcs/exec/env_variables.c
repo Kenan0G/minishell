@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:09:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/07 11:48:53 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/07 14:11:12 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,14 +208,21 @@ int	ret_expend(char *str)
 int	is_permutable(char *arg, char *env)
 {
 	int	i;
+	int	j;
 
 	i = 0;
+	j = 0;
 	if (arg[0] == '$')
 		return (0);
 	while (arg[i] && env[i] && arg[i] == env[i])
 		i++;
-	if ((arg[i] == ' ' || arg[i] == '\t' || arg[i] == '$' || arg[i] == '"' || arg[i] == '\'' || !arg[i]) && (env[i] == '=' || !env[i]))
-		return (i);
+	j = i;
+	if (arg[i - 1] && env[i - 1] && arg[i - 1] == '=' && env[i - 1] == '=')
+		j = i - 1;
+	if ((arg[j] == ' ' || arg[j] == '\t' || arg[j] == '$' || arg[j] == '"'
+			|| arg[j] == '\'' || arg[j] == '=' || !arg[j])
+			&& (env[j] == '=' || !env[j]))
+		return (j);
 	return (0);
 }
 
@@ -336,20 +343,66 @@ int	*get_char_status(t_arg *list, int tablen)
 	return(tab);
 }
 
-// char	**uptade_args(char **arg)
-// {
-// 	int		len;
-// 	char	**new;
-// 	int		i;
-// 	int		j;
+int	get_len(char **arg, int bool)
+{
+	int	i;
+	int	j;
+	int	len;
 
-// 	len = get_len(arg, 1);
-// 	if (len == get_len(arg, 2))
-// 		return (arg);
-// 	new = malloc(sizeof(char *) * len + 1);
-// 	if (!new)
-// 		return (NULL);
-// 	i = 0;
-// 	while(str)
-	
-// }
+	i = 0;
+	len = 0;
+	while (arg[i])
+	{
+		j = 0;
+		while (arg[j])
+		{
+			if (arg[i][j] == ' ' && bool == 1)
+				len++;
+			j++;
+		}
+		len++;
+		i++;
+	}
+	return (len);
+}
+
+char	**arg_update(char **arg)
+{
+	int		len;
+	char	**new;
+
+	len = get_len(arg, 1);
+	if (len == get_len(arg, 2))
+		return (arg);
+	new = malloc(sizeof(char *) * len + 1);
+	if (!new)
+		return (arg);
+	return (new_arg(arg, new));
+}
+
+char	**new_arg(char **arg, char **new)
+{
+	char	**temp;
+	int		i;
+	int		j;
+	int		k;
+
+	i = 0;
+	k = 0;
+	while (arg[i])
+	{
+		j = 0;
+		temp = ft_split(arg[i], ' ');
+		while (temp[j])
+		{
+			new[k] = ft_strdup(temp[j]);
+			k++;
+			j++;
+		}
+		if (temp)
+			ft_free_map(temp);
+		i++;
+	}
+	new[k] = NULL;
+	return (new);
+}

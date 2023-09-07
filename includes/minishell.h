@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/09/07 11:18:34 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/07 15:13:56 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@
 #define DOUBLE_QUOTE 19
 #define NO_QUOTE 20
 
-extern int in_here_doc;
+extern int g_in_here_doc;
 
 typedef struct s_arg
 {
@@ -163,7 +163,8 @@ t_cmd *create_cmd_list(t_parsed *parsed_list, t_data *data);
 t_cmd *get_value(t_cmd *cmd_list, t_parsed *parsed_list);
 t_cmd *get_fd(t_cmd *cmd_list, t_parsed *parsed_list, t_data *data);
 
-t_parsed *temp_list(t_data *data, char **av, char *str, t_env *env_list);
+void	run_loop(t_cmd *c_list, t_parsed *p_list, t_env *env_list, t_data *data);
+t_parsed *temp_list(t_data *data, char *str, t_env *env_list);
 int get_status(char *str, int prev_status);
 void get_command(t_parsed *list, t_data *data, t_env *env_list);
 
@@ -239,7 +240,9 @@ char *get_res(t_arg *list, int *tab, char *res);
 int ret_expend(char *str);
 int nb_quote(char *str);
 void get_fork_status(t_arg **arg_list, t_data *data);
-void    signal_ctrl_c_here_doc(int signo);
+char	**new_arg(char **arg, char **new);
+char	**arg_update(char **arg);
+int		get_len(char **arg, int bool);
 
 
 
@@ -267,6 +270,7 @@ void	signal_ctrl_slash(int signo);
 void	signal_ctrl_backslash(int signo);
 void	signal_ctrl_d(void);
 void	signal_ctrl_c_in_child(int signo);
+void    signal_ctrl_c_here_doc(int signo);
 int		check_between_pipe(char *str);
 int		check_first_char(char *str);
 int		check_pipe(char *str);

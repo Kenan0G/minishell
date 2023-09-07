@@ -6,13 +6,13 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 10:37:49 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/06 12:45:26 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/07 15:09:15 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_parsed *temp_list(t_data *data, char **av, char *str, t_env *env_list)
+t_parsed *temp_list(t_data *data, char *str, t_env *env_list)
 {
 	t_parsed	*list;
 	int		i;
@@ -20,7 +20,6 @@ t_parsed *temp_list(t_data *data, char **av, char *str, t_env *env_list)
 	int		prev_status;
 
 	i = 0;
-	(void)av;
 	list = NULL;
 	prev_status = 0;
 	data->str_split = mr_split(str, "><|", data);
@@ -101,12 +100,14 @@ void	get_command(t_parsed *list, t_data *data, t_env *env_list)
 			// printf("temp->token[0] = %c\n", temp->token[0]);
 			if (temp->status == ARG || temp->status == FILE_IN || temp->status == FILE_OUT)
 				temp->token = get_checked_arg(temp, env_list, data);
+			// if (i > 0 && temp->status == ARG)
+			// 	check_space(&list, i, temp->token);
 			if (i == 0 && temp->status == ARG)
 			{
 				temp->status = check_builtin(temp);
 				data->cmd_count += 1;
-				i++;
 			}
+			i++;
 			temp = temp->next;
 		}
 		data->pipe_count++;
@@ -116,3 +117,28 @@ void	get_command(t_parsed *list, t_data *data, t_env *env_list)
 			temp = temp->next;
 	}
 }
+
+// void	check_space(t_parsed **list, int i, char *str)
+// {
+// 	char	**split;
+// 	t_parsed	*temp;
+// 	int	j;
+
+// 	j = 0;
+// 	temp = *list;
+// 	while (j < i)
+// 		temp = temp->next;
+// 	split = ft_split(temp->token, ' ');
+// 	if (!split[1])
+// 	{
+// 		ft_free_map(split);	
+// 		return ;
+// 	}
+// 	j = 0;
+// 	while (split[j])
+// 	{
+// 		add_new_arg(temp, ft_strdupsplit[j]);
+// 		j++;
+// 		temp = temp->next;
+// 	}
+// }

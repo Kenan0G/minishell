@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 18:27:17 by jsabound          #+#    #+#             */
-/*   Updated: 2023/09/07 11:16:05 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/07 15:01:36 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,12 @@ t_cmd	*get_fd(t_cmd *cmd_list, t_parsed *parsed_list, t_data *data)
 	
 	p_list = parsed_list;
 	c_list = cmd_list;
-	in_here_doc = 1;
+	g_in_here_doc = 1;
 	// data->here_doc_exit = 0;
 	if (hd_execution(p_list, c_list, data) == -1)
 		c_list->is_ok = 0;
 	data->error_status = data->here_doc_exit;	
-	in_here_doc = 0;
+	g_in_here_doc = 0;
 	while (c_list)
 	{
 		data->i = 0;

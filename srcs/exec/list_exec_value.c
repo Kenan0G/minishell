@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:19:20 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/30 15:00:24 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/07 13:27:55 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void	get_args(t_cmd *cmd_list, t_parsed *parsed_list)
 			p_list = p_list->next;
 		c_list = c_list->next;
 	}
+	// c_list->arg = arg_update(c_list->arg);
+	// print_cmd_list(c_list);
 }
 
 void	get_args_utils(t_cmd *c_list, t_parsed *p_list, int *i, int *j)

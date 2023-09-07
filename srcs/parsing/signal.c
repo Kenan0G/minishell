@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 17:57:05 by red               #+#    #+#             */
-/*   Updated: 2023/09/07 11:18:41 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/07 15:01:36 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void    signal_ctrl_c(int signo)
 {
     (void)signo;
-    if (in_here_doc == 0)
+    if (g_in_here_doc == 0)
     {        
         write(2, "\n", 1);
         rl_replace_line("", 0);
@@ -24,7 +24,7 @@ void    signal_ctrl_c(int signo)
     }
     // else
     // {
-    //     in_here_doc = 0;
+    //     g_in_here_doc = 0;
     //     exit (-1);
     //     dprintf(2, "exit here_doc\n");
     //     write(2, "\n", 1);
@@ -38,10 +38,10 @@ void    signal_ctrl_c_here_doc(int signo)
 {
     (void)signo;
 	t_here_doc *s;
-    if (in_here_doc == 1)
+    if (g_in_here_doc == 1)
     {
 		s = starthd();
-        in_here_doc = 0;
+        g_in_here_doc = 0;
 		close(s->fd);
 		free(s->limiter);
 		free(s->line);
