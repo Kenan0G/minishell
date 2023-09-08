@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 16:06:24 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/08 18:12:38 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/08 18:18:16 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,12 @@ void	loop_utils_1(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_l
 	data->previous_fd = data->fd_pipe[0];
 	loop_utils_1_2(data, c_temp);
 	err_no = c_temp->err_no;
+	// signal(SIGINT, signal_ctrl_c);
+// changer la fonctione et mettre une aui ignore les signaux d'avant
 	data->pid[data->index] = fork();
 	if (data->pid[data->index] == 0)
 	{
+		
 		// signal(SIGINT, signal_ctrl_c_in_child);
 		// dprintf(2, "test exec\n");
 		// if (c_temp->command_int != EXPORT)
@@ -82,6 +85,7 @@ void	loop_utils_1(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_l
 			exit (data->error_status);
 		}
 	}
+	signal(SIGINT, signal_ctrl_c);
 	loop_utils_1_3(data);
 }
 
