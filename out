@@ -1,8 +1,0 @@
-includes:
-minishell.h
-pipex_bonus.h
-
-srcs:
-exec
-minishell.c
-parsing

@@ -15,11 +15,15 @@ SRCS_DIR = $(shell find srcs -type d)
 
 vpath %.c $(foreach dir, $(SRCS_DIR), $(dir))
 SRCS =	minishell.c\
+		cd.c\
+		cd_utils.c\
+		echo.c\
+		env.c\
+		export.c\
+		export_utils.c\
+		pwd.c\
+		unset.c\
 		end_program.c\
-		b_cd_pwd.c\
-		b_echo_env_exit.c\
-		b_export.c\
-		b_unset.c\
 		execution.c\
 		execution_loop.c\
 		get_path.c\

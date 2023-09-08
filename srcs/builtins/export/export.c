@@ -1,29 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   b_export.c                                         :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:13:30 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/28 15:33:58 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/08 16:13:39 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
 t_env	*exec_export(t_cmd *c_list, t_env *env_list)
 {
 	t_env	*temp;
-	int		i;
-	int		lenght;
 	int		check;
 
-	i = 1;
+	temp = NULL;
+	check = 0;
 	if (c_list->arg[1] == NULL)
 		return (export(env_list), env_list);
 	else if (c_list->arg[1][0] == '-')
-		return (printf("export: %c%c: Invalid option\n", c_list->arg[1][0], c_list->arg[1][1]), env_list);
+		return (printf("export: %c%c: Invalid option\n",
+				c_list->arg[1][0], c_list->arg[1][1]), env_list);
+	exec_export_utils(c_list, env_list, temp, check);
+	return (env_list);
+}
+
+void	exec_export_utils(t_cmd *c_list, t_env *env_list, t_env *temp,
+	int check)
+{
+	int	lenght;
+	int	i;
+
+	i = 1;
 	while (c_list->arg[i])
 	{
 		if (export_check(c_list->arg[i]))
@@ -45,89 +56,6 @@ t_env	*exec_export(t_cmd *c_list, t_env *env_list)
 		}
 		i++;
 	}
-	return (env_list);
-}
-
-int	export_check(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str[0] == '\0')
-		return (printf("export: '\": not a valid  identifier\n"), 0);
-	else if (str[0] == '=')
-		return (printf("export: %s : not a valid identifier\n", str), 0);
-	else if (str[0] > 47 && str[0] < 58)
-		return (printf("export: %s : not a valid identifier\n", str), 0);
-	while(str[i] && str[i] != '=')
-	{
-		if (((str[i] >= 48) && (str[i] <= 57)) || ((str[i] >= 65) && (str[i] <= 90))
-			|| ((str[i] >= 97) && (str[i] <= 122)) || (str[i] == '_'))
-		i++;
-		else
-			return (printf("export: %s : not a valid identifier\n", str), 0);
-	}
-	return (1);
-}
-
-void export(t_env *env_list)
-{
-	int		i;
-	int		j;
-	char	*temp;
-	char **env;
-	
-	env = env_char(env_list);
-	i = 0;
-	while (env[i])
-	{
-		j = i;
-		while (env[j])
-		{
-			if (env[i][0] > env[j][0])
-			{
-				temp = env[i];
-				env[i] = env[j];
-				env[j] = temp;
-			}
-			j++;
-		}
-		i++;
-	}
-	i = 0;
-	while (env[i])
-	{
-		j = 0;
-		if (ft_strncmp(env[i], "_=", 2))
-		{	
-			printf("export ");
-			while (env[i][j])
-			{	
-				while (env[i][j] && env[i][j] != '=')
-				{
-					printf("%c", env[i][j]);
-					j++;
-				}
-				if (!env[i][j])
-				{
-					printf("\n");
-					break ;
-				}
-				printf("%c", env[i][j]);
-				j++;
-				printf("\"");
-				while (env[i][j])
-				{
-					printf("%c", env[i][j]);
-					j++;
-				}
-				printf("\"");
-				printf("\n");
-			}
-		}
-		i++;
-	}
-	ft_free_map(env);
 }
 
 int	export_utils_1(char *str)

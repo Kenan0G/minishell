@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/09/07 15:13:56 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/08 15:56:33 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,81 +50,134 @@
 #define DOUBLE_QUOTE 19
 #define NO_QUOTE 20
 
-extern int g_in_here_doc;
+extern int			g_in_here_doc;
 
 typedef struct s_arg
 {
-	char c;
-	struct s_arg *next;
+	char			c;
+	struct			s_arg *next;
 } t_arg;
 
 typedef struct s_env
 {
-	char *env;
-	int printable;
-	struct s_env *next;
+	char			*env;
+	int				printable;
+	struct s_env	*next;
 } t_env;
 
 typedef struct s_parsed
 {
-	char *token;
-	int status;
-	int quote_status;
-	struct s_parsed *next;
+	char			*token;
+	int				status;
+	int				quote_status;
+	struct s_parsed	*next;
 } t_parsed;
 
 typedef struct s_cmd
 {
-	char *command;
-	char **arg;
-	char **limiter;
-	char **hd_file;
-	int nb_here_doc;
-	int *hd_fd;
-	int fd_in;
-	int fd_out;
-	int is_ok;
-	int command_int;
-	int *quote_status;
-	struct s_cmd *next;
+	char			*command;
+	char			**arg;
+	char			**limiter;
+	char			**hd_file;
+	int				nb_here_doc;
+	int				*hd_fd;
+	int				fd_in;
+	int				fd_out;
+	int				is_ok;
+	int				command_int;
+	int				*quote_status;
+	struct s_cmd	*next;
 } t_cmd;
 
 typedef struct s_here_doc
 {
-	char	*line;
-	int		fd;
-	char	*limiter;
-	char	*path;
+	char			*line;
+	int				fd;
+	char			*limiter;
+	char			*path;
 
 } t_here_doc;
 
 
 typedef struct s_data
 {
-	int	here_doc_exit;
-	int cmd_count;
-	int pipe_count;
-	int parsed_list_size;
-	int fd_pipe[2];
-	char *path;
-	int index;
-	int index_2;
-	char **env;
-	char **path_begining;
-	int previous_fd;
-	pid_t *pid;
-	int i;
-	int j;
-	int is;
-	int	on_here_doc;
-	int free_oldpwd;
-	int error_status;
-	int	exit_no;
-	char *pwd_temp;
-	char **str_split;
-	t_cmd **c_list_temp;
-	t_env *envp;
+	int				here_doc_exit;
+	int				cmd_count;
+	int				pipe_count;
+	int				parsed_list_size;
+	int				fd_pipe[2];
+	int				index;
+	int				index_2;
+	int				previous_fd;
+	int				i;
+	int				j;
+	int				is;
+	int				on_here_doc;
+	int				free_oldpwd;
+	int				error_status;
+	int				exit_no;
+	char			**env;
+	char			**path_begining;
+	char			*path;
+	char			*pwd_temp;
+	char			**str_split;
+	pid_t			*pid;
+	t_env			*envp;
+	t_cmd			**c_list_temp;
 } t_data;
+
+
+////////// BUILTINS //////////
+
+// --- cd.c ---
+
+t_env				*exec_cd(t_cmd *c_list, t_env *env_list, t_data *data);
+void				cd_utils(t_cmd *c_list, t_data *data, char *oldpwd);
+int					nb_of_arg(char **arg);
+int					cd_to_home(t_env *env_list);
+
+// --- cd_utils.c ---
+
+t_env				*update_pwd(char *oldpwd, t_env *env_list, char *buf, t_data *data);
+void				update_cd_utils(t_env *temp, char *pwd, char *oldpwd, char *path);
+char				*get_pwd(t_env *env_list);
+
+// --- echo.c ---
+
+void				exec_echo(t_cmd *c_list);
+void				display(t_cmd *c_list, int i);
+int					check_param_echo(char *str);
+
+// --- env.c ---
+
+void				exec_env(t_env *e_list, t_cmd *c_list);
+
+// --- export.c ---
+
+t_env				*exec_export(t_cmd *c_list, t_env *env_list);
+void				exec_export_utils(t_cmd *c_list, t_env *env_list, t_env *temp,
+						int check);
+int					export_utils_1(char *str);
+int					export_utils_2(char **env, char *arg, int lenght);
+void				export_utils_3(t_env *temp, int check, t_env *env_list, char *str);
+
+//  --- export_utils.c ---
+
+void				export(t_env *env_list);
+void				display_export(char **env, int i, int j);
+char				**sort_env(t_env *env_list);
+int					export_check(char *str);
+
+// --- pwd.c ---
+
+void				exec_pwd(t_cmd *c_list);
+
+// --- unset.c ---
+
+t_env				*exec_unset(t_cmd *c_list, t_env **env_list);
+void				unset_utils(char *str, t_env **env_list);
+size_t				get_lenght(char *str, char c);
+
 
 void ft_end(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_list);
 int ft_wait(t_data *data);
@@ -193,30 +246,6 @@ int ft_strcmp(char *s1, char *s2);
 void exec_builtin(t_cmd *c_list, t_parsed *p_list, t_env *env_list, t_data *data);
 int check_builtin(t_parsed *p_list);
 size_t get_lenght(char *str, char c);
-
-t_env *exec_export(t_cmd *c_list, t_env *env_list);
-int export_utils_1(char *str);
-void export(t_env *env_list);
-int export_check(char *str);
-// int					export_utils_2(char *env, char *arg, int lenght);
-int export_utils_2(char **env, char *arg, int lenght);
-void export_utils_3(t_env *temp, int check, t_env *env_list, char *str);
-
-t_env *exec_unset(t_cmd *c_list, t_env **env_list);
-void unset_utils(char *str, t_env **env_list);
-
-void exec_echo(t_cmd *c_list);
-int check_param_echo(char *str);
-void exec_env(t_env *e_list, t_cmd *c_list);
-// void exec_exit(t_cmd *c_list, t_parsed *p_list);
-
-void exec_pwd(t_cmd *c_list);
-t_env *exec_cd(t_cmd *c_list, t_env *env_list, t_data *data);
-int nb_of_arg(char **arg);
-int cd_to_oldpwd(t_env *env_list, char *oldpwd);
-int cd_to_home(t_env *env_list);
-t_env *update_pwd(char *oldpwd, t_env *env_list, char *buf, t_data *data);
-char *get_pwd(t_env *env_list);
 
 t_env *get_env(t_env *env_list, char **env);
 char **env_char(t_env *env_list);

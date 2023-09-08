@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 20:17:50 by red               #+#    #+#             */
-/*   Updated: 2023/08/30 15:51:13 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/08 16:29:58 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,83 +25,6 @@
 // $>  sdv'sqdf
 // mais du coup c la meme dans l'autre sens si ya nombre impaire de double quote entre deux simple quote faut pas retourner d'erreur
 
-/*
-modifs_minishell git:(master) ✗ valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=valgrind.txt ./minishell
-==1802== Memcheck, a memory error detector
-==1802== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==1802== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==1802== Command: ./minishell
-==1802==
-==1802== error calling PR_SET_PTRACER, vgdb might block
-minishell$> cat << l
-> ^C
-line =
-return test
-==1812==
-==1812== FILE DESCRIPTORS: 3 open (3 std) at exit.
-==1812==
-==1812== HEAP SUMMARY:
-==1812==     in use at exit: 208,215 bytes in 227 blocks
-==1812==   total heap usage: 527 allocs, 300 frees, 241,611 bytes allocated
-==1812==
-==1812== LEAK SUMMARY:
-==1812==    definitely lost: 0 bytes in 0 blocks
-==1812==    indirectly lost: 0 bytes in 0 blocks
-==1812==      possibly lost: 0 bytes in 0 blocks
-==1812==    still reachable: 0 bytes in 0 blocks
-==1812==         suppressed: 208,215 bytes in 227 blocks
-==1812==
-==1812== For lists of detected and suppressed errors, rerun with: -s
-==1812== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 1 from 1)
-minishell$>
-==1802== Invalid read of size 1
-==1802==    at 0x10EF28: check_between_pipe (check.c:163)
-==1802==    by 0x10EE3B: check_pipe (check.c:141)
-==1802==    by 0x10EB2F: check (check.c:33)
-==1802==    by 0x109591: main (minishell.c:44)
-==1802==  Address 0x4b53d81 is 0 bytes after a block of size 1 alloc'd
-==1802==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1802==    by 0x4899BAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
-==1802==    by 0x4877694: readline_internal_teardown (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
-==1802==    by 0x4881D2A: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
-==1802==    by 0x10955E: main (minishell.c:40)
-==1802==
-==1802== Invalid read of size 1
-==1802==    at 0x10EF50: check_between_pipe (check.c:165)
-==1802==    by 0x10EE3B: check_pipe (check.c:141)
-==1802==    by 0x10EB2F: check (check.c:33)
-==1802==    by 0x109591: main (minishell.c:44)
-==1802==  Address 0x4b53d81 is 0 bytes after a block of size 1 alloc'd
-==1802==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1802==    by 0x4899BAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
-==1802==    by 0x4877694: readline_internal_teardown (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
-==1802==    by 0x4881D2A: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
-==1802==    by 0x10955E: main (minishell.c:40)
-==1802==
-==1802== Invalid read of size 1
-==1802==    at 0x10F39A: check_first_char (check.c:240)
-==1802==    by 0x10EB40: check (check.c:34)
-==1802==    by 0x109591: main (minishell.c:44)
-==1802==  Address 0x4b53d7f is 1 bytes before a block of size 1 alloc'd
-==1802==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1802==    by 0x4899BAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
-==1802==    by 0x4877694: readline_internal_teardown (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
-==1802==    by 0x4881D2A: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
-==1802==    by 0x10955E: main (minishell.c:40)
-==1802==
-==1802== Invalid read of size 1
-==1802==    at 0x10F3B8: check_first_char (check.c:240)
-==1802==    by 0x10EB40: check (check.c:34)
-==1802==    by 0x109591: main (minishell.c:44)
-==1802==  Address 0x4b53d7f is 1 bytes before a block of size 1 alloc'd
-==1802==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1802==    by 0x4899BAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
-==1802==    by 0x4877694: readline_internal_teardown (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
-==1802==    by 0x4881D2A: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
-==1802==    by 0x10955E: main (minishell.c:40)
-==1802==
-minishell$>
-*/
 
 int check(char *str)
 {
