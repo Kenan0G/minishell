@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:22:01 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/07 10:58:02 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/08 18:13:26 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ void	fd_file_in(t_parsed *p_list, t_cmd *c_list, t_data *data)
 	c_list->fd_in = open(p_list->token, O_RDONLY);
 	if (c_list->fd_in == -1)
 	{
-		dprintf(2, "p_list->token = %s\n", p_list->token);
 		perror(p_list->token);
 		c_list->is_ok = 0;
+		c_list->err_no = 1;
 		data->i = 1;
 	}
 }
@@ -59,6 +59,7 @@ void	fd_append(t_parsed *p_list, t_cmd *c_list, t_data *data)
 	{
 		perror(p_list->next->token);
 		c_list->is_ok = 0;
+		c_list->err_no = 1;
 		data->i = 1;
 	}
 }
@@ -76,6 +77,7 @@ void	fd_file_out(t_parsed *p_list, t_cmd *c_list, t_data *data)
 		ft_putendl_fd("write error: no space left on device", 2);
 		c_list->fd_out = 0;
 		c_list->is_ok = 0;
+		c_list->err_no = 1;
 		data->i = 1;
 	}
 	else	
@@ -85,6 +87,7 @@ void	fd_file_out(t_parsed *p_list, t_cmd *c_list, t_data *data)
 	{
 		perror(p_list->next->token);
 		c_list->is_ok = 0;
+		c_list->err_no = 1;
 		data->i = 1;
 	}
 }

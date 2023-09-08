@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:12:21 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/07 14:35:25 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/08 18:07:08 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ t_cmd	*my_lstnew_cmd()
 	liste->quote_status = NULL;
 	liste->hd_fd = NULL;
 	liste->limiter = NULL;
+	liste->err_no = 0;
 	liste->command_int = 0;
 	liste->fd_in = 0;
 	liste->fd_out = 0;

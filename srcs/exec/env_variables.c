@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:09:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/07 14:11:12 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/08 17:22:17 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ char	*is_expand(t_parsed *p_list, t_env *env_list, t_data *data)
 				my_lstadd_back_arg(&list, my_lstnew_arg(p_list->token[i]));
 				i++;
 			}
+			my_lstadd_back_arg(&list, my_lstnew_arg(p_list->token[i]));
+			i++;
 			if (!p_list->token[i])
 				break ;
 		}
@@ -217,15 +219,15 @@ int	is_permutable(char *arg, char *env)
 	while (arg[i] && env[i] && arg[i] == env[i])
 		i++;
 	j = i;
-	if (arg[i - 1] && env[i - 1] && arg[i - 1] == '=' && env[i - 1] == '=')
+	if (i > 0 && arg[i - 1] && env[i - 1] && arg[i - 1] == '=' && env[i - 1] == '=')
 		j = i - 1;
-	if ((arg[j] == ' ' || arg[j] == '\t' || arg[j] == '$' || arg[j] == '"'
-			|| arg[j] == '\'' || arg[j] == '=' || !arg[j])
-			&& (env[j] == '=' || !env[j]))
+	// if ((arg[j] == ' ' || arg[j] == '\t' || arg[j] == '$' || arg[j] == '"'
+			// || arg[j] == '\'' || arg[j] == '.' || arg[j] == '=' || !arg[j])
+			// && (env[j] == '=' || !env[j]))
+	if (!ft_isalnum(arg[j]) && (env[j] == '=' || !env[j]))
 		return (j);
 	return (0);
 }
-
 
 char	*convert_list_to_str(t_arg *list)
 {

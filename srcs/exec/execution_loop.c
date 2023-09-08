@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 16:06:24 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/07 11:33:38 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/08 18:12:38 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,14 @@ void	loop_utils_1(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_l
 	t_cmd		*c_temp;
 	t_parsed	*p_temp;
 	t_env		*e_temp;
+	int			err_no;
 	
 	c_temp = *c_list;
 	p_temp = *p_list;
 	e_temp = *env_list;
 	data->previous_fd = data->fd_pipe[0];
 	loop_utils_1_2(data, c_temp);
+	err_no = c_temp->err_no;
 	data->pid[data->index] = fork();
 	if (data->pid[data->index] == 0)
 	{
@@ -75,6 +77,8 @@ void	loop_utils_1(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_l
 			free(data->pid);
 			ft_free_all(data->c_list_temp, p_list, data, env_list);
 			ft_free_env(env_list);
+			if(err_no == 1)
+				exit (1);
 			exit (data->error_status);
 		}
 	}

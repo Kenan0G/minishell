@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:01 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/07 15:53:31 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/08 17:49:34 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,15 @@ void	run_loop(t_cmd *c_list, t_parsed *p_list, t_env *env_list, t_data *data)
 	char		*str;
 	int			parsing_is_ok;
 	int			exit_no;
+
+	exit_no = 0;
 	while (1)
 	{
 		signal(SIGQUIT, signal_ctrl_backslash);
 		signal(SIGINT, signal_ctrl_c);
 		str = readline("minishell$> ");
+		if (g_in_here_doc == 130)
+			exit_no = 130;
 		if (!str)
 			break;
 		if (!*str)
@@ -72,7 +76,7 @@ void	run_loop(t_cmd *c_list, t_parsed *p_list, t_env *env_list, t_data *data)
 		parsing_is_ok = check(str);
 		if (parsing_is_ok == 0)
 		{
-			init_data(data, exit_no, env_list);
+			init_data(&data, exit_no, env_list);
 			p_list = temp_list(data, str, env_list);
 			c_list = create_cmd_list(p_list, data);
 			execution(c_list, p_list, data, &env_list);
@@ -85,11 +89,11 @@ void	run_loop(t_cmd *c_list, t_parsed *p_list, t_env *env_list, t_data *data)
 	}
 }
 
-void init_data(t_data *data, int exit_no, t_env *env)
+void init_data(t_data **data, int exit_no, t_env *env)
 {
-	ft_memset(data, 0, sizeof(t_data));
-	data->exit_no = exit_no;
-	data->envp = env;
+	ft_memset((*data), 0, sizeof(t_data));
+	(*data)->exit_no = exit_no;
+	(*data)->envp = env;
 }
 
 // valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=valgrind.txt ./minishell

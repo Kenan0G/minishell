@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/09/08 15:56:33 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/08 18:06:52 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct s_cmd
 	char			**limiter;
 	char			**hd_file;
 	int				nb_here_doc;
+	int				err_no;
 	int				*hd_fd;
 	int				fd_in;
 	int				fd_out;
@@ -234,7 +235,7 @@ void print_env(t_env *token);
 void print_arg(t_arg *token);
 void print_cmd_list(t_cmd *token);
 
-void init_data(t_data *data, int exit_no, t_env *env);
+void init_data(t_data **data, int exit_no, t_env *env);
 
 int is_path(char *str);
 char *path_check(t_data *data, t_cmd *list);
