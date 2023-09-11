@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/09/08 18:06:52 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/11 17:23:02 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,43 +179,133 @@ t_env				*exec_unset(t_cmd *c_list, t_env **env_list);
 void				unset_utils(char *str, t_env **env_list);
 size_t				get_lenght(char *str, char c);
 
+////////// CLEANING //////////
 
-void ft_end(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_list);
-int ft_wait(t_data *data);
-void ft_unlink(t_cmd *list);
-void ft_free_cmd_list(t_cmd **lst);
-void free_cmd_content(t_cmd *lst);
-void ft_free_p_list(t_parsed **lst, t_data *data);
-void ft_free_map(char **str);
-void ft_free_all(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_list);
-void ft_free_env(t_env **envp);
-void ft_free_arg_list(t_arg **arg);
+// --- end_program.c ---
+
+void				ft_end(t_cmd **c_list, t_parsed **p_list);
+void				ft_free_all(t_cmd **c_list, t_parsed **p_list);
+int					ft_wait(t_data *data);
+void				ft_unlink(t_cmd *list);
+void				ft_free_map(char **str);
+
+// --- free_data ---
+
+void				ft_free_cmd_list(t_cmd **lst);
+void				free_cmd_content(t_cmd *lst);
+void				ft_free_p_list(t_parsed **lst);
+void				ft_free_env(t_env **envp);
+void				ft_free_arg_list(t_arg **arg);
+
+////////// EXPANDS //////////
+
+// --- look_for_expand.c ---
+
+char				*look_for_expand(t_parsed *p_list, t_env *env_list, t_data *data);
+int					copy_in_list(int i, char *str, t_arg **list);
+int					update_index(char *str, int i, int ret_expand);
+int					skip_single_quote(int i, t_arg **list, char *str);
+
+// --- permute_expand.c ---
+
+int					permute_expand(char *str, t_arg **arg_list, t_env *env_list, t_data *data);
+int					special_cases(t_arg **arg_list, char *str, t_data *data);
+int					is_permutable(char *arg, char *env);
+int					permute(int i, int len, char *str, t_arg **arg_list);
+int					var_len(char *str);
+
+// --- convert_list_to_str.c ---
+
+int					*get_status_tab(t_arg *list, int tablen);
+void				tab_quote(int i, int *tab, t_arg *temp, int tablen);
+int					get_tab_len(t_arg *list);
+int					str_malloc_len(int *tab, int tablen);
+char				simple_or_double(char c);
+
+// --- environment.c ---
+
+t_env				*get_env(t_env *env_list, char **env);
+void				set_value(t_env **temp, char **env, int i);
+char				**env_char(t_env *env_list);
+t_env				*env_i(void);
+
+// --- expand.c ---
+
+char				*is_expand(t_parsed *p_list, t_env *env_list, t_data *data);
+char				*convert_list_to_str(t_arg *list);
+void				get_fork_status(t_arg **arg_list, t_data *data);
+int					nb_quote(char *str);
+char				*get_res(t_arg *list, int *tab, char *res);
+
+////////// HERE_DOC //////////
+
+// --- here_doc.c ---
+
+int					hd_execution(t_parsed *p_list, t_cmd *cmd_list, t_data *data);
+int					here_doc(t_cmd *c_list, t_parsed *p_list, t_data *data, int i);
+int					readline_in_here_doc(t_data *data, t_here_doc *var);
+int					return_here_doc(t_data *data, t_here_doc *var);
+
+// --- here_doc_utils.c ---
+
+void				generate_hd_file_name(t_cmd *c_list, int i);
+void				*starthd(void);
+void				ft_close(t_cmd *c_list, int i);
+int					open_here_doc(char *path);
+
+////////// EXEC //////////
+
+////////// EXECUTION_LIST //////////
+
+// --- list_exec.c ---
+
+t_cmd				*create_cmd_list(t_parsed *parsed_list, t_data *data);
+t_cmd				*get_value(t_cmd *cmd_list, t_parsed *parsed_list);
+t_cmd				*get_fd(t_cmd *cmd_list, t_parsed *parsed_list, t_data *data);
+void				run_here_doc(t_cmd *c_list, t_parsed *p_list, t_data *data);
+
+// --- list_exec_fd.c ---
+
+void				ft_open(t_parsed *p_list, t_cmd *c_list, t_data *data);
+void				fd_file_in(t_parsed *p_list, t_cmd *c_list, t_data *data);
+void				fd_here_doc(t_cmd *c_list, t_data *data);
+void				fd_append(t_parsed *p_list, t_cmd *c_list, t_data *data);
+void				fd_file_out(t_parsed *p_list, t_cmd *c_list, t_data *data);
+
+// --- list_exec_value.c ---
+
+t_parsed			*get_value_i_j(t_parsed *p_list, int *i, int *j);
+void				get_value_malloc(t_cmd *c_list, int i, int j);
+void				get_args(t_cmd *cmd_list, t_parsed *parsed_list);
+void				get_args_utils(t_cmd *c_list, t_parsed *p_list, int *i, int *j);
+int					check_arg(t_cmd *c_list, t_parsed *p_list, int	i);
+
+
+
+void	run_expand(t_parsed **temp, t_env *env_list, t_data *data);
+
+
+
+
 
 int execution(t_cmd *list, t_parsed *p_list, t_data *data, t_env **env_list);
 void redirections(t_cmd *list, t_data *data);
 void get_path_and_exec(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_list);
 
-int hd_execution(t_parsed *p_list, t_cmd *cmd_list, t_data *data);
-void generate_hd_file_name(t_cmd *c_list, int i);
-int	here_doc(t_cmd *c_list, t_parsed *p_list, t_data *data, int i);
-int open_here_doc(char *path);
-void	ft_close(t_cmd *c_list, int i);
-void *starthd();
+// void ft_open(t_parsed *p_list, t_cmd *c_list, t_data *data);
+// void fd_file_in(t_parsed *p_list, t_cmd *c_list, t_data *data);
+// void fd_here_doc(t_cmd *c_list, t_data *data);
+// void fd_file_out(t_parsed *p_list, t_cmd *c_list, t_data *data);
+// void fd_append(t_parsed *p_list, t_cmd *c_list, t_data *data);
 
-void ft_open(t_parsed *p_list, t_cmd *c_list, t_data *data);
-void fd_file_in(t_parsed *p_list, t_cmd *c_list, t_data *data);
-void fd_here_doc(t_cmd *c_list, t_data *data);
-void fd_file_out(t_parsed *p_list, t_cmd *c_list, t_data *data);
-void fd_append(t_parsed *p_list, t_cmd *c_list, t_data *data);
+// t_parsed *get_value_i_j(t_parsed *p_list, int *i, int *j);
+// void get_value_malloc(t_cmd *c_list, int i, int j);
+// void get_args(t_cmd *cmd_list, t_parsed *parsed_list);
+// void get_args_utils(t_cmd *c_list, t_parsed *p_list, int *i, int *j);
 
-t_parsed *get_value_i_j(t_parsed *p_list, int *i, int *j);
-void get_value_malloc(t_cmd *c_list, int i, int j);
-void get_args(t_cmd *cmd_list, t_parsed *parsed_list);
-void get_args_utils(t_cmd *c_list, t_parsed *p_list, int *i, int *j);
-
-t_cmd *create_cmd_list(t_parsed *parsed_list, t_data *data);
-t_cmd *get_value(t_cmd *cmd_list, t_parsed *parsed_list);
-t_cmd *get_fd(t_cmd *cmd_list, t_parsed *parsed_list, t_data *data);
+// t_cmd *create_cmd_list(t_parsed *parsed_list, t_data *data);
+// t_cmd *get_value(t_cmd *cmd_list, t_parsed *parsed_list);
+// t_cmd *get_fd(t_cmd *cmd_list, t_parsed *parsed_list, t_data *data);
 
 void	run_loop(t_cmd *c_list, t_parsed *p_list, t_env *env_list, t_data *data);
 t_parsed *temp_list(t_data *data, char *str, t_env *env_list);
@@ -258,21 +348,21 @@ void loop_utils_1_2(t_data *data, t_cmd *c_temp);
 void loop_utils_1_3(t_data *data);
 void loop_utils_2(t_cmd **list, t_parsed **p_list, t_data *data, t_env **env_list);
 
-char *get_checked_arg(t_parsed *p_list, t_env *env_list, t_data *data);
-char *is_expand(t_parsed *p_list, t_env *env_list, t_data *data);
-int get_expand_value(char *str, t_arg **arg_list, t_env *env_list, t_data *data);
-int is_permutable(char *arg, char *env);
-char *convert_list_to_str(t_arg *list);
-int	*get_char_status(t_arg *list, int tablen);
-int str_malloc_len(int *tab, int tablen);
-int get_tab_len(t_arg *list);
-char *get_res(t_arg *list, int *tab, char *res);
-int ret_expend(char *str);
-int nb_quote(char *str);
-void get_fork_status(t_arg **arg_list, t_data *data);
-char	**new_arg(char **arg, char **new);
-char	**arg_update(char **arg);
-int		get_len(char **arg, int bool);
+// char *is_expand(t_parsed *p_list, t_env *env_list, t_data *data);
+// char *permute_expand(t_parsed *p_list, t_env *env_list, t_data *data);
+// int permute_expand(char *str, t_arg **arg_list, t_env *env_list, t_data *data);
+// int is_permutable(char *arg, char *env);
+// char *convert_list_to_str(t_arg *list);
+// int	*get_status_tab(t_arg *list, int tablen);
+// int str_malloc_len(int *tab, int tablen);
+// int get_tab_len(t_arg *list);
+// char *get_res(t_arg *list, int *tab, char *res);
+// int var_len(char *str);
+// int nb_quote(char *str);
+// void get_fork_status(t_arg **arg_list, t_data *data);
+// char	**new_arg(char **arg, char **new);
+// char	**arg_update(char **arg);
+// int		get_len(char **arg, int bool);
 
 
 

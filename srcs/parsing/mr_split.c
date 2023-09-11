@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mr_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: red <red@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 18:15:04 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/07/21 17:34:27 by red              ###   ########.fr       */
+/*   Updated: 2023/09/11 10:47:19 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static char *create_double_quote(char *str, t_data *data)
 	int i;
 	
 	temp = malloc(sizeof(char) * ft_strlensep(str, '"') + 1);
+	if (!temp)
+		return (NULL);
 	i =0;
 	while (str[data->is])
 	{
@@ -89,6 +91,8 @@ static char *create_charset(char *str, char *charset, t_data *data)
 
 	i = 0;
 	temp = malloc(sizeof(char) * ft_strlensep(str, ' ') + 1);
+	if (!temp)
+		return (NULL);
 	while (str[data->is] && ft_isspace(str[data->is], charset))
 	{
 		temp[i] = str[data->is];
@@ -105,6 +109,8 @@ static char *create_word(char *str, char *charset, t_data *data)
 	int i;
 
 	temp = malloc(sizeof(char) * ft_strlensep(str, ' ') + 1);
+	if (!temp)
+		return (NULL);
 	i = 0;
 	while (str[data->is] && !ft_isspace(str[data->is], charset) && str[data->is] != ' ')
 	{

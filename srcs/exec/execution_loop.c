@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 16:06:24 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/08 18:18:16 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/11 18:14:07 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,11 @@ void	loop_utils_1(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_l
 	err_no = c_temp->err_no;
 	// signal(SIGINT, signal_ctrl_c);
 // changer la fonctione et mettre une aui ignore les signaux d'avant
+	signal(SIGINT, SIG_IGN);
 	data->pid[data->index] = fork();
 	if (data->pid[data->index] == 0)
 	{
-		
-		// signal(SIGINT, signal_ctrl_c_in_child);
-		// dprintf(2, "test exec\n");
-		// if (c_temp->command_int != EXPORT)
+		signal(SIGINT, signal_ctrl_c_in_child);
 		if (c_temp->is_ok && c_temp->command)
 		{
 			redirections(c_temp, data);
@@ -65,27 +63,26 @@ void	loop_utils_1(t_cmd **c_list, t_parsed **p_list, t_data *data, t_env **env_l
 			{
 				exec_builtin(c_temp, p_temp, *env_list, data);
 				free(data->pid);
-				ft_free_all(data->c_list_temp, p_list, data, env_list);
+				ft_free_all(data->c_list_temp, p_list);
 				ft_free_env(env_list);
 				exit (data->error_status);
 			}
 		}
 		else
 		{
-			// dprintf(2, "test NO exec\n");
 			if (data->pipe_count > 1 && data->index < data->pipe_count - 1)
 				close(data->fd_pipe[0]);
 			if (data->previous_fd > 0)
 				close(data->previous_fd);
 			free(data->pid);
-			ft_free_all(data->c_list_temp, p_list, data, env_list);
+			ft_free_all(data->c_list_temp, p_list);
 			ft_free_env(env_list);
 			if(err_no == 1)
 				exit (1);
 			exit (data->error_status);
 		}
 	}
-	signal(SIGINT, signal_ctrl_c);
+	// signal(SIGINT, signal_ctrl_c_in_child);
 	loop_utils_1_3(data);
 }
 

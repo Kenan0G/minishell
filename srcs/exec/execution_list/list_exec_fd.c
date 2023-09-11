@@ -6,11 +6,11 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:22:01 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/08 18:13:26 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/11 15:46:36 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
 void	ft_open(t_parsed *p_list, t_cmd *c_list, t_data *data)
 {
@@ -69,8 +69,8 @@ void	fd_file_out(t_parsed *p_list, t_cmd *c_list, t_data *data)
 	if (c_list->fd_out > 0)
 		close(c_list->fd_out);
 	if (!ft_strcmp(p_list->next->token, "/dev/stdout")
-			|| !ft_strcmp(p_list->next->token, "/proc/self/fd/1")
-			|| !ft_strcmp(p_list->next->token, "/dev/fd/1"))
+		|| !ft_strcmp(p_list->next->token, "/proc/self/fd/1")
+		|| !ft_strcmp(p_list->next->token, "/dev/fd/1"))
 		c_list->fd_out = 0;
 	else if (!ft_strcmp(p_list->next->token, "/dev/full"))
 	{
@@ -80,7 +80,7 @@ void	fd_file_out(t_parsed *p_list, t_cmd *c_list, t_data *data)
 		c_list->err_no = 1;
 		data->i = 1;
 	}
-	else	
+	else
 		c_list->fd_out = open(p_list->next->token, O_WRONLY
 				| O_TRUNC | O_CREAT, 0777);
 	if (c_list->fd_out == -1)

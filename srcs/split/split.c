@@ -6,69 +6,11 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:43:18 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/08/27 17:56:07 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/11 15:18:07 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// static char *create_simple_quote(char *str, t_data *data)
-// {
-// 	char *temp;
-// 	int i;
-	
-// 	temp = malloc(sizeof(char) * ft_strlensep(str, '\'', data) + 1);
-// 	if (!temp)
-// 		return (NULL);
-// 	i = 0;
-// 	while (str[data->is])
-// 	{
-// 		temp[i] = str[data->is];
-// 		data->is++;
-// 		i++;
-// 		if (str[data->is] == '\'')
-// 		{
-// 			data->is++;
-// 			break;
-// 		}
-// 	}
-// 	temp[i] = '\0';
-// 	return (temp);
-// }
-
-// int len_split(char *str, char *charset)
-// {
-// 	int len;
-// 	int i;
-// 	int quote;
-
-// 	if (!str)
-// 		return (0);
-// 	i = 0;
-// 	len = 0;
-// 	quote = 0;
-// 	while (str[i])
-// 	{
-// 		if (str[i] == ' ' || ft_ischarset(str[i], charset))
-// 			len++;
-// 		if (str[i] == '"' || str[i] == '\'')
-// 			quote++;
-// 		i++;
-// 	}
-// 	len += quote / 2;
-// 	printf("lensplit = %d\n", len);
-// 	return (len);
-// }
-
-// static int ft_strlensep(char *str, char c)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (str[i] && str[i] != c)
-// 		i++;
-// 	return (i);
-// }
 
 static int ft_ischarset(char c, char *charset)
 {
@@ -83,63 +25,6 @@ static int ft_ischarset(char c, char *charset)
 	}
 	return (0);
 }
-
-// static int ft_strlensep(char *str, char c, t_data *data)
-// {
-// 	int i;
-// 	int j;
-
-// 	i = 0;
-// 	j = data->is;
-// 	if (str[j] == c)
-// 		j++;
-// 	while (str[j] && str[j] != c)
-// 	{
-// 		j++;
-// 		i++;
-// 	}
-// 	return (i);
-// }
-
-// static char *create_double_quote(char *str, t_data *data)
-// {
-// 	char *temp;
-// 	int i;
-
-// 	temp = malloc(sizeof(char) * ft_strlensep(str, '"', data) + 2);
-// 	i = 0;
-// 	while (str[data->is] )
-// 	{
-// 		temp[i] = str[data->is];
-// 		i++;
-// 		data->is++;
-// 		if (str[data->is] == '"')
-// 			break ;
-// 	}
-// 	data->is++;
-// 	temp[i] = '\0';
-// 	return (temp);
-// }
-
-// static char *create_simple_quote(char *str, t_data *data)
-// {
-// 	char *temp;
-// 	int i;
-
-// 	temp = malloc(sizeof(char) * ft_strlensep(str, '\'', data) + 2);
-// 	i = 0;
-// 	while (str[data->is] )
-// 	{
-// 		temp[i] = str[data->is];
-// 		i++;
-// 		data->is++;
-// 		if (str[data->is] == '\'')
-// 			break ;
-// 	}
-// 	data->is++;
-// 	temp[i] = '\0';
-// 	return (temp);
-// }
 
 static char *create_charset(char *str, char *charset, t_data *data)
 {
@@ -156,6 +41,8 @@ static char *create_charset(char *str, char *charset, t_data *data)
 		len++;
 	}
 	temp = malloc(sizeof(char) * (len + 1));
+	if (!temp)
+		return (NULL);
 	i = 0;
 	temp[i] = str[data->is];
 	data->is++;
@@ -212,6 +99,8 @@ static char *create_word(char *str, char *charset, t_data *data)
 
 	int len = wordlen(str, charset, data);
 	temp = malloc(sizeof(char) * (len + 1));
+	if (!temp)
+		return (NULL);
 	i = 0;
 	while (str[data->is] && str[data->is] != ' ' && str[data->is] != '\t' &&!ft_ischarset(str[data->is], charset))
 	{
@@ -305,39 +194,8 @@ int len_split(char *str, char *charset)
 		}
 		i++;
 	}
-	// printf("malloc = %d\n\n", len + set);
 	return (len + set);
 }
-
-// int len_split(char *str, char *charset)
-// {
-//         int len;
-//         int i;
-
-//         if (!str)
-//                 return (0);
-//         i = 0;
-//         len = 0;
-//         while (str[i])
-// 		{
-// 			if (str[i] == ' ')
-// 			{
-// 				len++;
-// 				while (str[i] == ' ')
-// 					i++;
-// 			}
-// 			if (ft_ischarset(str[i], charset))
-// 			{
-// 				len++;
-// 				while (ft_ischarset(str[i], charset))
-// 					i++;
-// 			}
-// 			i++;
-//         }
-// 		printf("len = %d\n", len);
-//         return (len);
-// }
-
 
 char **mr_split(char *str, char *charset, t_data *data)
 {
@@ -364,25 +222,5 @@ char **mr_split(char *str, char *charset, t_data *data)
 			data->is++;
 	}
 	split[j] = NULL;
-	// int k = 0;
-	// while (split[k])
-	// {
-	// 	printf("%s\n", split[k]);
-	// 	k++;
-	// }
 	return (split);
 }
-
-// <	in	cat	|	<<	l	cat	>	out
-
-
-
-// a priori tt ce qui est en bas est reglé
-
-
-// lensplit qui marche pas du tout
-// malloc des create double simple quote et create charset ne fonctionne pas comme il faut
-// strlensep aussi compte pas les guillemets ou les charset 
-// mot  (espace/s a la fin)    ->espaces a la fin pris en compte
-// quand il y a plusieurs charset collés il faut les separer
-// quand il y a mot"text", les guillemets ne sont pas gerés

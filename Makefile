@@ -24,22 +24,27 @@ SRCS =	minishell.c\
 		pwd.c\
 		unset.c\
 		end_program.c\
+		free_data.c\
+		convert_list_to_str.c\
+		environment.c\
+		expand.c\
+		look_for_expand.c\
+		permute_expand.c\
+		here_doc.c\
+		here_doc_utils.c\
 		execution.c\
 		execution_loop.c\
 		get_path.c\
-		here_doc.c\
 		list_exec_fd.c\
 		list_exec_value.c\
 		list_exec.c\
 		list_temp.c\
 		list_utils.c\
 		utils.c \
-		env_variables.c \
 		split.c\
 		signal.c\
 		check.c\
-		exit.c\
-		test.c
+		exit.c
 
 
 

@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:01 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/08 17:49:34 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/11 18:14:30 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,21 @@
 
 // normer ...
 
-// check les mallocs
+// cat
+// control + C
+// control + D
 
-// gerer les signaux dans les commandes persistantes
 
-// voir les expand dans le here doc
-// -> le probleme c que si je fait ca je pourrais pas free_all dans le
-// 		fork du here_doc
-
-// re split les arg sur espace apres avoir gerer les expands
-// -> le probleme c que je dois split seulement quand il y a un ou des espaces
-// 		dans un expand. donc par exemple ls "srcs includes" ne doit pas etre split
+//  ________________________________________________________________________________
+// |																				|
+// | voir les expand dans le here doc												|
+// | -> le probleme c que si je fait ca je pourrais pas free_all dans le			|
+// | 	  fork du here_doc															|
+// | 																				|
+// | re split les arg sur espace apres avoir gerer les expands					 	|
+// | -> le probleme c que je dois split seulement quand il y a un ou des espaces	|
+// | 	  dans un expand.donc par exemple ls "srcs includes" ne doit pas etre split	|
+// |________________________________________________________________________________|
 
 int	g_in_here_doc = 0;
 
@@ -81,7 +85,7 @@ void	run_loop(t_cmd *c_list, t_parsed *p_list, t_env *env_list, t_data *data)
 			c_list = create_cmd_list(p_list, data);
 			execution(c_list, p_list, data, &env_list);
 			exit_no = ft_wait(data);
-			ft_end(&c_list, &p_list, data, &env_list);
+			ft_end(&c_list, &p_list);
 		}
 		else
 			exit_no = parsing_is_ok;

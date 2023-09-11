@@ -6,11 +6,11 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 18:27:17 by jsabound          #+#    #+#             */
-/*   Updated: 2023/09/07 15:01:36 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/11 18:13:53 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
 t_cmd	*create_cmd_list(t_parsed *parsed_list, t_data *data)
 {
@@ -19,6 +19,7 @@ t_cmd	*create_cmd_list(t_parsed *parsed_list, t_data *data)
 
 	i = 0;
 	cmd_list = NULL;
+	// data->c_list_temp = &cmd_list;
 	while (i != data->pipe_count)
 	{
 		my_lstadd_back_cmd(&cmd_list, my_lstnew_cmd());
@@ -31,21 +32,21 @@ t_cmd	*create_cmd_list(t_parsed *parsed_list, t_data *data)
 
 t_cmd	*get_value(t_cmd *cmd_list, t_parsed *parsed_list)
 {
-	int		i;
-	int		j;
-	t_cmd	*c_list;
+	int			i;
+	int			j;
+	int			k;
+	t_cmd		*c_list;
 	t_parsed	*p_list;
-	
+
 	c_list = cmd_list;
 	p_list = parsed_list;
-	int k = 0;
+	k = 0;
 	while (c_list)
 	{
 		i = 0;
 		j = 0;
 		p_list = get_value_i_j(p_list, &i, &j);
 		get_value_malloc(c_list, i, j);
-
 		if (p_list == NULL)
 			break ;
 		else
@@ -54,23 +55,17 @@ t_cmd	*get_value(t_cmd *cmd_list, t_parsed *parsed_list)
 		k++;
 	}
 	get_args(cmd_list, parsed_list);
-	// print_cmd_list(cmd_list);
 	return (cmd_list);
 }
 
 t_cmd	*get_fd(t_cmd *cmd_list, t_parsed *parsed_list, t_data *data)
 {
-	t_cmd	*c_list;
+	t_cmd		*c_list;
 	t_parsed	*p_list;
-	
+
 	p_list = parsed_list;
 	c_list = cmd_list;
-	g_in_here_doc = 1;
-	// data->here_doc_exit = 0;
-	if (hd_execution(p_list, c_list, data) == -1)
-		c_list->is_ok = 0;
-	data->error_status = data->here_doc_exit;	
-	g_in_here_doc = 0;
+	run_here_doc(c_list, p_list, data);
 	while (c_list)
 	{
 		data->i = 0;
@@ -89,16 +84,11 @@ t_cmd	*get_fd(t_cmd *cmd_list, t_parsed *parsed_list, t_data *data)
 	return (cmd_list);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+void	run_here_doc(t_cmd *c_list, t_parsed *p_list, t_data *data)
+{	
+	g_in_here_doc = 1;
+	if (hd_execution(p_list, c_list, data) == -1)
+		c_list->is_ok = 0;
+	data->error_status = data->here_doc_exit;
+	g_in_here_doc = 0;
+}

@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:12:21 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/08 18:07:08 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/11 14:59:26 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ t_env	*my_lstnew_env(char *str, int nb)
 	t_env	*liste;
 
 	liste = malloc(sizeof(*liste));
+	if (!liste)
+		return (NULL);
 	liste->next = NULL;
 	liste->printable = nb;
 	liste->env = ft_strdup(str);
@@ -58,6 +60,8 @@ t_arg	*my_lstnew_arg(char c)
 	t_arg	*liste;
 
 	liste = malloc(sizeof(*liste));
+	if (!liste)
+		return (NULL);
 	liste->next = NULL;
 	liste->c = c;
 	return (liste);
@@ -83,6 +87,8 @@ t_cmd	*my_lstnew_cmd()
 	t_cmd	*liste;
 
 	liste = malloc(sizeof(*liste));
+	if (!liste)
+		return (NULL);
 	liste->next = NULL;
 	liste->arg = NULL;
 	liste->command = NULL;
@@ -118,6 +124,8 @@ t_parsed	*my_lstnew(char *content, int status)
 	t_parsed	*liste;
 
 	liste = malloc(sizeof(*liste));
+	if (!liste)
+		return (NULL);
 	liste->token = ft_strdup(content);
 	liste->status = status;
 	liste->next = NULL;
@@ -180,27 +188,27 @@ void	print_cmd_list(t_cmd *token)
 			printf("arg[%d]  = %s\n", i, temp->arg[i]);
 			i++;
 		}
-		// i = 0;
-		// while (temp->limiter[i])
-		// {
-		// 	printf("limiter[%d]  = %s\n", i, temp->limiter[i]);
-		// 	i++;
-		// }
-		// i = 0;
-		// while (temp->hd_fd[i])
-		// {
-		// 	printf("temp->hd_fd[i] = %d\n", temp->hd_fd[i]);
-		// 	i++;
-		// }
-		// i = 0;
-		// while (temp->hd_file[i])
-		// {
-		// 	printf("temp->hd_file[i] = %s\n", temp->hd_file[i]);
-		// 	i++;
-		// }
-		// printf("command = %s\n", temp->command);
-		// printf("fd_in   = %d\n", temp->fd_in);
-		// printf("fd_out  = %d\n\n", temp->fd_out);
+		i = 0;
+		while (temp->limiter[i])
+		{
+			printf("limiter[%d]  = %s\n", i, temp->limiter[i]);
+			i++;
+		}
+		i = 0;
+		while (temp->hd_fd[i])
+		{
+			printf("temp->hd_fd[i] = %d\n", temp->hd_fd[i]);
+			i++;
+		}
+		i = 0;
+		while (temp->hd_file[i])
+		{
+			printf("temp->hd_file[i] = %s\n", temp->hd_file[i]);
+			i++;
+		}
+		printf("command = %s\n", temp->command);
+		printf("fd_in   = %d\n", temp->fd_in);
+		printf("fd_out  = %d\n\n", temp->fd_out);
 		temp = temp->next;
 	}
 }

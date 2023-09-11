@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 17:57:05 by red               #+#    #+#             */
-/*   Updated: 2023/09/08 17:59:19 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/11 14:52:30 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void    signal_ctrl_c_here_doc(int signo)
 void	signal_ctrl_c_in_child(int signo)
 {
     (void)signo;
+	ft_putstr_fd("\n", 2);
 	exit (0);
 }
 
