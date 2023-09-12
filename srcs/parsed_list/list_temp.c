@@ -6,11 +6,11 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 10:37:49 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/11 17:21:11 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/12 12:41:24 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 t_parsed	*temp_list(t_data *data, char *str, t_env *env_list)
 {
@@ -21,6 +21,7 @@ t_parsed	*temp_list(t_data *data, char *str, t_env *env_list)
 
 	i = 0;
 	list = NULL;
+	data->p_list_adress = &list;
 	prev_status = 0;
 	data->str_split = mr_split(str, "><|", data);
 	while (data->str_split[i])

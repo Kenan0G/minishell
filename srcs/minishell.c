@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:01 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/11 18:14:30 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/12 12:40:33 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void init_data(t_data **data, int exit_no, t_env *env)
 	ft_memset((*data), 0, sizeof(t_data));
 	(*data)->exit_no = exit_no;
 	(*data)->envp = env;
+	(*data)->c_list_adress = NULL;
 }
 
 // valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=valgrind.txt ./minishell

@@ -6,11 +6,11 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:49:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/11 18:07:10 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/12 15:56:18 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
 int	execution(t_cmd *list, t_parsed *p_list, t_data *data, t_env **env_list)
 {
@@ -30,7 +30,8 @@ int	execution(t_cmd *list, t_parsed *p_list, t_data *data, t_env **env_list)
 	return (0);
 }
 
-void	exec_builtin(t_cmd *c_list, t_parsed *p_list, t_env *env_list, t_data *data)
+void	exec_builtin(t_cmd *c_list, t_parsed *p_list, t_env *env_list
+	, t_data *data)
 {
 	(void)p_list;
 	if (c_list->command_int == ECHO)
@@ -49,39 +50,26 @@ void	exec_builtin(t_cmd *c_list, t_parsed *p_list, t_env *env_list, t_data *data
 		exec_cd(c_list, env_list, data);
 }
 
-void	redirections(t_cmd *list, t_data *data)
-{
-	if (data->pipe_count > 1 && data->index < data->pipe_count - 1)
-		close(data->fd_pipe[0]);
-	if (list->fd_in > 0 && dup2(list->fd_in, STDIN_FILENO) == -1)
-	{
-		perror("Error fd_in");
-		// free
-		exit(EXIT_FAILURE);
-	}
-	if (list->fd_out > 0 && (dup2(list->fd_out, STDOUT_FILENO) == -1))
-	{
-		perror("Error fd_out");
-		// free
-		exit(EXIT_FAILURE);
-	}
-}
-
-void	get_path_and_exec(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_list)
+void	get_path_and_exec(t_cmd *list, t_parsed *p_list, t_data *data
+	, t_env *env_list)
 {
 	char	**env;
+	int		path;
 
 	ft_path(env_char(env_list), data);
-	if (is_path(list->command) == 1)
+	path = is_path(list->command);
+	if (path == 1)
 		data->path = ft_strdup(list->command);
-	else
+	else if (path == 0) 
 		data->path = path_check(data, list);
+	else if (path == 2)
+		data->path = NULL;
 	if (data->path == NULL)
 	{
 		free(data->pid);
 		if (data->path_begining)
 			ft_free_map(data->path_begining);
-		ft_free_all(data->c_list_temp, &p_list);
+		ft_free_all(data->c_list_adress, &p_list);
 		ft_free_env(&env_list);
 		close (data->fd_pipe[0]);
 		close (data->fd_pipe[1]);
@@ -90,63 +78,55 @@ void	get_path_and_exec(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_l
 	env = env_char(env_list);
 	if (execve(data->path, list->arg, env) == -1)
 	{
-		perror(list->arg[0]);
-		ft_free_all(data->c_list_temp, &p_list);
-		if (data->path_begining)
-			ft_free_map(data->path_begining);
-		if (data->pid)
-			free(data->pid);
-		if (data->path)
-			free(data->path);
-		if (env_list)
-			ft_free_env(&env_list);
 		if (env)
 			ft_free_map(env);
-		close (data->fd_pipe[0]);
-		close (data->fd_pipe[1]);
-		exit (EXIT_FAILURE);
+		clear_fork(list, p_list, data, env_list);
 	}
 }
 
-//-------------------------------------------------------------------------
+// void	error()
 
-	// afficher les arguments et le path juste avant le execve
-	
-	// dprintf(2, "\ndata->path = %s\n", data->path);
-	// int i = 0;
-	// while (list->arg[i])
-	// {
-	// 	dprintf(2, "list->arg[%d] = %s\n\n", i, list->arg[i]);
-	// 	i++;
-	// }
+// void	get_path(t_cmd *list, t_parsed *p_list, t_data *data
+// 	, t_env *env_list)
+// {
+// 	int	is_path_good;
 
-//-------------------------------------------------------------------------
-	
-	// afficher les fd
-
-	// dprintf(2, "[%d]--fd_in 		= %d\n", i, list->fd_in);
-	// dprintf(2, "[%d]--fd_out		= %d\n", i, list->fd_out);
-	// dprintf(2, "[%d]--fd_pipe[1]	= %d\n", i, data->fd_pipe[1]);
-	// dprintf(2, "[%d]--fd_pipe[0]	= %d\n", i, data->fd_pipe[0]);
-	// dprintf(2, "[%d]--previous fd	= %d\n", i, data->previous_fd);
-
-//-------------------------------------------------------------------------
-
-	// fonction norm get value
-	
-	// t_temp	*get_value_i_j(t_temp *p_list, int *i, int *j)
-	// {
-	// 		while (p_list && p_list->status != PIPE)
-	// 		{
-	// 		if (p_list->status == ARG || p_list->status == COMMAND)
-	// 			i++;
-	// 		else if (p_list->status == HERE_DOC)
-	// 			j++;
-	// 		p_list = p_list->next;
-	// 		}
-	// 		return (p_list);
-	// }
-
-//-------------------------------------------------------------------------
+// 	ft_path(env_char(env_list), data);
+// 	is_path_good = is_path(list->command)
+// 	if (is_path_good == 1)
+// 		data->path = ft_strdup(list->command);
+// 	else if (is_path_good == 2)
+		
+// 	else
+// 		data->path = path_check(data, list);
+// 	if (data->path == NULL)
+// 	{
+// 		free(data->pid);
+// 		if (data->path_begining)
+// 			ft_free_map(data->path_begining);
+// 		ft_free_all(data->c_list_adress, &p_list);
+// 		ft_free_env(&env_list);
+// 		close (data->fd_pipe[0]);
+// 		close (data->fd_pipe[1]);
+// 		exit (127);
+// 	}
+// }
 
 
+void	clear_fork(t_cmd *list, t_parsed *p_list, t_data *data
+	, t_env *env_list)
+{
+	perror(list->arg[0]);
+	ft_free_all(data->c_list_adress, &p_list);
+	if (data->path_begining)
+		ft_free_map(data->path_begining);
+	if (data->pid)
+		free(data->pid);
+	if (data->path)
+		free(data->path);
+	if (env_list)
+		ft_free_env(&env_list);
+	close (data->fd_pipe[0]);
+	close (data->fd_pipe[1]);
+	exit (EXIT_FAILURE);
+}

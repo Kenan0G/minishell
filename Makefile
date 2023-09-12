@@ -35,11 +35,14 @@ SRCS =	minishell.c\
 		execution.c\
 		execution_loop.c\
 		get_path.c\
+		loop_utils.c\
 		list_exec_fd.c\
 		list_exec_value.c\
 		list_exec.c\
 		list_temp.c\
-		list_utils.c\
+		my_lstadd_back.c\
+		my_lstnew.c\
+		print_lists.c\
 		utils.c \
 		split.c\
 		signal.c\
@@ -73,7 +76,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	cd libft && make
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) includes/minishell.h libft/libft.a get_next_line/get_next_line.c get_next_line/get_next_line_utils.c -lreadline 
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) includes/minishell.h libft/libft.a  -lreadline 
 	@echo "\n\t$(COLOUR_PURPLE)***EXECUTABLE CREATED SUCCESSFULL***\n\n$(COLOUR_END)"
 
 $(OBJS_DIR)/%.o : %.c | $(OBJS_DIR)

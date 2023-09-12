@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 18:27:17 by jsabound          #+#    #+#             */
-/*   Updated: 2023/09/11 18:13:53 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/12 12:40:33 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ t_cmd	*create_cmd_list(t_parsed *parsed_list, t_data *data)
 
 	i = 0;
 	cmd_list = NULL;
-	// data->c_list_temp = &cmd_list;
 	while (i != data->pipe_count)
 	{
 		my_lstadd_back_cmd(&cmd_list, my_lstnew_cmd());
 		i++;
 	}
 	cmd_list = get_value(cmd_list, parsed_list);
+	data->c_list_adress = &cmd_list;
 	cmd_list = get_fd(cmd_list, parsed_list, data);
 	return (cmd_list);
 }

@@ -6,15 +6,15 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:43:18 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/11 15:18:07 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/12 12:30:56 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int ft_ischarset(char c, char *charset)
+static int	ft_ischarset(char c, char *charset)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (charset[i] != '\0')
@@ -26,13 +26,13 @@ static int ft_ischarset(char c, char *charset)
 	return (0);
 }
 
-static char *create_charset(char *str, char *charset, t_data *data)
+static char	*create_charset(char *str, char *charset, t_data *data)
 {
-	char *temp;
-	int i;
-	int	len;
-	(void)charset;
+	char	*temp;
+	int		i;
+	int		len;
 
+	(void)charset;
 	len = 1;
 	i = data->is;
 	while (str[i] == str[i + 1])
@@ -59,12 +59,13 @@ static char *create_charset(char *str, char *charset, t_data *data)
 
 int	wordlen(char *str, char *charset, t_data *data)
 {
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
 	i = data->is;
 	j = 0;
-	while (str[i] && str[i] != ' ' && str[i] != '\t' && !ft_ischarset(str[i], charset))
+	while (str[i] && str[i] != ' ' && str[i] != '\t' && !ft_ischarset(str[i],
+			charset))
 	{
 		if (str[i] == '"')
 		{
@@ -92,17 +93,19 @@ int	wordlen(char *str, char *charset, t_data *data)
 	return (j);
 }
 
-static char *create_word(char *str, char *charset, t_data *data)
+static char	*create_word(char *str, char *charset, t_data *data)
 {
-	char *temp;
-	int i;
+	char	*temp;
+	int		i;
+	int		len;
 
-	int len = wordlen(str, charset, data);
+	len = wordlen(str, charset, data);
 	temp = malloc(sizeof(char) * (len + 1));
 	if (!temp)
 		return (NULL);
 	i = 0;
-	while (str[data->is] && str[data->is] != ' ' && str[data->is] != '\t' &&!ft_ischarset(str[data->is], charset))
+	while (str[data->is] && str[data->is] != ' ' && str[data->is] != '\t'
+		&& !ft_ischarset(str[data->is], charset))
 	{
 		if (str[data->is] == '"')
 		{
@@ -140,12 +143,13 @@ int	not_charset_or_quote(char c, char *charset, int i)
 {
 	if (i == 1 && c && c != ' ' && c != '\t' && !ft_ischarset(c, charset))
 		return (1);
-	else if (i == 2 && c && c != ' ' && c != '\t' && c != '"' && c != '\'' && !ft_ischarset(c, charset))
+	else if (i == 2 && c && c != ' ' && c != '\t' && c != '"' && c != '\''
+		&& !ft_ischarset(c, charset))
 		return (1);
 	return (0);
 }
 
-int len_split(char *str, char *charset)
+int	len_split(char *str, char *charset)
 {
 	int	len;
 	int	set;
@@ -175,7 +179,8 @@ int len_split(char *str, char *charset)
 			i++;
 			if (!str[i])
 				return (len + set);
-			if (!ft_ischarset(str[i], charset) && str[i] != ' ' && str[i] != '\t')
+			if (!ft_ischarset(str[i], charset) && str[i] != ' '
+				&& str[i] != '\t')
 			{
 				if (str[i] == '"' && is_quote == 0)
 					is_quote = 1;
@@ -197,11 +202,11 @@ int len_split(char *str, char *charset)
 	return (len + set);
 }
 
-char **mr_split(char *str, char *charset, t_data *data)
+char	**mr_split(char *str, char *charset, t_data *data)
 {
-	char **split;
-	int j;
-	int malloc_len;
+	char	**split;
+	int		j;
+	int		malloc_len;
 
 	data->is = 0;
 	malloc_len = len_split(str, charset) + 1;

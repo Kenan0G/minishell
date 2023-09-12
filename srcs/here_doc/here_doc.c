@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 11:50:45 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/11 15:13:44 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/12 12:40:33 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	here_doc(t_cmd *c_list, t_parsed *p_list, t_data *data, int i)
 	pid = fork();
 	if (pid == 0)
 	{
-		ft_free_all(&c_list, &p_list);
+		ft_free_all(data->c_list_adress, &p_list);
 		ft_free_env(&data->envp);
 		exit_no = readline_in_here_doc(data, var);
 		free(var->line);

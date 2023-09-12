@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 10:46:11 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/05/10 15:48:38 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/12 15:04:19 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	get_path(char **envp, t_data *data);
 int		is_path(char *str);
 char	*path_check(t_data *data, t_cmd *list);
 void	ft_path(char **envp, t_data *data);
-void	ft_error_path(t_data *data, char *temp, t_cmd *list);
+void	ft_error_path(char *temp, t_cmd *list, int bool);
 
 void	exec(t_data *data, char **envp);
 void	ft_first_cmd(t_data *data);
