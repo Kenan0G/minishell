@@ -45,6 +45,8 @@ SRCS =	minishell.c\
 		print_lists.c\
 		utils.c \
 		split.c\
+		split2.c\
+		split3.c\
 		signal.c\
 		check.c\
 		exit.c

@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 11:29:11 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/11 12:44:45 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/12 18:51:08 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,12 @@ char	*look_for_expand(t_parsed *p_list, t_env *env_list, t_data *data)
 	i = 0;
 	while (p_list->token[i])
 	{
-		i = skip_single_quote(i, &list, p_list->token);
+		if (p_list->token[i] == '"')
+			data->nb_quote++;
+		i = skip_single_quote(i, &list, p_list->token, data);
 		if (i == -1)
 			break ;
-		i = copy_in_list(i, p_list->token, &list);
+		i = copy_in_list(i, p_list->token, &list, data);
 		if (i == -1)
 			break ;
 		if (p_list->token[i] != '\'')
@@ -41,10 +43,12 @@ char	*look_for_expand(t_parsed *p_list, t_env *env_list, t_data *data)
 	return (convert_list_to_str(list));
 }
 
-int	copy_in_list(int i, char *str, t_arg **list)
+int	copy_in_list(int i, char *str, t_arg **list, t_data *data)
 {
 	while (str[i] && str[i] != '$' && str[i] != '\'')
 	{
+		if (str[i] == '"')
+			data->nb_quote++;
 		my_lstadd_back_arg(list, my_lstnew_arg(str[i]));
 		i++;
 	}
@@ -65,9 +69,9 @@ int	update_index(char *str, int i, int ret_expand)
 	return (i);
 }
 
-int	skip_single_quote(int i, t_arg **list, char *str)
+int	skip_single_quote(int i, t_arg **list, char *str, t_data *data)
 {
-	if (str[i] == '\'')
+	if (str[i] && str[i] == '\'' && data->nb_quote % 2 == 0)
 	{	
 		my_lstadd_back_arg(list, my_lstnew_arg(str[i]));
 		i++;
@@ -76,8 +80,11 @@ int	skip_single_quote(int i, t_arg **list, char *str)
 			my_lstadd_back_arg(list, my_lstnew_arg(str[i]));
 			i++;
 		}
-		my_lstadd_back_arg(list, my_lstnew_arg(str[i]));
-		i++;
+		if (str[i] == '\'')
+		{
+			my_lstadd_back_arg(list, my_lstnew_arg(str[i]));
+			i++;
+		}
 		if (!str[i])
 			return (-1);
 	}

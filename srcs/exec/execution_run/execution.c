@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:49:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/12 15:56:18 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/12 16:03:10 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int	execution(t_cmd *list, t_parsed *p_list, t_data *data, t_env **env_list)
 	return (0);
 }
 
-void	exec_builtin(t_cmd *c_list, t_parsed *p_list, t_env *env_list
-	, t_data *data)
+void	exec_builtin(t_cmd *c_list, t_parsed *p_list, t_env *env_list,
+		t_data *data)
 {
 	(void)p_list;
 	if (c_list->command_int == ECHO)
@@ -50,8 +50,8 @@ void	exec_builtin(t_cmd *c_list, t_parsed *p_list, t_env *env_list
 		exec_cd(c_list, env_list, data);
 }
 
-void	get_path_and_exec(t_cmd *list, t_parsed *p_list, t_data *data
-	, t_env *env_list)
+void	get_path_and_exec(t_cmd *list, t_parsed *p_list, t_data *data,
+		t_env *env_list)
 {
 	char	**env;
 	int		path;
@@ -60,21 +60,12 @@ void	get_path_and_exec(t_cmd *list, t_parsed *p_list, t_data *data
 	path = is_path(list->command);
 	if (path == 1)
 		data->path = ft_strdup(list->command);
-	else if (path == 0) 
+	else if (path == 0)
 		data->path = path_check(data, list);
 	else if (path == 2)
 		data->path = NULL;
 	if (data->path == NULL)
-	{
-		free(data->pid);
-		if (data->path_begining)
-			ft_free_map(data->path_begining);
-		ft_free_all(data->c_list_adress, &p_list);
-		ft_free_env(&env_list);
-		close (data->fd_pipe[0]);
-		close (data->fd_pipe[1]);
-		exit (127);
-	}
+		error(data, p_list, env_list);
 	env = env_char(env_list);
 	if (execve(data->path, list->arg, env) == -1)
 	{
@@ -84,37 +75,19 @@ void	get_path_and_exec(t_cmd *list, t_parsed *p_list, t_data *data
 	}
 }
 
-// void	error()
+void	error(t_data *data, t_parsed *p_list, t_env *env_list)
+{
+	free(data->pid);
+	if (data->path_begining)
+		ft_free_map(data->path_begining);
+	ft_free_all(data->c_list_adress, &p_list);
+	ft_free_env(&env_list);
+	close(data->fd_pipe[0]);
+	close(data->fd_pipe[1]);
+	exit(127);
+}
 
-// void	get_path(t_cmd *list, t_parsed *p_list, t_data *data
-// 	, t_env *env_list)
-// {
-// 	int	is_path_good;
-
-// 	ft_path(env_char(env_list), data);
-// 	is_path_good = is_path(list->command)
-// 	if (is_path_good == 1)
-// 		data->path = ft_strdup(list->command);
-// 	else if (is_path_good == 2)
-		
-// 	else
-// 		data->path = path_check(data, list);
-// 	if (data->path == NULL)
-// 	{
-// 		free(data->pid);
-// 		if (data->path_begining)
-// 			ft_free_map(data->path_begining);
-// 		ft_free_all(data->c_list_adress, &p_list);
-// 		ft_free_env(&env_list);
-// 		close (data->fd_pipe[0]);
-// 		close (data->fd_pipe[1]);
-// 		exit (127);
-// 	}
-// }
-
-
-void	clear_fork(t_cmd *list, t_parsed *p_list, t_data *data
-	, t_env *env_list)
+void	clear_fork(t_cmd *list, t_parsed *p_list, t_data *data, t_env *env_list)
 {
 	perror(list->arg[0]);
 	ft_free_all(data->c_list_adress, &p_list);
@@ -126,7 +99,7 @@ void	clear_fork(t_cmd *list, t_parsed *p_list, t_data *data
 		free(data->path);
 	if (env_list)
 		ft_free_env(&env_list);
-	close (data->fd_pipe[0]);
-	close (data->fd_pipe[1]);
-	exit (EXIT_FAILURE);
+	close(data->fd_pipe[0]);
+	close(data->fd_pipe[1]);
+	exit(EXIT_FAILURE);
 }

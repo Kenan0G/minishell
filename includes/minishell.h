@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/09/12 15:18:59 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/12 18:41:14 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,10 @@ typedef struct s_here_doc
 typedef struct s_data
 {
 	int				here_doc_exit;
+	int				nb_quote;
+	int				len;
+	int				set;
+	int				is_quote;
 	int				cmd_count;
 	int				pipe_count;
 	int				parsed_list_size;
@@ -206,9 +210,9 @@ void				ft_free_arg_list(t_arg **arg);
 
 char				*look_for_expand(t_parsed *p_list, t_env *env_list,
 						t_data *data);
-int					copy_in_list(int i, char *str, t_arg **list);
+int					copy_in_list(int i, char *str, t_arg **list, t_data *data);
 int					update_index(char *str, int i, int ret_expand);
-int					skip_single_quote(int i, t_arg **list, char *str);
+int					skip_single_quote(int i, t_arg **list, char *str, t_data *data);
 
 // --- permute_expand.c ---
 
@@ -301,6 +305,7 @@ void				get_path_and_exec(t_cmd *list, t_parsed *p_list,
 						t_data *data, t_env *env_list);
 void				clear_fork(t_cmd *list, t_parsed *p_list, t_data *data,
 						t_env *env_list);
+void				error(t_data *data, t_parsed *p_list, t_env *env_list);
 
 // --- execution_loop.c ---
 
@@ -336,12 +341,17 @@ int					check_builtin(t_parsed *p_list);
 void				get_command(t_parsed *list, t_data *data, t_env *env_list);
 void				run_expand(t_parsed **temp, t_env *env_list, t_data *data);
 
+char				*get_word_utils(char *temp, int i);
 
-
-
-
-
-
+char				*get_word(char *temp, char *str, t_data *data,
+						char *charset);
+int					create_word2(t_data *data, char *str, char *temp, int i);
+int					create_word3(t_data *data, char *str, char *temp, int i);
+char				*create_charset2(t_data *data, char *str, int i,
+						char *temp);
+int					len_split2(int is_quote, char c);
+int					len_split3(t_data *data, char *str, int i, char *charset);
+int					ft_ischarset(char c, char *charset);
 
 void				run_loop(t_cmd *c_list, t_parsed *p_list, t_env *env_list,
 						t_data *data);
@@ -362,36 +372,34 @@ void				init_data(t_data **data, int exit_no, t_env *env);
 
 int					ft_strcmp(char *s1, char *s2);
 
+//////////////////////////////////////////////////////
+//													//
+//													//
+// 						PARSING						//
+//													//
+//													//
+//////////////////////////////////////////////////////
 
-
-	//////////////////////////////////////////////////////
-	//													//
-	//													//
-	// 						PARSING						//
-	//													//
-	//													//
-	//////////////////////////////////////////////////////
-
-	char **mr_split(char *str, char *charset, t_data *data);
-	int len_split(char *str, char *charset);
-	int check(char *str);
-	int check_double_quote(char *str);
-	int check_simple_quote(char *str);
-	int check_chevron_out(char *str);
-	int check_chevron_in(char *str);
-	void signal_ctrl_c(int signo);
-	void signal_ctrl_slash(int signo);
-	void signal_ctrl_backslash(int signo);
-	void signal_ctrl_d(void);
-	void signal_ctrl_c_in_child(int signo);
-	void signal_ctrl_c_here_doc(int signo);
-	int check_between_pipe(char *str);
-	int check_first_char(char *str);
-	int check_pipe(char *str);
-	int check_metacaractere(char *str);
-	int check_metacaractere2(char *str);
-	void exec_exit(char *str);
-	void exit_char(char *str);
-	void exit_classic(char *str);
+char				**mr_split(char *str, char *charset, t_data *data);
+int					len_split(char *str, char *charset, t_data *data);
+int					check(char *str);
+int					check_double_quote(char *str);
+int					check_simple_quote(char *str);
+int					check_chevron_out(char *str);
+int					check_chevron_in(char *str);
+void				signal_ctrl_c(int signo);
+void				signal_ctrl_slash(int signo);
+void				signal_ctrl_backslash(int signo);
+void				signal_ctrl_d(void);
+void				signal_ctrl_c_in_child(int signo);
+void				signal_ctrl_c_here_doc(int signo);
+int					check_between_pipe(char *str);
+int					check_first_char(char *str);
+int					check_pipe(char *str);
+int					check_metacaractere(char *str);
+int					check_metacaractere2(char *str);
+void				exec_exit(char *str);
+void				exit_char(char *str);
+void				exit_classic(char *str);
 
 #endif

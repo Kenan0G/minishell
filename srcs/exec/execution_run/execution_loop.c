@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 16:06:24 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/12 14:36:32 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/12 18:34:34 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ void	redirections(t_cmd *list, t_data *data)
 	}
 }
 
-void	go_to_builtin(t_cmd *c_temp, t_parsed *p_temp, t_data *data
-	, t_env **env_list)
+void	go_to_builtin(t_cmd *c_temp, t_parsed *p_temp, t_data *data,
+		t_env **env_list)
 {
 	exec_builtin(c_temp, p_temp, *env_list, data);
 	free(data->pid);
@@ -88,11 +88,12 @@ void	go_to_builtin(t_cmd *c_temp, t_parsed *p_temp, t_data *data
 	exit(data->error_status);
 }
 
-void	skip_fork(t_cmd **c_list, t_parsed **p_list, t_data *data
-	, t_env **env_list)
+void	skip_fork(t_cmd **c_list, t_parsed **p_list, t_data *data,
+		t_env **env_list)
 {
 	int	err_no;
 
+	dprintf(2, "%s", "");
 	err_no = (*c_list)->err_no;
 	if (data->pipe_count > 1 && data->index < data->pipe_count - 1)
 		close(data->fd_pipe[0]);

@@ -6,25 +6,11 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:43:18 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/12 12:30:56 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/12 17:59:35 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static int	ft_ischarset(char c, char *charset)
-{
-	int	i;
-
-	i = 0;
-	while (charset[i] != '\0')
-	{
-		if (c == charset[i])
-			return (1);
-		i++;
-	}
-	return (0);
-}
 
 static char	*create_charset(char *str, char *charset, t_data *data)
 {
@@ -47,6 +33,11 @@ static char	*create_charset(char *str, char *charset, t_data *data)
 	temp[i] = str[data->is];
 	data->is++;
 	i++;
+	return (create_charset2(data, str, i, temp));
+}
+
+char	*create_charset2(t_data *data, char *str, int i, char *temp)
+{
 	while (str[data->is] && (str[data->is] == str[data->is - 1]))
 	{
 		temp[i] = str[data->is];
@@ -59,29 +50,21 @@ static char	*create_charset(char *str, char *charset, t_data *data)
 
 int	wordlen(char *str, char *charset, t_data *data)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	char	c;
 
 	i = data->is;
 	j = 0;
 	while (str[i] && str[i] != ' ' && str[i] != '\t' && !ft_ischarset(str[i],
 			charset))
 	{
-		if (str[i] == '"')
+		c = str[i];
+		if (c == '"' || c == '\'')
 		{
 			i++;
 			j++;
-			while (str[i] != '"')
-			{
-				i++;
-				j++;
-			}
-		}
-		else if (str[i] == '\'')
-		{
-			i++;
-			j++;
-			while (str[i] != '\'')
+			while (str[i] != c)
 			{
 				i++;
 				j++;
@@ -107,30 +90,8 @@ static char	*create_word(char *str, char *charset, t_data *data)
 	while (str[data->is] && str[data->is] != ' ' && str[data->is] != '\t'
 		&& !ft_ischarset(str[data->is], charset))
 	{
-		if (str[data->is] == '"')
-		{
-			temp[i] = str[data->is];
-			data->is++;
-			i++;
-			while (str[data->is] != '"')
-			{
-				temp[i] = str[data->is];
-				data->is++;
-				i++;
-			}
-		}
-		else if (str[data->is] == '\'')
-		{
-			temp[i] = str[data->is];
-			data->is++;
-			i++;
-			while (str[data->is] != '\'')
-			{
-				temp[i] = str[data->is];
-				data->is++;
-				i++;
-			}
-		}
+		i = create_word2(data, str, temp, i);
+		i = create_word3(data, str, temp, i);
 		temp[i] = str[data->is];
 		data->is++;
 		i++;
@@ -139,68 +100,7 @@ static char	*create_word(char *str, char *charset, t_data *data)
 	return (temp);
 }
 
-int	not_charset_or_quote(char c, char *charset, int i)
-{
-	if (i == 1 && c && c != ' ' && c != '\t' && !ft_ischarset(c, charset))
-		return (1);
-	else if (i == 2 && c && c != ' ' && c != '\t' && c != '"' && c != '\''
-		&& !ft_ischarset(c, charset))
-		return (1);
-	return (0);
-}
 
-int	len_split(char *str, char *charset)
-{
-	int	len;
-	int	set;
-	int	i;
-	int	is_quote;
-
-	if (!str)
-		return (0);
-	i = 0;
-	set = 0;
-	while (str[i] == ' ' || str[i] == '\t')
-		i++;
-	len = not_charset_or_quote(str[i], charset, 1);
-	is_quote = 0;
-	while (str[i])
-	{
-		if (str[i] == '"' && is_quote == 0)
-			is_quote = 1;
-		else if (str[i] == '\'' && is_quote == 0)
-			is_quote = 2;
-		else if (str[i] == '\'' && is_quote == 2)
-			is_quote = 0;
-		else if (str[i] == '"' && is_quote == 1)
-			is_quote = 0;
-		while ((str[i] == ' ' || str[i] == '\t') && is_quote == 0)
-		{
-			i++;
-			if (!str[i])
-				return (len + set);
-			if (!ft_ischarset(str[i], charset) && str[i] != ' '
-				&& str[i] != '\t')
-			{
-				if (str[i] == '"' && is_quote == 0)
-					is_quote = 1;
-				else if (str[i] == '\'' && is_quote == 0)
-					is_quote = 2;
-				len++;
-			}
-		}
-		if (ft_ischarset(str[i], charset) && is_quote == 0)
-		{
-			set++;
-			while (str[i] == str[i + 1])
-				i++;
-			if (not_charset_or_quote(str[i + 1], charset, 1))
-				len++;
-		}
-		i++;
-	}
-	return (len + set);
-}
 
 char	**mr_split(char *str, char *charset, t_data *data)
 {
@@ -209,7 +109,7 @@ char	**mr_split(char *str, char *charset, t_data *data)
 	int		malloc_len;
 
 	data->is = 0;
-	malloc_len = len_split(str, charset) + 1;
+	malloc_len = len_split(str, charset, data) + 1;
 	split = malloc(sizeof(char *) * malloc_len);
 	if (!split)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:30:52 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/12 15:50:41 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/12 16:03:28 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	check_directory(char *str)
 {
 	int	fd;
 
-	fd = open(str, __O_DIRECTORY); 
+	fd = open(str, __O_DIRECTORY);
 	if (fd > 0)
 	{
 		printf("%s: is a directory\n", str);

@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:01 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/12 12:40:33 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/12 17:31:29 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	run_loop(t_cmd *c_list, t_parsed *p_list, t_env *env_list, t_data *data)
 			continue;
 		}
 		add_history(str);
-		parsing_is_ok = check(str);
+		parsing_is_ok = 0;
 		if (parsing_is_ok == 0)
 		{
 			init_data(&data, exit_no, env_list);
