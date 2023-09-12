@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jsabound <jsabound@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:43:18 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/12 17:59:35 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/12 20:17:49 by jsabound         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,6 @@ static char	*create_word(char *str, char *charset, t_data *data)
 	temp[i] = '\0';
 	return (temp);
 }
-
-
 
 char	**mr_split(char *str, char *charset, t_data *data)
 {

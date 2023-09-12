@@ -6,7 +6,7 @@
 /*   By: jsabound <jsabound@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 20:17:50 by red               #+#    #+#             */
-/*   Updated: 2023/09/12 19:50:21 by jsabound         ###   ########.fr       */
+/*   Updated: 2023/09/12 20:16:39 by jsabound         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	check(char *str)
 		return (2);
 	if (check_pipe(str))
 		return (2);
-	if(check_first_char(str))
+	if (check_first_char(str))
 		return (2);
 	return (0);
 }
