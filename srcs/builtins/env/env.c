@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jsabound <jsabound@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:06:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/08 15:20:02 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/12 19:20:00 by jsabound         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
+
+void	print_env(t_env *token)
+{
+	t_env	*temp;
+
+	temp = token;
+	while (temp)
+	{
+		if (temp->printable)
+			printf("%s\n", temp->env);
+		else
+			printf("[[[[[[[[[[[[%s]]]]]]]]]]]]]]]]]\n", temp->env);
+		temp = temp->next;
+	}
+}
 
 void	exec_env(t_env *e_list, t_cmd *c_list)
 {

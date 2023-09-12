@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jsabound <jsabound@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:49:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/12 16:03:10 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/12 19:26:54 by jsabound         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	execution(t_cmd *list, t_parsed *p_list, t_data *data, t_env **env_list)
 		*env_list = exec_unset(list, env_list);
 	else if (data->cmd_count == 1 && list->command_int == CD)
 		*env_list = exec_cd(list, *env_list, data);
+	else if (data->cmd_count == 1 && list->command_int == EXIT)
+		exec_exit(list, p_list, data, *env_list);
 	else if (data->cmd_count > 0)
 		execution_loop(list, p_list, data, *env_list);
 	return (0);
@@ -38,8 +40,8 @@ void	exec_builtin(t_cmd *c_list, t_parsed *p_list, t_env *env_list,
 		exec_echo(c_list);
 	else if (c_list->command_int == PWD)
 		exec_pwd(c_list);
-	// else if (c_list->command_int == EXIT)
-	// 	exec_exit(c_list, p_list);
+	else if (c_list->command_int == EXIT)
+		exec_exit(c_list, p_list, data, env_list);
 	else if (c_list->command_int == ENV)
 		exec_env(env_list, c_list);
 	else if (c_list->command_int == EXPORT)

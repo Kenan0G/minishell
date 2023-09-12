@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jsabound <jsabound@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/09/12 18:41:14 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/12 19:27:15 by jsabound         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,8 @@ char				*look_for_expand(t_parsed *p_list, t_env *env_list,
 						t_data *data);
 int					copy_in_list(int i, char *str, t_arg **list, t_data *data);
 int					update_index(char *str, int i, int ret_expand);
-int					skip_single_quote(int i, t_arg **list, char *str, t_data *data);
+int					skip_single_quote(int i, t_arg **list, char *str,
+						t_data *data);
 
 // --- permute_expand.c ---
 
@@ -390,16 +391,21 @@ int					check_chevron_in(char *str);
 void				signal_ctrl_c(int signo);
 void				signal_ctrl_slash(int signo);
 void				signal_ctrl_backslash(int signo);
-void				signal_ctrl_d(void);
-void				signal_ctrl_c_in_child(int signo);
 void				signal_ctrl_c_here_doc(int signo);
+void				signal_ctrl_c_in_child(int signo);
+void				signal_ctrl_d(void);
 int					check_between_pipe(char *str);
 int					check_first_char(char *str);
 int					check_pipe(char *str);
 int					check_metacaractere(char *str);
 int					check_metacaractere2(char *str);
-void				exec_exit(char *str);
-void				exit_char(char *str);
-void				exit_classic(char *str);
-
+void				exit_char(t_cmd *lst, t_parsed *p_list, t_data *data,
+						t_env *env_list);
+void				exit_classic(t_cmd *lst, t_parsed *p_list, t_data *data,
+						t_env *env_list);
+void				exec_exit(t_cmd *lst, t_parsed *p_list, t_data *data,
+						t_env *env_list);
+int					check_metacaractere3(int i, char *str);
+int					check_pipe2(char *str);
+int					check_pipe3(char *str);
 #endif

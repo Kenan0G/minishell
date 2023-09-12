@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jsabound <jsabound@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 18:17:01 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/12 17:31:29 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/12 19:51:23 by jsabound         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	run_loop(t_cmd *c_list, t_parsed *p_list, t_env *env_list, t_data *data)
 			continue;
 		}
 		add_history(str);
-		parsing_is_ok = 0;
+		parsing_is_ok = check(str);
 		if (parsing_is_ok == 0)
 		{
 			init_data(&data, exit_no, env_list);

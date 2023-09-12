@@ -49,6 +49,9 @@ SRCS =	minishell.c\
 		split3.c\
 		signal.c\
 		check.c\
+		check_chevron.c\
+		check_pipe.c\
+		check_quote.c\
 		exit.c
 
 
