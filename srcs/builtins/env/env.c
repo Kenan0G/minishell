@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsabound <jsabound@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:06:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/12 19:20:00 by jsabound         ###   ########.fr       */
+/*   Updated: 2023/09/13 16:06:27 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ void	print_env(t_env *token)
 	{
 		if (temp->printable)
 			printf("%s\n", temp->env);
-		else
-			printf("[[[[[[[[[[[[%s]]]]]]]]]]]]]]]]]\n", temp->env);
 		temp = temp->next;
 	}
 }

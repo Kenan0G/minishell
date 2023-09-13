@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 11:20:05 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/11 12:33:03 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/13 16:07:32 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_env	*get_env(t_env *env_list, char **env)
 	int		i;
 
 	if (!env || !env[0])
-		return (printf("entrée dans en env_i\n"), env_i());
+		return (env_i());
 	temp = malloc(sizeof(t_env));
 	if (!temp)
 		return (NULL);
