@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 18:27:17 by jsabound          #+#    #+#             */
-/*   Updated: 2023/09/12 12:40:33 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/09/13 14:21:36 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,10 @@ void	run_here_doc(t_cmd *c_list, t_parsed *p_list, t_data *data)
 {	
 	g_in_here_doc = 1;
 	if (hd_execution(p_list, c_list, data) == -1)
-		c_list->is_ok = 0;
+		data->dont_loop = 1;
 	data->error_status = data->here_doc_exit;
-	g_in_here_doc = 0;
+	if (data->dont_loop == 1)
+		g_in_here_doc = 130;
+	else
+		g_in_here_doc = 0;
 }

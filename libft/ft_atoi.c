@@ -3,36 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: red <red@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:00:28 by jsabound          #+#    #+#             */
-/*   Updated: 2023/08/27 11:12:16 by red              ###   ########.fr       */
+/*   Updated: 2023/09/13 15:40:08 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_atoi(char *str)
-{
-	int		i;
-	long	res;
-	int		sign;
+#include "libft.h"
 
-	i = 0;
-	res = 0;
-	while (str[i] == '\f' || str[i] == '\t' || str[i] == '\n' || str[i] == '\r'
-		|| str[i] == '\v' || str[i] == ' ')
-		i++;
+char	*too_long(char *str, long long int *num)
+{
+	while (*str >= '0' && *str <= '9')
+	{
+		*num = (*num * 10) + (*str - '0');
+		str++;
+	}
+	return (str);
+}
+
+long long int	ft_atoi(const char *nptr)
+{
+	long long int	num;
+	int				sign;
+	char			*str;
+
+	str = (char *)nptr;
 	sign = 1;
-	if (str[i] == '-')
+	num = 0;
+	if (*str + 1 == '-' || *str + 1 == '+')
+		return (0);
+	else if (*str == '-')
 	{
-		sign = -1;
-		i++;
+		sign *= -1;
+		str++;
 	}
-	while (str[i] && str[i] >= '0' && str[i] <= '9')
-	{
-		res = res * 10;
-		res = res + str[i] - '0';
-		i++;
-	}
-	res = res * sign;
-	return ((int)res);
+	else if (*str == '+')
+		str++;
+	str = too_long(str, &num);
+	num = num * sign;
+	return ((int)num);
 }

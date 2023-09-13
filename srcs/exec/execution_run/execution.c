@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsabound <jsabound@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:49:51 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/12 19:26:54 by jsabound         ###   ########.fr       */
+/*   Updated: 2023/09/13 14:21:47 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	execution(t_cmd *list, t_parsed *p_list, t_data *data, t_env **env_list)
 		*env_list = exec_cd(list, *env_list, data);
 	else if (data->cmd_count == 1 && list->command_int == EXIT)
 		exec_exit(list, p_list, data, *env_list);
-	else if (data->cmd_count > 0)
+	else if (data->cmd_count > 0 && data->dont_loop != 1)
 		execution_loop(list, p_list, data, *env_list);
 	return (0);
 }

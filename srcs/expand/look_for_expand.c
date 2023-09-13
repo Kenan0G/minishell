@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   look_for_expand.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsabound <jsabound@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 11:29:11 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/12 20:16:22 by jsabound         ###   ########.fr       */
+/*   Updated: 2023/09/13 13:04:23 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	update_index(char *str, int i, int ret_expand)
 int	skip_single_quote(int i, t_arg **list, char *str, t_data *data)
 {
 	(void)data;
+	if (str[i] == '\'')
 	{	
 		my_lstadd_back_arg(list, my_lstnew_arg(str[i]));
 		i++;

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsabound <jsabound@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 09:59:04 by red               #+#    #+#             */
-/*   Updated: 2023/09/12 19:44:49 by jsabound         ###   ########.fr       */
+/*   Updated: 2023/09/13 15:40:22 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
 void	exit_classic(t_cmd *lst, t_parsed *p_list, t_data *data,
 		t_env *env_list)
@@ -20,10 +20,14 @@ void	exit_classic(t_cmd *lst, t_parsed *p_list, t_data *data,
 	if (ft_isalpha(lst->arg[1][0]))
 		exit_char(lst, p_list, data, env_list);
 	res = ft_atoi(lst->arg[1]);
-	if (ft_strlen(lst->arg[1]) == 19 && lst->arg[1][18] >= '8'
-		&& lst->arg[1][18] <= '9')
+	if (!ft_strcmp(lst->arg[1], "-9223372036854775808"))
+		res = 0;
+	else if ((lst->arg[1][0] != '-' && (ft_strlen(lst->arg[1]) == 19
+			&& (lst->arg[1][18] > '7' && lst->arg[1][18] <= '9')))
+		|| (ft_strlen(lst->arg[1]) > 19))
 		exit_char(lst, p_list, data, env_list);
-	else if (ft_strlen(lst->arg[1]) == 20 && lst->arg[1][19] == '9')
+	else if ((ft_strlen(lst->arg[1]) == 20 && lst->arg[1][19] == '9')
+		|| ft_strlen(lst->arg[1]) > 20)
 		exit_char(lst, p_list, data, env_list);
 	write(1, "exit\n", 5);
 	if (data->cmd_count > 1)
@@ -67,16 +71,16 @@ void	exec_exit(t_cmd *lst, t_parsed *p_list, t_data *data, t_env *env_list)
 			ft_free_all(&lst, &p_list);
 		ft_free_env(&env_list);
 		free(data->pid);
-		exit(0);
+		exit(data->exit_no);
 	}
 	else if (lst->arg[2] && (lst->arg[1][0] == '-' || lst->arg[1][0] == '+')
-			&& (lst->arg[1][1] >= '0' && lst->arg[1][1] <= '9'))
+		&& (lst->arg[1][1] >= '0' && lst->arg[1][1] <= '9'))
 		exit_arguments(data);
 	else if (lst->arg[1] && (lst->arg[1][0] >= '0' && lst->arg[1][0] <= '9'
-				&& lst->arg[2]))
+			&& lst->arg[2]))
 		exit_arguments(data);
 	else if ((lst->arg[1][0] == '-' || lst->arg[1][0] == '+')
-			&& (lst->arg[1][1] >= '0' && lst->arg[1][1] <= '9'))
+		&& (lst->arg[1][1] >= '0' && lst->arg[1][1] <= '9'))
 		exit_classic(lst, p_list, data, env_list);
 	else if (lst->arg[1] && (lst->arg[1][0] >= '0' && lst->arg[1][0] <= '9'))
 		exit_classic(lst, p_list, data, env_list);

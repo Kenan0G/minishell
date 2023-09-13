@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsabound <jsabound@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 13:06:09 by jsabound          #+#    #+#             */
-/*   Updated: 2022/11/14 18:12:14 by jsabound         ###   ########.fr       */
+/*   Updated: 2023/09/13 14:39:28 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ char	*ft_strrchr(const char *s, int c)
 	oc = NULL;
 	while (*src)
 	{
-		if (*src == (char) c)
+		if (*src == (char)c)
 			oc = src;
 		src++;
 	}
 	if (oc != NULL)
 		return (oc);
-	if (*src == (char) c)
+	if (*src == (char)c)
 		return (src);
 	return (NULL);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsabound <jsabound@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/09/12 19:27:15 by jsabound         ###   ########.fr       */
+/*   Updated: 2023/09/13 14:20:00 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,14 +114,17 @@ typedef struct s_data
 	int				i;
 	int				j;
 	int				is;
+	int				dont_loop;
 	int				on_here_doc;
 	int				free_oldpwd;
 	int				error_status;
 	int				exit_no;
+	int				exit_main;
 	char			**env;
 	char			**path_begining;
 	char			*path;
 	char			*pwd_temp;
+	char			*str;
 	char			**str_split;
 	pid_t			*pid;
 	t_env			*envp;
@@ -343,6 +346,8 @@ void				get_command(t_parsed *list, t_data *data, t_env *env_list);
 void				run_expand(t_parsed **temp, t_env *env_list, t_data *data);
 
 char				*get_word_utils(char *temp, int i);
+int					run_loop_2(t_data *data, t_cmd *c_list, t_parsed *p_list,
+						t_env *env_list);
 
 char				*get_word(char *temp, char *str, t_data *data,
 						char *charset);
@@ -369,7 +374,8 @@ void				print_env(t_env *token);
 void				print_arg(t_arg *token);
 void				print_cmd_list(t_cmd *token);
 
-void				init_data(t_data **data, int exit_no, t_env *env);
+void				init_data(t_data **data, int exit_no, t_env *env,
+						char *str);
 
 int					ft_strcmp(char *s1, char *s2);
 
@@ -385,6 +391,8 @@ char				**mr_split(char *str, char *charset, t_data *data);
 int					len_split(char *str, char *charset, t_data *data);
 int					check(char *str);
 int					check_double_quote(char *str);
+int					skip_to_next_quote(char *str, int i, char c);
+int					check_res(int res, char *str, int bool);
 int					check_simple_quote(char *str);
 int					check_chevron_out(char *str);
 int					check_chevron_in(char *str);

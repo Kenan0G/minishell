@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsabound <jsabound@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 17:57:05 by red               #+#    #+#             */
-/*   Updated: 2023/09/12 14:13:38 by jsabound         ###   ########.fr       */
+/*   Updated: 2023/09/13 15:56:31 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,6 @@ void	signal_ctrl_slash(int signo)
 
 void	signal_ctrl_backslash(int signo)
 {
-	(void)signo;
+	if (signo == SIGQUIT)
+		signal(signo, SIG_IGN);
 }
