@@ -42,7 +42,6 @@ SRCS =	minishell.c\
 		list_temp.c\
 		my_lstadd_back.c\
 		my_lstnew.c\
-		print_lists.c\
 		utils.c \
 		split.c\
 		split2.c\
