@@ -6,7 +6,7 @@
 /*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:03:37 by jsabound          #+#    #+#             */
-/*   Updated: 2023/09/13 14:20:00 by kgezgin          ###   ########.fr       */
+/*   Updated: 2023/12/13 15:01:56 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -348,7 +348,6 @@ void				run_expand(t_parsed **temp, t_env *env_list, t_data *data);
 char				*get_word_utils(char *temp, int i);
 int					run_loop_2(t_data *data, t_cmd *c_list, t_parsed *p_list,
 						t_env *env_list);
-
 char				*get_word(char *temp, char *str, t_data *data,
 						char *charset);
 int					create_word2(t_data *data, char *str, char *temp, int i);

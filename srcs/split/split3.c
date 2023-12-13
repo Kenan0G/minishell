@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsabound <jsabound@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:58:34 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/12 20:18:07 by jsabound         ###   ########.fr       */
+/*   Updated: 2023/12/13 15:01:29 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	len_split3(t_data *data, char *str, int i, char *charset)
 	{
 		i++;
 		if (!str[i])
-			return (data->len + data->set);
+			return (-1);
 		if (!ft_ischarset(str[i], charset) && str[i] != ' ' && str[i] != '\t')
 		{
 			if (str[i] == '"' && data->is_quote == 0)

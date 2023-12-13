@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsabound <jsabound@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:58:16 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/12 20:18:02 by jsabound         ###   ########.fr       */
+/*   Updated: 2023/12/13 14:18:24 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ int	len_split(char *str, char *charset, t_data *data)
 	{
 		data->is_quote = len_split2(data->is_quote, str[i]);
 		i = len_split3(data, str, i, charset);
+		if (i == -1)
+			return (data->len + data->set);
 		if (ft_ischarset(str[i], charset) && data->is_quote == 0)
 		{
 			data->set++;

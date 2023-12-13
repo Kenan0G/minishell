@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsabound <jsabound@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kgezgin <kgezgin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:43:18 by kgezgin           #+#    #+#             */
-/*   Updated: 2023/09/12 20:17:49 by jsabound         ###   ########.fr       */
+/*   Updated: 2023/12/13 13:50:56 by kgezgin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ char	**mr_split(char *str, char *charset, t_data *data)
 	j = 0;
 	while (str[data->is] && malloc_len > 1)
 	{
+		dprintf(2, "main while in split\n");
 		while (str[data->is] == ' ' || str[data->is] == '\t')
 			data->is++;
 		if (ft_ischarset(str[data->is], charset))

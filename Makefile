@@ -51,6 +51,7 @@ SRCS =	minishell.c\
 		check_chevron.c\
 		check_pipe.c\
 		check_quote.c\
+		print.c\
 		exit.c
 
 
